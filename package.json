@@ -1,0 +1,19 @@
+{
+  "name": "jcore-turva",
+  "version": "1.0.0",
+  "description": "JCore Turva security plugin",
+  "author": "J&Co Digital <support@jco.fi>",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "start": "wp-scripts start"
+  },
+  "devDependencies": {
+    "@wordpress/icons": "*",
+    "@wordpress/scripts": "^30.15.0",
+    "@wordpress/url": "*"
+  }
+}

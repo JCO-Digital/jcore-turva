@@ -1,0 +1,285 @@
+.jcore-turva {
+	max-width: 800px;
+
+	// Remove default panel border so PanelBody borders stand on their own.
+	> .components-tab-panel > .components-panel {
+		border: none;
+		background: none;
+	}
+
+	.components-panel__body {
+		background: #fff;
+		border: 1px solid #dcdcde;
+		border-radius: 2px;
+		margin-bottom: 16px;
+
+		+ .components-panel__body {
+			border-top: 1px solid #dcdcde;
+			margin-top: 0;
+		}
+	}
+
+	// Give each PanelRow its own breathing room when stacked.
+	.components-panel__row {
+		flex-direction: column;
+		align-items: flex-start;
+
+		.components-base-control {
+			width: 100%;
+		}
+	}
+
+	&__tab-content {
+		padding-top: 16px;
+	}
+
+	// ── General tab ──────────────────────────────────────────────────────────
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 8px 0 24px;
+	}
+
+	&__saved {
+		color: #008a20;
+		font-weight: 500;
+	}
+
+	&__error {
+		color: #cc1818;
+		font-weight: 500;
+		margin: 0;
+	}
+
+	// ── Directives (CSP & Permissions tabs) ──────────────────────────────────
+
+	&__directives {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	&__directive-card {
+		background: #fff;
+		border: 1px solid #dcdcde;
+		border-radius: 2px;
+	}
+
+	&__directive-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 12px;
+		background: #f6f7f7;
+		border-bottom: 1px solid #dcdcde;
+
+		code {
+			font-size: 12px;
+			font-weight: 600;
+			color: #1e1e1e;
+			background: none;
+			padding: 0;
+		}
+	}
+
+	&__directive-body {
+		padding: 12px;
+	}
+
+	// ── Source rows ───────────────────────────────────────────────────────────
+
+	&__source-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 5px 0;
+		border-bottom: 1px solid #f0f0f0;
+
+		&:last-of-type {
+			border-bottom: none;
+		}
+
+		// Shrink toggle to just the switch — hide the label text visually.
+		.jcore-turva__source-toggle {
+			margin: 0;
+
+			.components-base-control__label {
+				display: none;
+			}
+
+			// Prevent the base control from adding bottom padding.
+			.components-base-control__field {
+				margin: 0;
+			}
+		}
+	}
+
+	&__source-value {
+		flex: 1;
+		font-size: 12px;
+		color: #1e1e1e;
+		background: none;
+		padding: 0;
+
+		&.is-disabled {
+			color: #a7aaad;
+			text-decoration: line-through;
+		}
+	}
+
+	// ── Add source form ───────────────────────────────────────────────────────
+
+	&__add-source {
+		display: flex;
+		align-items: flex-end;
+		gap: 8px;
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px dashed #dcdcde;
+
+		.components-base-control {
+			flex: 1;
+			margin: 0;
+		}
+	}
+
+	// ── Reports tab ───────────────────────────────────────────────────────────
+
+	&__filter-bar {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	&__empty {
+		color: #646970;
+		font-style: italic;
+		margin-top: 24px;
+	}
+
+	&__reports-table {
+		margin-bottom: 24px;
+
+		th,
+		td {
+			vertical-align: middle;
+		}
+
+		code {
+			background: none;
+			padding: 0;
+			font-size: 11px;
+		}
+	}
+
+	&__uri-cell {
+		max-width: 200px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__col-processed {
+		width: 32px;
+		padding-right: 0 !important;
+	}
+
+	&__col-count,
+	&__col-date {
+		white-space: nowrap;
+		width: 1%;
+	}
+
+	&__col-actions {
+		white-space: nowrap;
+		width: 1%;
+	}
+
+	&__report-row {
+		transition: opacity 0.15s ease;
+
+		&.is-processed {
+			opacity: 0.45;
+
+			// Restore opacity on hover so it's easy to unmark.
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+	}
+
+	&__report-actions {
+		display: flex;
+		gap: 4px;
+		align-items: center;
+	}
+
+	// ── Review modal ──────────────────────────────────────────────────────────
+
+	&__report-detail {
+		width: 100%;
+		margin-bottom: 16px;
+		border-collapse: collapse;
+
+		th,
+		td {
+			padding: 6px 8px;
+			text-align: left;
+			border-bottom: 1px solid #f0f0f0;
+			vertical-align: top;
+		}
+
+		th {
+			width: 160px;
+			color: #646970;
+			font-weight: 500;
+			white-space: nowrap;
+		}
+
+		code {
+			font-size: 11px;
+			word-break: break-all;
+		}
+	}
+
+	&__review-divider {
+		margin: 16px 0;
+		border: none;
+		border-top: 1px solid #dcdcde;
+	}
+
+	&__review-form {
+		min-width: 480px;
+
+		.components-base-control {
+			margin-bottom: 16px;
+		}
+	}
+
+	&__modal-actions {
+		display: flex;
+		gap: 8px;
+		margin-top: 24px;
+	}
+
+	// ── Add directive panel ───────────────────────────────────────────────────
+
+	&__add-directive {
+		background: #f6f7f7;
+		border: 1px dashed #dcdcde;
+		border-radius: 2px;
+		padding: 16px;
+
+		.components-base-control {
+			margin-bottom: 12px;
+		}
+
+		&-actions {
+			display: flex;
+			gap: 8px;
+		}
+	}
+}
