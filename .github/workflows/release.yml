@@ -41,7 +41,7 @@ jobs:
           changelog: "true"
           push: "true"
           commit_suffix: "[skip ci]"
-          version_sync: "jcore-maailma.php"
+          version_sync: "jcore-turva.php"
 
       - name: Build release
         if: steps.foonver.outputs.is_bumped == 'true'
@@ -57,4 +57,22 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            release/*
+            release/jcore-turva.zip
+
+      - name: Publish to Update API
+        if: steps.foonver.outputs.is_bumped == 'true'
+        env:
+          UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
+        run: |
+          curl -X POST https://update.jcore.fi/v1/versions \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: $UPDATE_API_KEY" \
+            -d '{
+              "slug": "jcore-turva",
+              "version": "${{ steps.foonver.outputs.version }}",
+              "download_url": "https://github.com/${{ github.repository }}/releases/download/v${{ steps.foonver.outputs.version }}/jcore-turva.zip",
+              "changelog": ${{ toJson(steps.foonver.outputs.release_notes) }},
+              "requires_wp": "6.7",
+              "tested_wp": "6.7",
+              "requires_php": "8.2"
+            }'
