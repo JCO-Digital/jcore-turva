@@ -61,6 +61,15 @@ register_activation_hook( __FILE__, array( Database::class, 'install' ) );
 add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 
 add_filter(
+	'plugin_action_links_' . plugin_basename( __FILE__ ),
+	static function ( array $links ): array {
+		$settings_link = '<a href="' . admin_url( 'options-general.php?page=jcore-turva' ) . '">' . __( 'Settings', 'jcore-turva' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
+	}
+);
+
+add_filter(
 	'jcore_plugins_loaded',
 	static function ( array $plugins ): array {
 		$plugins['jcore-turva'] = __DIR__;
