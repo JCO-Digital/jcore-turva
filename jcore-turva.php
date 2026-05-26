@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       JCore Turva
+ * Plugin Name:       JCORE Turva
  * Description:       Security header management — CSP, Permissions Policy, and violation reporting.
  * Version:           1.0.0
  * Requires at least: 6.7

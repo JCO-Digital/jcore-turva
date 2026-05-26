@@ -1,7 +1,7 @@
 {
 	"name": "jcore-turva",
 	"version": "1.0.0",
-	"description": "JCore Turva security plugin",
+	"description": "JCORE Turva security plugin",
 	"author": "J&Co Digital <support@jco.fi>",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
