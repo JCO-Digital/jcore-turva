@@ -1,19 +1,23 @@
 {
-  "name": "jcore-turva",
-  "version": "1.0.0",
-  "description": "JCore Turva security plugin",
-  "author": "J&Co Digital <support@jco.fi>",
-  "license": "GPL-2.0-or-later",
-  "scripts": {
-    "build": "wp-scripts build",
-    "format": "wp-scripts format",
-    "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js",
-    "start": "wp-scripts start"
-  },
-  "devDependencies": {
-    "@wordpress/icons": "*",
-    "@wordpress/scripts": "^30.15.0",
-    "@wordpress/url": "*"
-  }
+	"name": "jcore-turva",
+	"version": "1.0.0",
+	"description": "JCore Turva security plugin",
+	"author": "J&Co Digital <support@jco.fi>",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"start": "wp-scripts start",
+		"env:start": "pnpm dlx @wordpress/env start",
+		"env:stop": "pnpm dlx @wordpress/env stop",
+		"make-pot": "pnpm dlx @wp-blocks/make-pot@1.6.3 . languages/",
+		"make-json": "pnpm --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/"
+	},
+	"devDependencies": {
+		"@wordpress/icons": "*",
+		"@wordpress/scripts": "^30.15.0",
+		"@wordpress/url": "*"
+	}
 }

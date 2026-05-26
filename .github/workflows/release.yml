@@ -1,0 +1,60 @@
+name: Release version
+
+on:
+  push:
+    branches:
+      - main
+      - "push-action/**"
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Build blocks
+        run: make ci
+
+      - name: Commit built blocks
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "build"
+          message: "chore(blocks): build blocks for release [skip ci]"
+          default_author: github_actions
+          push: false
+
+      - name: Run foonver
+        id: foonver
+        uses: foonly/foonver@v0.13.0
+        with:
+          command: "auto"
+          changelog: "true"
+          push: "true"
+          commit_suffix: "[skip ci]"
+          version_sync: "jcore-maailma.php"
+
+      - name: Build release
+        if: steps.foonver.outputs.is_bumped == 'true'
+        run: make release
+
+      - name: Create GitHub Release
+        if: steps.foonver.outputs.is_bumped == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.foonver.outputs.version }}
+          name: Release ${{ steps.foonver.outputs.version }}
+          body: ${{ steps.foonver.outputs.release_notes }}
+          draft: false
+          prerelease: false
+          files: |
+            release/*
