@@ -55,13 +55,47 @@ function ReviewModal( { report, onClose, onReviewed } ) {
 		setIsSubmitting( true );
 		setError( null );
 		try {
+			const trimmedSource = source.trim();
+
+			// Fetch existing sources to determine whether this directive already exists.
+			const existingSources = await apiFetch( {
+				path: addQueryArgs( '/jcore-turva/v1/sources', { header_type: headerType } ),
+			} );
+
+			const directiveExists = existingSources.some( ( s ) => s.directive === directive );
+
+			// Seed a new CSP directive with the current default-src sources so it
+			// starts no more restrictive than the fallback policy.
+			if ( ! directiveExists && headerType === 'csp' ) {
+				const defaultSrcSources = existingSources
+					.filter( ( s ) => s.directive === 'default-src' && s.enabled )
+					.map( ( s ) => s.source );
+				const seedValues = defaultSrcSources.length > 0 ? defaultSrcSources : [ "'self'" ];
+				// Exclude the source we're about to add explicitly to avoid duplicates.
+				const seedsToAdd = seedValues.filter( ( v ) => v !== trimmedSource );
+				await Promise.all(
+					seedsToAdd.map( ( value ) =>
+						apiFetch( {
+							path: '/jcore-turva/v1/sources',
+							method: 'POST',
+							data: {
+								header_type: headerType,
+								directive,
+								source: value,
+								enabled: true,
+							},
+						} )
+					)
+				);
+			}
+
 			await apiFetch( {
 				path: '/jcore-turva/v1/sources',
 				method: 'POST',
 				data: {
 					header_type: headerType,
 					directive,
-					source: source.trim(),
+					source: trimmedSource,
 					enabled: true,
 				},
 			} );

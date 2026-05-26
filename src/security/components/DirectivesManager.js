@@ -95,8 +95,39 @@ export default function DirectivesManager( { headerType, availableDirectives, so
 
 	const handleAddDirective = async ( directive ) => {
 		// Flag directives use a placeholder source value; the PHP builder ignores it.
-		const defaultSource = FLAG_DIRECTIVES.includes( directive ) ? '1' : "'self'";
-		await handleAddSource( directive, defaultSource );
+		if ( FLAG_DIRECTIVES.includes( directive ) ) {
+			await handleAddSource( directive, '1' );
+			return;
+		}
+
+		// Seed the new directive with the enabled default-src sources so it starts
+		// no more restrictive than the fallback. If default-src has no sources yet,
+		// fall back to 'self'.
+		const defaultSrcSources = sources
+			.filter( ( s ) => s.directive === 'default-src' && s.enabled )
+			.map( ( s ) => s.source );
+
+		const seedValues = defaultSrcSources.length > 0 ? defaultSrcSources : [ "'self'" ];
+
+		try {
+			const newSources = await Promise.all(
+				seedValues.map( ( value ) =>
+					apiFetch( {
+						path: '/jcore-turva/v1/sources',
+						method: 'POST',
+						data: {
+							header_type: headerType,
+							directive,
+							source: value,
+							enabled: true,
+						},
+					} )
+				)
+			);
+			setSources( ( prev ) => [ ...prev, ...newSources ] );
+		} catch {
+			// Directive card will not appear; user can retry.
+		}
 	};
 
 	if ( error ) {
