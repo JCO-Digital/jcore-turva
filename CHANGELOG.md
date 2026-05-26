@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.2.0 (2026-05-26)
+## 1.3.0 (2026-05-26)
+
+#### Features
+
+- plugin: add settings link to the plugins list page (0580c1c)
+
+## v1.2.0 (2026-05-26)
 
 #### Features
 
