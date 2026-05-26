@@ -31,9 +31,9 @@ class Plugin {
 
 		new Updater(
 			'jcore-turva',
-			JCORE_TURVA_VERSION,
+			get_version(),
 			'https://update.jcore.fi/v1/update-check',
-			JCORE_TURVA_PLUGIN_FILE,
+			JCORE_TURVA_PLUGIN_FILE
 		);
 
 		add_action( 'send_headers', array( Headers::class, 'send' ) );

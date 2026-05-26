@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       JCORE Turva
  * Description:       Security header management — CSP, Permissions Policy, and violation reporting.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.7
  * Requires PHP:      8.2
  * Author:            J&Co Digital
@@ -21,10 +21,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JCORE_TURVA_VERSION', '1.0.0' );
 define( 'JCORE_TURVA_PLUGIN_FILE', __FILE__ );
 define( 'JCORE_TURVA_PLUGIN_DIR', __DIR__ );
 define( 'JCORE_TURVA_BUILD_DIR', __DIR__ . '/build' );
+
+/**
+ * Returns the plugin version from the file header.
+ *
+ * @return string
+ */
+function get_version(): string {
+	static $version = null;
+	if ( null === $version ) {
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$data    = get_plugin_data( JCORE_TURVA_PLUGIN_FILE );
+		$version = $data['Version'] ?? '0.0.0';
+	}
+	return $version;
+}
 
 spl_autoload_register(
 	static function ( string $class ): void {
