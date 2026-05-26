@@ -1,6 +1,16 @@
 # Changelog
 
-## 1.1.0
+## 1.2.0 (2026-05-26)
+
+#### Features
+
+- release: bump version to 1.1.0 and initialize changelog (6e150a4)
+
+#### Styles
+
+- update plugin name branding (eaaf2ec)
+
+## v1.1.0 (2026-05-26)
 
 #### Features
 
