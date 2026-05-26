@@ -285,7 +285,12 @@ class Rest_Api {
 			return new \WP_Error( 'not_found', 'Source not found.', array( 'status' => 404 ) );
 		}
 
-		return rest_ensure_response( array( 'deleted' => true, 'id' => $id ) );
+		return rest_ensure_response(
+			array(
+				'deleted' => true,
+				'id'      => $id,
+			)
+		);
 	}
 
 	/**
@@ -303,8 +308,8 @@ class Rest_Api {
 	 * @param \WP_REST_Request $request The REST request.
 	 */
 	public static function save_settings( \WP_REST_Request $request ): \WP_REST_Response {
-		$allowed  = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_test_mode' );
-		$current  = get_option( 'jcore_turva_settings', array() );
+		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_test_mode' );
+		$current = get_option( 'jcore_turva_settings', array() );
 		foreach ( $allowed as $key ) {
 			if ( $request->has_param( $key ) ) {
 				$current[ $key ] = $request->get_param( $key );
@@ -392,7 +397,12 @@ class Rest_Api {
 			return new \WP_Error( 'not_found', 'Report not found.', array( 'status' => 404 ) );
 		}
 
-		return rest_ensure_response( array( 'archived' => true, 'id' => $id ) );
+		return rest_ensure_response(
+			array(
+				'archived' => true,
+				'id'       => $id,
+			)
+		);
 	}
 
 	/**
@@ -423,7 +433,12 @@ class Rest_Api {
 			return new \WP_Error( 'not_found', 'Report not found.', array( 'status' => 404 ) );
 		}
 
-		return rest_ensure_response( array( 'restored' => true, 'id' => $id ) );
+		return rest_ensure_response(
+			array(
+				'restored' => true,
+				'id'       => $id,
+			)
+		);
 	}
 
 	/**
@@ -447,7 +462,12 @@ class Rest_Api {
 			return new \WP_Error( 'not_found', 'Report not found.', array( 'status' => 404 ) );
 		}
 
-		return rest_ensure_response( array( 'deleted' => true, 'id' => $id ) );
+		return rest_ensure_response(
+			array(
+				'deleted' => true,
+				'id'      => $id,
+			)
+		);
 	}
 
 	/**

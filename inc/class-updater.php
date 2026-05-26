@@ -10,13 +10,14 @@ namespace Jcore\Turva;
 use stdClass;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit();
 }
 
 /**
  * Handles plugin updates via JCore Update API.
  */
 class Updater {
+
 	/**
 	 * Plugin slug.
 	 *
@@ -61,7 +62,13 @@ class Updater {
 	 * @param string $plugin_file     Main plugin file path.
 	 * @param string $license_key     Optional license key.
 	 */
-	public function __construct( string $slug, string $version, string $update_url, string $plugin_file, string $license_key = '' ) {
+	public function __construct(
+		string $slug,
+		string $version,
+		string $update_url,
+		string $plugin_file,
+		string $license_key = '',
+	) {
 		$this->slug            = $slug;
 		$this->current_version = $version;
 		$this->update_url      = $update_url;
@@ -69,7 +76,13 @@ class Updater {
 		$this->license_key     = $license_key;
 
 		// Hook into update checks.
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
+		add_filter(
+			'pre_set_site_transient_update_plugins',
+			array(
+				$this,
+				'check_update',
+			)
+		);
 
 		// Hook into plugin details popup.
 		add_filter( 'plugins_api', array( $this, 'plugin_popup' ), 20, 3 );
@@ -88,7 +101,10 @@ class Updater {
 
 		$remote = $this->request();
 
-		if ( $remote && version_compare( $this->current_version, $remote->new_version, '<' ) ) {
+		if (
+			$remote &&
+			version_compare( $this->current_version, $remote->new_version, '<' )
+		) {
 			$res              = new stdClass();
 			$res->slug        = $this->slug;
 			$res->plugin      = plugin_basename( $this->plugin_file );
@@ -148,7 +164,7 @@ class Updater {
 				'version'     => $this->current_version,
 				'license_key' => $this->license_key,
 			),
-			$this->update_url
+			$this->update_url,
 		);
 
 		$response = wp_remote_get(
@@ -159,7 +175,10 @@ class Updater {
 			)
 		);
 
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+		if (
+			is_wp_error( $response ) ||
+			200 !== wp_remote_retrieve_response_code( $response )
+		) {
 			return false;
 		}
 

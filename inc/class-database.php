@@ -101,13 +101,13 @@ class Database {
 			update_option(
 				'jcore_turva_settings',
 				array(
-					'hsts'           => true,
-					'hsts_max_age'   => 31536000,
-					'nosniff'        => true,
-					'xss_protection' => false,
+					'hsts'            => true,
+					'hsts_max_age'    => 31536000,
+					'nosniff'         => true,
+					'xss_protection'  => false,
 					'referrer_policy' => false,
-					'referrer_value' => 'strict-origin-when-cross-origin',
-					'csp_test_mode'  => false,
+					'referrer_value'  => 'strict-origin-when-cross-origin',
+					'csp_test_mode'   => false,
 				),
 				false
 			);
