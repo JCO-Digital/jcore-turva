@@ -19,7 +19,6 @@ phpcs.xml
 webpack.config.js
 wp-cli.local.yml
 tests
-vendor
 node_modules
 *.sql
 *.tar.gz

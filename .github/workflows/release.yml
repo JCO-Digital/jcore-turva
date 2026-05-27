@@ -22,6 +22,12 @@ jobs:
 
       - uses: pnpm/action-setup@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+
       - name: Build blocks
         run: make ci
 

@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "23c83b2b838cd0959c39639a76a7fe49",
+    "packages": [
+        {
+            "name": "jcodigital/jcore-update",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JCO-Digital/jcore-update.git",
+                "reference": "9b3f911f3a55bc7ab573f632ba376d1e89ed9a73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JCO-Digital/jcore-update/zipball/9b3f911f3a55bc7ab573f632ba376d1e89ed9a73",
+                "reference": "9b3f911f3a55bc7ab573f632ba376d1e89ed9a73",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^3.9",
+                "wp-coding-standards/wpcs": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jcore\\Update\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Composer-installable WordPress plugin updater integration for the JCORE Update API.",
+            "support": {
+                "issues": "https://github.com/JCO-Digital/jcore-update/issues",
+                "source": "https://github.com/JCO-Digital/jcore-update/tree/v1.0.0"
+            },
+            "time": "2026-05-27T15:27:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

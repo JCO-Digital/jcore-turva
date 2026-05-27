@@ -7,6 +7,9 @@
 
 namespace Jcore\Turva;
 
+use Jcore\Update\Config\UpdateConfig;
+use Jcore\Update\Hooks\PluginUpdateHooks;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
@@ -29,12 +32,13 @@ class Plugin {
 
 		Database::maybe_upgrade();
 
-		new Updater(
-			'jcore-turva',
-			get_version(),
-			'https://update.jcore.fi/v1/update-check',
-			JCORE_TURVA_PLUGIN_FILE
+		$config = new UpdateConfig(
+			pluginFile: JCORE_TURVA_PLUGIN_FILE,
+			slug: 'jcore-turva',
+			version: get_version(),
+			apiBaseUrl: 'https://update.jcore.fi/v1',
 		);
+		( new PluginUpdateHooks( $config ) )->register();
 
 		add_action( 'send_headers', array( Headers::class, 'send' ) );
 		Rest_Api::register();

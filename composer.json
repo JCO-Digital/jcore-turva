@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jcodigital/jcore-update": "^1.0"
+    }
+}

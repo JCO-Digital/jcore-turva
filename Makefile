@@ -10,6 +10,7 @@ ci-install: install
 
 install:
 	pnpm i
+	composer install --no-dev
 
 build:
 	pnpm build
@@ -29,5 +30,6 @@ stop:
 
 clean:
 	rm -rf node_modules
+	rm -rf vendor
 	rm -rf build
 	rm -rf release
