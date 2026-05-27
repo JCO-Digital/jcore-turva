@@ -62,7 +62,7 @@ jobs:
         env:
           UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
         run: |
-          curl -X POST https://update.jcore.fi/v1/versions \
+          curl -i -X POST https://update.jcore.fi/v1/versions \
             -H "Content-Type: application/json" \
             -H "X-API-Key: $UPDATE_API_KEY" \
             -d '{
