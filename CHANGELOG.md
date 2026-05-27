@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.2 (2026-05-27)
+### 1.3.3 (2026-05-27)
+
+#### Continuous Integration
+
+- github: add verbose output to release request (e3b4753)
+
+### v1.3.2 (2026-05-27)
 
 #### Refactor
 
