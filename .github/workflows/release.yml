@@ -45,6 +45,14 @@ jobs:
         if: steps.foonver.outputs.is_bumped == 'true'
         run: make release
 
+      - name: Extract metadata
+        if: steps.foonver.outputs.is_bumped == 'true'
+        id: metadata
+        run: |
+          echo "requires_wp=$(grep "Requires at least:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
+          echo "tested_wp=$(grep "Tested up to:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
+          echo "requires_php=$(grep "Requires PHP:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         if: steps.foonver.outputs.is_bumped == 'true'
         uses: softprops/action-gh-release@v2
@@ -70,7 +78,7 @@ jobs:
               "version": "${{ steps.foonver.outputs.version }}",
               "download_url": "https://github.com/${{ github.repository }}/releases/download/v${{ steps.foonver.outputs.version }}/jcore-turva.zip",
               "changelog": ${{ toJson(steps.foonver.outputs.release_notes) }},
-              "requires_wp": "6.7",
-              "tested_wp": "6.7",
-              "requires_php": "8.2"
+              "requires_wp": "${{ steps.metadata.outputs.requires_wp }}",
+              "tested_wp": "${{ steps.metadata.outputs.tested_wp }}",
+              "requires_php": "${{ steps.metadata.outputs.requires_php }}"
             }'
