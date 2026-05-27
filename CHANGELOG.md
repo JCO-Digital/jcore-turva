@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.1 (2026-05-27)
+### 1.3.2 (2026-05-27)
+
+#### Refactor
+
+- updater: replace custom implementation with jcore-update library (965d28a)
+
+### v1.3.1 (2026-05-27)
 
 #### Refactor
 
