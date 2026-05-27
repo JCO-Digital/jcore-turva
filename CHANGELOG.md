@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.3.0 (2026-05-26)
+### 1.3.1 (2026-05-27)
+
+#### Refactor
+
+- autoload: rename class parameter for clarity (76dd6c2)
+
+## v1.3.0 (2026-05-26)
 
 #### Features
 
