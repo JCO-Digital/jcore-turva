@@ -43,11 +43,11 @@ function get_version(): string {
 }
 
 spl_autoload_register(
-	static function ( string $class ): void {
-		if ( ! str_starts_with( $class, 'Jcore\\Turva\\' ) ) {
+	static function ( string $class_name ): void {
+		if ( ! str_starts_with( $class_name, 'Jcore\\Turva\\' ) ) {
 			return;
 		}
-		$name = substr( $class, strlen( 'Jcore\\Turva\\' ) );
+		$name = substr( $class_name, strlen( 'Jcore\\Turva\\' ) );
 		$name = strtolower( str_replace( '_', '-', $name ) );
 		$file = __DIR__ . "/inc/class-{$name}.php";
 		if ( file_exists( $file ) ) {
