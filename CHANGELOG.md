@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.8 (2026-05-28)
+### 1.3.9 (2026-05-28)
+
+#### Maintenance
+
+- build: rename zip exclusion file to .zipexclude (13aa968)
+
+### v1.3.8 (2026-05-28)
 
 #### Continuous Integration
 
