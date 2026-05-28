@@ -1,6 +1,13 @@
 # Changelog
 
-### 1.3.6 (2026-05-28)
+### 1.3.7 (2026-05-28)
+
+#### Build System
+
+- composer: update jcore-update to v1.0.1 (07bb5ee)
+- composer: add jetpack-autoloader and update autoloader reference (a9442d3)
+
+### v1.3.6 (2026-05-28)
 
 #### Continuous Integration
 
