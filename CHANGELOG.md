@@ -1,6 +1,13 @@
 # Changelog
 
-### 1.3.4 (2026-05-27)
+### 1.3.5 (2026-05-28)
+
+#### Continuous Integration
+
+- github: update release workflow to use correct job outputs (1f991e6)
+- github: migrate plugin publishing to reusable workflow (f024948)
+
+### v1.3.4 (2026-05-27)
 
 #### Continuous Integration
 
