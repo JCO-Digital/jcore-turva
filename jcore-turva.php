@@ -22,30 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( file_exists( __DIR__ . '/vendor/autoload_packages.php' ) ) {
-	require_once __DIR__ . '/vendor/autoload_packages.php';
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
 define( 'JCORE_TURVA_PLUGIN_FILE', __FILE__ );
 define( 'JCORE_TURVA_PLUGIN_DIR', __DIR__ );
 define( 'JCORE_TURVA_BUILD_DIR', __DIR__ . '/build' );
-
-/**
- * Returns the plugin version from the file header.
- *
- * @return string
- */
-function get_version(): string {
-	static $version = null;
-	if ( null === $version ) {
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		$data    = get_plugin_data( JCORE_TURVA_PLUGIN_FILE );
-		$version = $data['Version'] ?? '0.0.0';
-	}
-	return $version;
-}
 
 spl_autoload_register(
 	static function ( string $class_name ): void {
