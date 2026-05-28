@@ -45,40 +45,16 @@ jobs:
         if: steps.foonver.outputs.is_bumped == 'true'
         run: make release
 
-      - name: Extract metadata
-        if: steps.foonver.outputs.is_bumped == 'true'
-        id: metadata
-        run: |
-          echo "requires_wp=$(grep "Requires at least:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
-          echo "tested_wp=$(grep "Tested up to:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
-          echo "requires_php=$(grep "Requires PHP:" jcore-turva.php | cut -d: -f2 | xargs)" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        if: steps.foonver.outputs.is_bumped == 'true'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.foonver.outputs.version }}
-          name: Release ${{ steps.foonver.outputs.version }}
-          body: ${{ steps.foonver.outputs.release_notes }}
-          draft: false
-          prerelease: false
-          files: |
-            release/jcore-turva.zip
-
-      - name: Publish to Update API
-        if: steps.foonver.outputs.is_bumped == 'true'
-        env:
-          UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
-        run: |
-          curl -i -X POST https://update.jcore.fi/v1/versions \
-            -H "Content-Type: application/json" \
-            -H "X-API-Key: $UPDATE_API_KEY" \
-            -d '{
-              "slug": "jcore-turva",
-              "version": "${{ steps.foonver.outputs.version }}",
-              "download_url": "https://github.com/${{ github.repository }}/releases/download/v${{ steps.foonver.outputs.version }}/jcore-turva.zip",
-              "changelog": ${{ toJson(steps.foonver.outputs.release_notes) }},
-              "requires_wp": "${{ steps.metadata.outputs.requires_wp }}",
-              "tested_wp": "${{ steps.metadata.outputs.tested_wp }}",
-              "requires_php": "${{ steps.metadata.outputs.requires_php }}"
-            }'
+  # Call the reusable workflow from jcore-update
+  publish:
+    needs: release
+    if: steps.foonver.outputs.is_bumped == 'true'
+    uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@main
+    with:
+      slug: "jcore-turva"
+      version: ${{ steps.foonver.outputs.version }}
+      release_notes: ${{ steps.foonver.outputs.release_notes }}
+      plugin_file: "jcore-turva.php"
+      artifact_path: "release/jcore-turva.zip"
+    secrets:
+      UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
