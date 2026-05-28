@@ -11,6 +11,10 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    outputs:
+      is_bumped: ${{ steps.foonver.outputs.is_bumped }}
+      version: ${{ steps.foonver.outputs.version }}
+      release_notes: ${{ steps.foonver.outputs.release_notes }}
     steps:
       - uses: actions/checkout@v4
         with:
