@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.9 (2026-05-28)
+### 1.3.10 (2026-05-28)
+
+#### Build System
+
+- composer: update jcore-update to v1.1.0 (1942719)
+
+### v1.3.9 (2026-05-28)
 
 #### Maintenance
 
