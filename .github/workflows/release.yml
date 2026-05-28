@@ -48,12 +48,12 @@ jobs:
   # Call the reusable workflow from jcore-update
   publish:
     needs: release
-    if: steps.foonver.outputs.is_bumped == 'true'
+    if: needs.release.outputs.is_bumped == 'true'
     uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@main
     with:
       slug: "jcore-turva"
-      version: ${{ steps.foonver.outputs.version }}
-      release_notes: ${{ steps.foonver.outputs.release_notes }}
+      version: ${{ needs.release.outputs.version }}
+      release_notes: ${{ needs.release.outputs.release_notes }}
       plugin_file: "jcore-turva.php"
       artifact_path: "release/jcore-turva.zip"
     secrets:
