@@ -70,16 +70,16 @@
         },
         {
             "name": "jcodigital/jcore-update",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JCO-Digital/jcore-update.git",
-                "reference": "f036e6da608b0a25f1a0ec9608a2c94ee1c4bbe7"
+                "reference": "37192594b87b61838393dcd4b5f021eafac4ebf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JCO-Digital/jcore-update/zipball/f036e6da608b0a25f1a0ec9608a2c94ee1c4bbe7",
-                "reference": "f036e6da608b0a25f1a0ec9608a2c94ee1c4bbe7",
+                "url": "https://api.github.com/repos/JCO-Digital/jcore-update/zipball/37192594b87b61838393dcd4b5f021eafac4ebf6",
+                "reference": "37192594b87b61838393dcd4b5f021eafac4ebf6",
                 "shasum": ""
             },
             "require": {
@@ -102,9 +102,9 @@
             "description": "Composer-installable WordPress plugin updater integration for the JCORE Update API.",
             "support": {
                 "issues": "https://github.com/JCO-Digital/jcore-update/issues",
-                "source": "https://github.com/JCO-Digital/jcore-update/tree/v1.0.1"
+                "source": "https://github.com/JCO-Digital/jcore-update/tree/v1.1.0"
             },
-            "time": "2026-05-28T09:10:51+00:00"
+            "time": "2026-05-28T11:06:27+00:00"
         }
     ],
     "packages-dev": [],
