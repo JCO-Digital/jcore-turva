@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.10 (2026-05-28)
+### 1.3.11 (2026-05-28)
+
+#### Build System
+
+- composer: update jcore-update to v1.1 and simplify autoloader (e698827)
+
+### v1.3.10 (2026-05-28)
 
 #### Build System
 
