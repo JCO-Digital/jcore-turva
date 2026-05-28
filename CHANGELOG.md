@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.7 (2026-05-28)
+### 1.3.8 (2026-05-28)
+
+#### Continuous Integration
+
+- github: remove build steps from release workflow (cc394b7)
+
+### v1.3.7 (2026-05-28)
 
 #### Build System
 
