@@ -17,7 +17,7 @@ build:
 
 release:
 	mkdir -p release
-	zip release/jcore-turva.zip -r * -x@zip_exclude.txt
+	zip release/jcore-turva.zip -r * -x@.zipexclude
 
 watch:
 	pnpm run watch
