@@ -1,5 +1,11 @@
 {
-    "require": {
-        "jcodigital/jcore-update": "^1.0"
-    }
+	"require": {
+		"automattic/jetpack-autoloader": "^2",
+		"jcodigital/jcore-update": "^1.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"automattic/jetpack-autoloader": true
+		}
+	}
 }
