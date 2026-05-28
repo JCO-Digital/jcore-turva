@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.5 (2026-05-28)
+### 1.3.6 (2026-05-28)
+
+#### Continuous Integration
+
+- github: add output parameters to release workflow steps (d8d917c)
+
+### v1.3.5 (2026-05-28)
 
 #### Continuous Integration
 
