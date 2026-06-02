@@ -19,5 +19,6 @@
 		"@wordpress/icons": "*",
 		"@wordpress/scripts": "^30.15.0",
 		"@wordpress/url": "*"
-	}
+	},
+	"packageManager": "pnpm@11.3.0"
 }
