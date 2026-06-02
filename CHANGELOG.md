@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.4.0 (2026-06-02)
+### 1.4.1 (2026-06-02)
+
+#### Build System
+
+- npm: remove packageManager configuration (59515b8)
+
+## v1.4.0 (2026-06-02)
 
 #### Features
 
