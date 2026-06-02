@@ -46,9 +46,15 @@ class Headers {
 
 		$csp = Csp::build_header();
 		if ( $csp ) {
+			$mode        = $settings['csp_mode'] ?? 'enabled';
 			$test_mode   = ! empty( $settings['csp_test_mode'] ) && current_user_can( 'manage_options' );
-			$header_name = $test_mode ? 'Content-Security-Policy-Report-Only' : 'Content-Security-Policy';
-			header( "{$header_name}: {$csp}" );
+			$header_name = ( 'report-only' === $mode || ( 'enabled' === $mode && $test_mode ) )
+				? 'Content-Security-Policy-Report-Only'
+				: 'Content-Security-Policy';
+
+			if ( 'disabled' !== $mode ) {
+				header( "{$header_name}: {$csp}" );
+			}
 		}
 
 		$permissions = Permissions::build_header();

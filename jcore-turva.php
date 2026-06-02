@@ -37,7 +37,7 @@ spl_autoload_register(
 		}
 		$name = substr( $class_name, strlen( 'Jcore\\Turva\\' ) );
 		$name = strtolower( str_replace( '_', '-', $name ) );
-		$file = __DIR__ . "/inc/class-{$name}.php";
+		$file = __DIR__ . "/includes/class-{$name}.php";
 		if ( file_exists( $file ) ) {
 			require_once $file;
 		}

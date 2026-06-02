@@ -107,6 +107,7 @@ class Database {
 					'xss_protection'  => false,
 					'referrer_policy' => false,
 					'referrer_value'  => 'strict-origin-when-cross-origin',
+					'csp_mode'        => 'enabled',
 					'csp_test_mode'   => false,
 				),
 				false
