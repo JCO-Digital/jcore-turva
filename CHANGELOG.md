@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.3.12 (2026-05-28)
+## 1.4.0 (2026-06-02)
+
+#### Features
+
+- csp: add configurable CSP mode and reorganize project structure (2c20cfb)
+
+### v1.3.12 (2026-05-28)
 
 #### Build System
 
