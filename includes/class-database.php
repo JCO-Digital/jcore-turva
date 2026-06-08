@@ -93,7 +93,7 @@ class Database {
 			  uri        VARCHAR(512) NOT NULL DEFAULT '',
 			  last_seen  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  PRIMARY KEY  (id),
-			  KEY report_id (report_id),
+			  KEY report_id_last_seen (report_id, last_seen),
 			  UNIQUE KEY report_uri (report_id, uri(191))
 			) {$charset};"
 		);
