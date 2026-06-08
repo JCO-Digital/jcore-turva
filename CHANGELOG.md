@@ -1,6 +1,19 @@
 # Changelog
 
-### 1.4.2 (2026-06-02)
+## 1.5.0 (2026-06-08)
+
+#### Features
+
+- csp: add option to expand Google domains to regional TLDs (e1ac0a4)
+- report: include document URIs in report details (92e695b)
+
+#### Bug Fixes
+
+- csp: restrict multi-domain expansion to specific directives (ffa978c)
+- database: update index to include last_seen column for query performance (8f88879)
+- database: prevent concurrent upgrades during migration (da3f6a5)
+
+### v1.4.2 (2026-06-02)
 
 #### Build System
 
