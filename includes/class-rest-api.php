@@ -308,7 +308,7 @@ class Rest_Api {
 	 * @param \WP_REST_Request $request The REST request.
 	 */
 	public static function save_settings( \WP_REST_Request $request ): \WP_REST_Response {
-		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode' );
+		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode', 'google_multi_domain' );
 		$current = get_option( 'jcore_turva_settings', array() );
 		foreach ( $allowed as $key ) {
 			if ( $request->has_param( $key ) ) {
@@ -338,6 +338,26 @@ class Rest_Api {
 				$status
 			)
 		);
+
+		$report_ids = wp_list_pluck( $rows, 'id' );
+		$uris       = array();
+		if ( ! empty( $report_ids ) ) {
+			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+			$uri_rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT report_id, uri FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id IN ($placeholders) ORDER BY last_seen DESC",
+					...$report_ids
+				)
+			);
+			foreach ( $uri_rows as $uri_row ) {
+				$uris[ $uri_row->report_id ][] = $uri_row->uri;
+			}
+		}
+
+		foreach ( $rows as $row ) {
+			$row->uris = $uris[ $row->id ] ?? array();
+		}
 
 		return rest_ensure_response( array_map( array( self::class, 'prepare_report' ), $rows ) );
 	}
@@ -370,6 +390,14 @@ class Rest_Api {
 		if ( ! $row ) {
 			return new \WP_Error( 'not_found', 'Report not found.', array( 'status' => 404 ) );
 		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$row->uris = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT uri FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id = %d ORDER BY last_seen DESC",
+				$id
+			)
+		);
 
 		return rest_ensure_response( self::prepare_report( $row ) );
 	}
@@ -452,6 +480,13 @@ class Rest_Api {
 		$id = (int) $request->get_param( 'id' );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->delete(
+			$wpdb->prefix . 'jcore_security_report_uris',
+			array( 'report_id' => $id ),
+			array( '%d' )
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$deleted = $wpdb->delete(
 			$wpdb->prefix . 'jcore_security_reports',
 			array( 'id' => $id ),
@@ -495,17 +530,43 @@ class Rest_Api {
 		$wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO `{$wpdb->prefix}jcore_security_reports`
-					(violated_directive, blocked_uri, document_uri, report_count, status, first_seen, last_seen)
-				VALUES (%s, %s, %s, 1, 'new', NOW(), NOW())
+					(violated_directive, blocked_uri, report_count, status, first_seen, last_seen)
+				VALUES (%s, %s, 1, 'new', NOW(), NOW())
 				ON DUPLICATE KEY UPDATE
 					report_count = report_count + 1,
 					processed    = 0,
 					last_seen    = NOW()",
 				$violated,
-				$blocked,
-				$document
+				$blocked
 			)
 		);
+
+		$report_id = $wpdb->insert_id;
+		if ( ! $report_id ) {
+			// On DUPLICATE KEY UPDATE, insert_id might not be what we expect in all environments.
+			$report_id = (int) $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT id FROM `{$wpdb->prefix}jcore_security_reports` WHERE violated_directive = %s AND blocked_uri = %s",
+					$violated,
+					$blocked
+				)
+			);
+		}
+
+		if ( $report_id && $document ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO `{$wpdb->prefix}jcore_security_report_uris`
+						(report_id, uri, last_seen)
+					VALUES (%d, %s, NOW())
+					ON DUPLICATE KEY UPDATE
+						last_seen = NOW()",
+					$report_id,
+					$document
+				)
+			);
+		}
 
 		return rest_ensure_response( array( 'received' => true ) );
 	}
@@ -520,7 +581,8 @@ class Rest_Api {
 			'id'                 => (int) $row->id,
 			'violated_directive' => $row->violated_directive,
 			'blocked_uri'        => $row->blocked_uri,
-			'document_uri'       => $row->document_uri,
+			'uris'               => $row->uris ?? array(),
+			'document_uri'       => $row->uris[0] ?? $row->document_uri ?? '',
 			'report_count'       => (int) $row->report_count,
 			'status'             => $row->status,
 			'processed'          => (bool) (int) $row->processed,

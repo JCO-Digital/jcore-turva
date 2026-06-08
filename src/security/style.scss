@@ -180,6 +180,16 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+
+		code {
+			vertical-align: middle;
+		}
+	}
+
+	&__uri-count {
+		font-size: 10px;
+		color: #646970;
+		vertical-align: middle;
 	}
 
 	&__col-processed {
@@ -242,6 +252,21 @@
 		code {
 			font-size: 11px;
 			word-break: break-all;
+		}
+	}
+
+	&__uri-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		max-height: 150px;
+		overflow-y: auto;
+
+		li {
+			margin-bottom: 4px;
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
 

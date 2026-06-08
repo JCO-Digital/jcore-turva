@@ -222,6 +222,18 @@ export default function GeneralTab() {
 							/>
 						</PanelRow>
 					)}
+					<PanelRow>
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={__("Google Multi-Domain Support", "jcore-turva")}
+							help={__(
+								"Automatically includes all Google regional domains for connect-src and img-src if any Google domain is added to those directives. Useful for Google services that redirect based on user location.",
+								"jcore-turva",
+							)}
+							checked={!!settings.google_multi_domain}
+							onChange={(v) => update("google_multi_domain", v)}
+						/>
+					</PanelRow>
 				</PanelBody>
 			</Panel>
 			<div className="jcore-turva__actions">
