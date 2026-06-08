@@ -227,7 +227,7 @@ export default function GeneralTab() {
 							__nextHasNoMarginBottom
 							label={__("Google Multi-Domain Support", "jcore-turva")}
 							help={__(
-								"Automatically includes all Google regional domains if any Google domain is added to the policy. Useful for Google services that redirect based on user location.",
+								"Automatically includes all Google regional domains for connect-src and img-src if any Google domain is added to those directives. Useful for Google services that redirect based on user location.",
 								"jcore-turva",
 							)}
 							checked={!!settings.google_multi_domain}

@@ -44,7 +44,7 @@ class Csp {
 
 		$parts = array();
 		foreach ( $directives as $directive => $sources ) {
-			if ( $google_multi_domain ) {
+			if ( $google_multi_domain && in_array( $directive, array( 'connect-src', 'img-src' ), true ) ) {
 				$sources = self::expand_google_domains( $sources );
 			}
 			// upgrade-insecure-requests is a boolean flag with no source list.
@@ -88,10 +88,9 @@ class Csp {
 					$matched_suffix = $suffix;
 					break;
 				}
-				// Check if source is exactly the domain without the leading dot (e.g. google.com)
-				// or ends with the protocol + dotless domain (e.g. https://google.com).
+				// Check if source matches the domain (e.g. google.com, //google.com, https://google.com).
 				$dotless = ltrim( $suffix, '.' );
-				if ( $source === $dotless || str_ends_with( $source, '://' . $dotless ) ) {
+				if ( $source === $dotless || str_ends_with( $source, '//' . $dotless ) ) {
 					$matched_suffix = $dotless;
 					$is_dotless     = true;
 					break;
