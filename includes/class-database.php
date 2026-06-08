@@ -25,20 +25,34 @@ class Database {
 	 */
 	public static function maybe_upgrade(): void {
 		$old_version = get_option( self::DB_VERSION_OPTION );
-		if ( $old_version !== self::DB_VERSION ) {
-			if ( $old_version && version_compare( $old_version, '1.2', '<' ) ) {
-				// We need the new table to exist before migrating.
-				self::install();
-				self::migrate_to_1_2();
-			}
-			self::install();
+		if ( $old_version === self::DB_VERSION ) {
+			return;
 		}
+
+		// Prevent concurrent upgrades.
+		if ( get_transient( 'jcore_turva_upgrading' ) ) {
+			return;
+		}
+		set_transient( 'jcore_turva_upgrading', true, 60 );
+
+		if ( $old_version && version_compare( $old_version, '1.2', '<' ) ) {
+			// We need the new table to exist before migrating.
+			self::install( false );
+			self::migrate_to_1_2();
+		}
+
+		// Final install: ensures all indices are correct and updates version.
+		self::install( true );
+
+		delete_transient( 'jcore_turva_upgrading' );
 	}
 
 	/**
 	 * Creates tables and seeds defaults. Run on plugin activation and upgrade.
+	 *
+	 * @param bool $update_version Whether to update the version option after install.
 	 */
-	public static function install(): void {
+	public static function install( bool $update_version = true ): void {
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -84,7 +98,7 @@ class Database {
 			) {$charset};"
 		);
 
-		if ( get_option( self::DB_VERSION_OPTION ) !== self::DB_VERSION ) {
+		if ( $update_version && get_option( self::DB_VERSION_OPTION ) !== self::DB_VERSION ) {
 			self::seed_defaults();
 			update_option( self::DB_VERSION_OPTION, self::DB_VERSION, false );
 		}
