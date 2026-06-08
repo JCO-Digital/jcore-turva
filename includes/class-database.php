@@ -226,14 +226,15 @@ class Database {
 			update_option(
 				'jcore_turva_settings',
 				array(
-					'hsts'            => true,
-					'hsts_max_age'    => 31536000,
-					'nosniff'         => true,
-					'xss_protection'  => false,
-					'referrer_policy' => false,
-					'referrer_value'  => 'strict-origin-when-cross-origin',
-					'csp_mode'        => 'enabled',
-					'csp_test_mode'   => false,
+					'hsts'                => true,
+					'hsts_max_age'        => 31536000,
+					'nosniff'             => true,
+					'xss_protection'      => false,
+					'referrer_policy'     => false,
+					'referrer_value'      => 'strict-origin-when-cross-origin',
+					'csp_mode'            => 'enabled',
+					'csp_test_mode'       => false,
+					'google_multi_domain' => false,
 				),
 				false
 			);

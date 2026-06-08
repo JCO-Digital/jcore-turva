@@ -308,7 +308,7 @@ class Rest_Api {
 	 * @param \WP_REST_Request $request The REST request.
 	 */
 	public static function save_settings( \WP_REST_Request $request ): \WP_REST_Response {
-		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode' );
+		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode', 'google_multi_domain' );
 		$current = get_option( 'jcore_turva_settings', array() );
 		foreach ( $allowed as $key ) {
 			if ( $request->has_param( $key ) ) {
