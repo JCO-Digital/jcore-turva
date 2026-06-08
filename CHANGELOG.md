@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.4.1 (2026-06-02)
+### 1.4.2 (2026-06-02)
+
+#### Build System
+
+- deps: define package manager (bd43bb8)
+
+### v1.4.1 (2026-06-02)
 
 #### Build System
 
