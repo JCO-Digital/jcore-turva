@@ -13,9 +13,20 @@
 
 #### Styles
 
+- security: improve component layout and spacing consistency (29be261)
 - i18n: replace punctuation marks with standard characters in pot file (97fa3b3)
 - security: apply project-wide coding style consistency (70e6fae)
 - security: fix code style in AddDirectivePanel component (57de2f1)
+
+#### Continuous Integration
+
+- github: upgrade node version to 22 in release workflow (500d968)
+- github: remove explicit pnpm version from release workflow (e1f83e1)
+- release: add linting and translation audit to CI pipeline (162978b)
+
+#### Maintenance
+
+- version: revert version to 1.6.0 (5d1e605)
 
 ## v1.6.0 (2026-06-15)
 
