@@ -28,9 +28,13 @@ export default function DirectivesManager( {
 	}, [ headerType ] );
 
 	const grouped = useMemo( () => {
-		if ( ! sources ) return {};
+		if ( ! sources ) {
+			return {};
+		}
 		return sources.reduce( ( acc, source ) => {
-			if ( ! acc[ source.directive ] ) acc[ source.directive ] = [];
+			if ( ! acc[ source.directive ] ) {
+				acc[ source.directive ] = [];
+			}
 			acc[ source.directive ].push( source );
 			return acc;
 		}, {} );

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useState, useEffect, useCallback } from '@wordpress/element';
 import {
 	Button,
@@ -17,7 +18,9 @@ const extractDirective = ( violatedDirective ) =>
 	violatedDirective?.split( ' ' )[ 0 ] ?? '';
 
 const formatDate = ( dateString ) => {
-	if ( ! dateString ) return '-';
+	if ( ! dateString ) {
+		return '-';
+	}
 	return new Intl.DateTimeFormat( undefined, {
 		dateStyle: 'medium',
 		timeStyle: 'short',
@@ -51,7 +54,9 @@ function ReviewModal( { report, onClose, onReviewed } ) {
 	}, [ headerType ] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleSubmit = async () => {
-		if ( ! directive || ! source.trim() ) return;
+		if ( ! directive || ! source.trim() ) {
+			return;
+		}
 		setIsSubmitting( true );
 		setError( null );
 		try {

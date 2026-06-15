@@ -22,7 +22,7 @@ function getTabFromUrl() {
 function setTabInUrl( tabName ) {
 	const url = new URL( window.location.href );
 	url.searchParams.set( 'tab', tabName );
-	history.replaceState( null, '', url.toString() );
+	window.history.replaceState( null, '', url.toString() );
 }
 
 export default function App() {

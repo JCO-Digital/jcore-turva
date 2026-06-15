@@ -24,6 +24,8 @@ const BLOCKED_URI_TO_SOURCE = {
  * @return {string} The normalized CSP source value.
  */
 export function normalizeBlockedUri( blockedUri ) {
-	if ( ! blockedUri ) return blockedUri;
+	if ( ! blockedUri ) {
+		return blockedUri;
+	}
 	return BLOCKED_URI_TO_SOURCE[ blockedUri.toLowerCase() ] ?? blockedUri;
 }

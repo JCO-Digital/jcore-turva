@@ -40,7 +40,9 @@ function AddSourceForm( { directive, onAdd, placeholder } ) {
 
 	const handleSubmit = async () => {
 		const trimmed = value.trim();
-		if ( ! trimmed ) return;
+		if ( ! trimmed ) {
+			return;
+		}
 		setIsAdding( true );
 		await onAdd( directive, trimmed );
 		setValue( '' );
@@ -61,7 +63,9 @@ function AddSourceForm( { directive, onAdd, placeholder } ) {
 				value={ value }
 				onChange={ setValue }
 				onKeyDown={ ( e ) => {
-					if ( e.key === 'Enter' ) handleSubmit();
+					if ( e.key === 'Enter' ) {
+						handleSubmit();
+					}
 				} }
 			/>
 			<Button
