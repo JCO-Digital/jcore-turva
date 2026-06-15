@@ -294,21 +294,79 @@ export default function ReportsTab() {
 		setReviewReport(null);
 	};
 
+	const handleArchiveAll = async () => {
+		if (
+			!window.confirm(
+				__("Are you sure you want to archive all new reports?", "jcore-turva"),
+			)
+		) {
+			return;
+		}
+		const backup = reports;
+		setReports([]);
+		try {
+			await apiFetch({
+				path: "/jcore-turva/v1/reports/archive",
+				method: "POST",
+			});
+		} catch {
+			setReports(backup);
+		}
+	};
+
+	const handleDeleteAll = async () => {
+		if (
+			!window.confirm(
+				__(
+					"Are you sure you want to delete all reports in this view? This action cannot be undone.",
+					"jcore-turva",
+				),
+			)
+		) {
+			return;
+		}
+		const backup = reports;
+		setReports([]);
+		try {
+			await apiFetch({
+				path: "/jcore-turva/v1/reports/delete",
+				method: "POST",
+				data: { status: statusFilter },
+			});
+		} catch {
+			setReports(backup);
+		}
+	};
+
 	return (
 		<div className="jcore-turva__tab-content">
 			<div className="jcore-turva__filter-bar">
-				<Button
-					variant={statusFilter === "new" ? "primary" : "secondary"}
-					onClick={() => setStatusFilter("new")}
-				>
-					{__("New", "jcore-turva")}
-				</Button>
-				<Button
-					variant={statusFilter === "archived" ? "primary" : "secondary"}
-					onClick={() => setStatusFilter("archived")}
-				>
-					{__("Archived", "jcore-turva")}
-				</Button>
+				<div className="jcore-turva__status-filters">
+					<Button
+						variant={statusFilter === "new" ? "primary" : "secondary"}
+						onClick={() => setStatusFilter("new")}
+					>
+						{__("New", "jcore-turva")}
+					</Button>
+					<Button
+						variant={statusFilter === "archived" ? "primary" : "secondary"}
+						onClick={() => setStatusFilter("archived")}
+					>
+						{__("Archived", "jcore-turva")}
+					</Button>
+				</div>
+				<div className="jcore-turva__bulk-actions">
+					{statusFilter === "new" && reports?.length > 0 && (
+						<Button variant="secondary" onClick={handleArchiveAll}>
+							{__("Archive All", "jcore-turva")}
+						</Button>
+					)}
+					{reports?.length > 0 && (
+						<Button variant="tertiary" isDestructive onClick={handleDeleteAll}>
+							{__("Delete All", "jcore-turva")}
+						</Button>
+					)}
+				</div>
 			</div>
 
 			{error && <p className="jcore-turva__error">{error}</p>}

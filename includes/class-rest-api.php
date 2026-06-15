@@ -101,6 +101,33 @@ class Rest_Api {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/reports/archive',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( self::class, 'archive_all_reports' ),
+				'permission_callback' => array( self::class, 'admin_permission' ),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/reports/delete',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( self::class, 'delete_all_reports' ),
+				'permission_callback' => array( self::class, 'admin_permission' ),
+				'args'                => array(
+					'status' => array(
+						'type'     => 'string',
+						'required' => true,
+						'enum'     => array( 'new', 'archived' ),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/reports/(?P<id>\d+)',
 			array(
 				'methods'             => \WP_REST_Server::EDITABLE,
@@ -400,6 +427,56 @@ class Rest_Api {
 		);
 
 		return rest_ensure_response( self::prepare_report( $row ) );
+	}
+
+	/**
+	 * POST /reports/archive — marks all new reports as archived.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 */
+	public static function archive_all_reports( \WP_REST_Request $request ): \WP_REST_Response {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->update(
+			$wpdb->prefix . 'jcore_security_reports',
+			array( 'status' => 'archived' ),
+			array( 'status' => 'new' ),
+			array( '%s' ),
+			array( '%s' )
+		);
+
+		return rest_ensure_response( array( 'archived' => true ) );
+	}
+
+	/**
+	 * POST /reports/delete — deletes all reports with a specific status.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 */
+	public static function delete_all_reports( \WP_REST_Request $request ): \WP_REST_Response {
+		global $wpdb;
+
+		$status = $request->get_param( 'status' );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$report_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id FROM `{$wpdb->prefix}jcore_security_reports` WHERE status = %s",
+				$status
+			)
+		);
+
+		if ( ! empty( $report_ids ) ) {
+			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id IN ($placeholders)", ...$report_ids ) );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}jcore_security_reports` WHERE status = %s", $status ) );
+		}
+
+		return rest_ensure_response( array( 'deleted' => true ) );
 	}
 
 	/**

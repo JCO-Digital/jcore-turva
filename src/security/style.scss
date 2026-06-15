@@ -150,8 +150,15 @@
 
 	&__filter-bar {
 		display: flex;
-		gap: 8px;
+		justify-content: space-between;
+		align-items: center;
 		margin-bottom: 16px;
+	}
+
+	&__status-filters,
+	&__bulk-actions {
+		display: flex;
+		gap: 8px;
 	}
 
 	&__empty {
