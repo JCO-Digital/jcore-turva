@@ -51,6 +51,53 @@ class Rest_Api {
 					'permission_callback' => array( self::class, 'admin_permission' ),
 					'args'                => self::source_args( true ),
 				),
+				array(
+					'methods'             => \WP_REST_Server::DELETABLE,
+					'callback'            => array( self::class, 'delete_sources' ),
+					'permission_callback' => array( self::class, 'admin_permission' ),
+					'args'                => array(
+						'ids' => array(
+							'type'     => 'array',
+							'required' => true,
+							'items'    => array( 'type' => 'integer' ),
+						),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/sources/import',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( self::class, 'import_sources' ),
+				'permission_callback' => array( self::class, 'admin_permission' ),
+				'args'                => array(
+					'header_type' => array(
+						'type'              => 'string',
+						'enum'              => array( 'csp', 'permissions' ),
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'directives'  => array(
+						'type'     => 'array',
+						'required' => true,
+						'items'    => array(
+							'type'       => 'object',
+							'properties' => array(
+								'directive' => array( 'type' => 'string' ),
+								'source'    => array( 'type' => 'string' ),
+							),
+						),
+					),
+					'action'      => array(
+						'type'              => 'string',
+						'enum'              => array( 'merge', 'replace' ),
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+				),
 			)
 		);
 
@@ -241,6 +288,59 @@ class Rest_Api {
 	 *
 	 * @param \WP_REST_Request $request The REST request.
 	 */
+	public static function import_sources( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		global $wpdb;
+
+		$header_type = $request->get_param( 'header_type' );
+		$directives  = $request->get_param( 'directives' );
+		$action      = $request->get_param( 'action' );
+		$table_name  = $wpdb->prefix . 'jcore_security_sources';
+
+		if ( 'replace' === $action ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->delete(
+				$table_name,
+				array( 'header_type' => $header_type ),
+				array( '%s' )
+			);
+		}
+
+		foreach ( $directives as $item ) {
+			$directive = sanitize_text_field( $item['directive'] );
+			$source    = sanitize_text_field( $item['source'] );
+
+			if ( 'merge' === $action ) {
+				// Check if exists
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$exists = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT COUNT(*) FROM `{$table_name}` WHERE header_type = %s AND directive = %s AND source = %s",
+						$header_type,
+						$directive,
+						$source
+					)
+				);
+				if ( $exists ) {
+					continue;
+				}
+			}
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->insert(
+				$table_name,
+				array(
+					'header_type' => $header_type,
+					'directive'   => $directive,
+					'source'      => $source,
+					'enabled'     => 1,
+				),
+				array( '%s', '%s', '%s', '%d' )
+			);
+		}
+
+		return rest_ensure_response( array( 'success' => true ) );
+	}
+
 	public static function create_source( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		global $wpdb;
 
@@ -313,6 +413,37 @@ class Rest_Api {
 	 *
 	 * @param \WP_REST_Request $request The REST request.
 	 */
+	public static function delete_sources( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		global $wpdb;
+
+		$ids = $request->get_param( 'ids' );
+		if ( empty( $ids ) ) {
+			return new \WP_Error( 'invalid_ids', 'No IDs provided.', array( 'status' => 400 ) );
+		}
+
+		$table_name = $wpdb->prefix . 'jcore_security_sources';
+		$format     = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$deleted = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM `{$table_name}` WHERE id IN ($format)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				...$ids
+			)
+		);
+
+		if ( false === $deleted ) {
+			return new \WP_Error( 'db_delete_failed', 'Could not delete sources.', array( 'status' => 500 ) );
+		}
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'deleted' => $deleted,
+			)
+		);
+	}
+
 	public static function delete_source( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		global $wpdb;
 

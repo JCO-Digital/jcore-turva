@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"POT-Creation-Date: 2026-06-15T11:34:00.258Z\n"
+"POT-Creation-Date: 2026-06-15T11:55:34.042Z\n"
 "PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: J&Co Digital <support@jco.fi>\n"
 "Language-Team: J&Co Digital <support@jco.fi>\n"
@@ -131,6 +131,8 @@ msgid "Add source & archive report"
 msgstr ""
 
 #: src/security/components/ReportsTab.js:218
+#: src/security/components/ImportCspModal.js:73
+#: src/security/components/CleanCspModal.js:203
 #: src/security/components/AddDirectivePanel.js:93
 msgid "Cancel"
 msgstr ""
@@ -225,6 +227,31 @@ msgstr ""
 
 #: src/security/components/PermissionsTab.js:17
 msgid "e.g. self, *, \"https://example.com\""
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:55
+msgid "Import failed: "
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:56
+msgid "Unknown error"
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:64
+#: src/security/components/CspTab.js:47
+msgid "Import CSP"
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:66
+msgid "Paste CSP string here"
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:81
+msgid "Merge CSP"
+msgstr ""
+
+#: src/security/components/ImportCspModal.js:89
+msgid "Replace CSP"
 msgstr ""
 
 #: src/security/components/GeneralTab.js:18
@@ -380,7 +407,7 @@ msgid "Remove source"
 msgstr ""
 
 #: src/security/components/DirectiveCard.js:56
-#: src/security/components/CspTab.js:17
+#: src/security/components/CspTab.js:55
 msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
 msgstr ""
 
@@ -396,11 +423,44 @@ msgstr ""
 msgid "Remove directive"
 msgstr ""
 
-#: src/security/components/CspTab.js:9
+#: src/security/components/CspTab.js:34
 msgid ""
 "Each directive controls which sources are allowed for a resource type. "
 "Sources are compiled into the Content-Security-Policy header on every page "
 "load."
+msgstr ""
+
+#: src/security/components/CspTab.js:41
+#: src/security/components/CleanCspModal.js:149
+msgid "Clean CSP"
+msgstr ""
+
+#: src/security/components/CleanCspModal.js:135
+msgid "Cleanup failed."
+msgstr ""
+
+#: src/security/components/CleanCspModal.js:156
+msgid "No redundant records found."
+msgstr ""
+
+#: src/security/components/CleanCspModal.js:160
+msgid ""
+"The following records are redundant because they are covered by broader "
+"records:"
+msgstr ""
+
+# %s: directive name
+#: src/security/components/CleanCspModal.js:178
+msgid "in %s"
+msgstr ""
+
+# %s: covering source
+#: src/security/components/CleanCspModal.js:186
+msgid "Covered by: %s"
+msgstr ""
+
+#: src/security/components/CleanCspModal.js:211
+msgid "Clean"
 msgstr ""
 
 #: src/security/components/AddDirectivePanel.js:23

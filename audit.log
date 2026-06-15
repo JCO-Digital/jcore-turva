@@ -1,0 +1,2 @@
+The string "in %s" contains placeholders but has no "translators:" comment to clarify their meaning. (src/security/components/CleanCspModal.js:178)
+The string "Covered by: %s" contains placeholders but has no "translators:" comment to clarify their meaning. (src/security/components/CleanCspModal.js:186)
