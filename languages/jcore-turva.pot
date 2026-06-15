@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"POT-Creation-Date: 2026-06-15T12:37:13.805Z\n"
+"POT-Creation-Date: 2026-06-15T13:57:41.688Z\n"
 "PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: J&Co Digital <support@jco.fi>\n"
 "Language-Team: J&Co Digital <support@jco.fi>\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: jcore-turva.php
 #. Description of the plugin
 msgid ""
-"Security header management ? CSP, Permissions Policy, and violation "
+"Security header management - CSP, Permissions Policy, and violation "
 "reporting."
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "https://jco.fi"
 msgstr ""
 
-#: jcore-turva.php:54
+#: jcore-turva.php:59
 msgid "Settings"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgid "General"
 msgstr ""
 
 #: src/security/App.js:10
-#: src/security/components/GeneralTab.js:218
+#: src/security/components/GeneralTab.js:195
 msgid "Content Security Policy"
 msgstr ""
 
@@ -72,150 +72,150 @@ msgstr ""
 
 #: src/security/components/ReportsTab.js:45
 #: src/security/components/AddDirectivePanel.js:21
-msgid "? Select directive ?"
+msgid "- Select directive -"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:125
+#: src/security/components/ReportsTab.js:118
 msgid "Failed to add source. Please try again."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:133
+#: src/security/components/ReportsTab.js:125
 msgid "Add as allowed source"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:142
+#: src/security/components/ReportsTab.js:133
 msgid "Violated directive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:149
-#: src/security/components/ReportsTab.js:454
+#: src/security/components/ReportsTab.js:139
+#: src/security/components/ReportsTab.js:417
 msgid "Blocked URI"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:155
+#: src/security/components/ReportsTab.js:145
 msgid "Document URIs"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:171
+#: src/security/components/ReportsTab.js:161
 msgid "Occurrences"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:178
+#: src/security/components/ReportsTab.js:168
 msgid ""
 "Edit the directive and source value below as needed before adding to your "
 "policy."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:185
+#: src/security/components/ReportsTab.js:175
 msgid "Header"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:195
-#: src/security/components/ReportsTab.js:453
-#: src/security/components/AddDirectivePanel.js:64
+#: src/security/components/ReportsTab.js:185
+#: src/security/components/ReportsTab.js:416
+#: src/security/components/AddDirectivePanel.js:60
 msgid "Directive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:202
+#: src/security/components/ReportsTab.js:192
 msgid "Source value"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:205
+#: src/security/components/ReportsTab.js:195
 msgid ""
 "Edit the value to allow, e.g. 'self', 'unsafe-inline', or "
 "https://example.com"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:220
+#: src/security/components/ReportsTab.js:208
 msgid "Add source & archive report"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:223
+#: src/security/components/ReportsTab.js:211
 #: src/security/components/ImportCspModal.js:83
-#: src/security/components/CleanCspModal.js:231
-#: src/security/components/AddDirectivePanel.js:93
+#: src/security/components/CleanCspModal.js:224
+#: src/security/components/AddDirectivePanel.js:89
 msgid "Cancel"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:247
+#: src/security/components/ReportsTab.js:234
 msgid "Failed to load reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:337
+#: src/security/components/ReportsTab.js:319
 msgid "Are you sure you want to archive all new reports?"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:360
+#: src/security/components/ReportsTab.js:339
 msgid ""
 "Are you sure you want to delete all reports in this view? This action "
 "cannot be undone."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:391
+#: src/security/components/ReportsTab.js:368
 msgid "New"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:401
+#: src/security/components/ReportsTab.js:374
 msgid "Archived"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:410
+#: src/security/components/ReportsTab.js:380
 msgid "Archive All"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:419
+#: src/security/components/ReportsTab.js:385
 msgid "Delete All"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:432
+#: src/security/components/ReportsTab.js:398
 msgid "No new violation reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:433
+#: src/security/components/ReportsTab.js:399
 msgid "No archived reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:444
+#: src/security/components/ReportsTab.js:410
 msgid "Mark all as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:455
+#: src/security/components/ReportsTab.js:418
 msgid "Document"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:457
+#: src/security/components/ReportsTab.js:420
 msgid "Count"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:460
+#: src/security/components/ReportsTab.js:423
 msgid "Last seen"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:463
+#: src/security/components/ReportsTab.js:426
 msgid "Actions"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:483
+#: src/security/components/ReportsTab.js:446
 msgid "Unmark as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:487
+#: src/security/components/ReportsTab.js:447
 msgid "Mark as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:535
+#: src/security/components/ReportsTab.js:487
 msgid "Review"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:548
+#: src/security/components/ReportsTab.js:495
 msgid "Archive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:563
+#: src/security/components/ReportsTab.js:505
 msgid "Restore"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:576
+#: src/security/components/ReportsTab.js:513
 msgid "Delete"
 msgstr ""
 
@@ -282,114 +282,114 @@ msgstr ""
 msgid "Strict origin when cross-origin (recommended)"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:49
-msgid "Unsafe URL ? sends full URL everywhere (not recommended)"
+#: src/security/components/GeneralTab.js:46
+msgid "Unsafe URL - sends full URL everywhere (not recommended)"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:59
+#: src/security/components/GeneralTab.js:56
 msgid "Disabled"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:63
+#: src/security/components/GeneralTab.js:60
 msgid "Report Only"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:67
+#: src/security/components/GeneralTab.js:64
 msgid "Enabled (Enforced)"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:81
+#: src/security/components/GeneralTab.js:77
 msgid "Failed to load settings."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:109
+#: src/security/components/GeneralTab.js:103
 msgid "Failed to save settings."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:119
+#: src/security/components/GeneralTab.js:113
 msgid "HTTP Security Headers"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:125
+#: src/security/components/GeneralTab.js:119
 msgid "HTTP Strict Transport Security (HSTS)"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:129
+#: src/security/components/GeneralTab.js:120
 msgid "Forces browsers to use HTTPS for future visits. Only enable on HTTPS sites."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:141
+#: src/security/components/GeneralTab.js:132
 msgid "Max Age (seconds)"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:145
+#: src/security/components/GeneralTab.js:133
 msgid "How long browsers should remember to use HTTPS. Default: 31536000 (1 year)."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:164
+#: src/security/components/GeneralTab.js:147
 msgid "X-Content-Type-Options: nosniff"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:168
+#: src/security/components/GeneralTab.js:148
 msgid "Prevents browsers from MIME-sniffing the declared content type."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:179
+#: src/security/components/GeneralTab.js:159
 msgid "X-XSS-Protection"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:180
+#: src/security/components/GeneralTab.js:160
 msgid ""
 "Legacy XSS filter for older browsers. Not needed if a strong CSP is in "
 "place."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:191
+#: src/security/components/GeneralTab.js:171
 msgid "Referrer-Policy"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:192
+#: src/security/components/GeneralTab.js:172
 msgid "Controls how much referrer information is included with requests."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:204
+#: src/security/components/GeneralTab.js:184
 msgid "Policy value"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:224
+#: src/security/components/GeneralTab.js:201
 msgid "CSP Mode"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:225
+#: src/security/components/GeneralTab.js:202
 msgid "Control how the Content Security Policy is applied."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:238
+#: src/security/components/GeneralTab.js:215
 msgid "CSP Test Mode"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:239
+#: src/security/components/GeneralTab.js:216
 msgid ""
 "Sends Content-Security-Policy-Report-Only for administrators. Useful when "
 "adding new resources to the page."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:253
+#: src/security/components/GeneralTab.js:228
 msgid "Google Multi-Domain Support"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:257
+#: src/security/components/GeneralTab.js:229
 msgid ""
 "Automatically includes all Google regional domains for connect-src and "
 "img-src if any Google domain is added to those directives. Useful for "
 "Google services that redirect based on user location."
 msgstr ""
 
-#: src/security/components/GeneralTab.js:276
+#: src/security/components/GeneralTab.js:246
 msgid "Save Settings"
 msgstr ""
 
-#: src/security/components/GeneralTab.js:280
+#: src/security/components/GeneralTab.js:250
 msgid "Settings saved."
 msgstr ""
 
@@ -431,7 +431,7 @@ msgid ""
 msgstr ""
 
 #: src/security/components/CspTab.js:44
-#: src/security/components/CleanCspModal.js:223
+#: src/security/components/CleanCspModal.js:216
 msgid "Clean CSP"
 msgstr ""
 
@@ -449,29 +449,27 @@ msgid ""
 "records:"
 msgstr ""
 
-# %s: directive name
-#: src/security/components/CleanCspModal.js:194
-msgid "in %s"
+#: src/security/components/CleanCspModal.js:195
+msgid "in"
 msgstr ""
 
-# %s: covering source
-#: src/security/components/CleanCspModal.js:204
-msgid "Covered by: %s"
+#: src/security/components/CleanCspModal.js:199
+msgid "Covered by:"
 msgstr ""
 
-#: src/security/components/CleanCspModal.js:239
+#: src/security/components/CleanCspModal.js:232
 msgid "Clean"
 msgstr ""
 
 #: src/security/components/AddDirectivePanel.js:23
-msgid "Custom?"
+msgid "Custom..."
 msgstr ""
 
-#: src/security/components/AddDirectivePanel.js:52
-#: src/security/components/AddDirectivePanel.js:90
+#: src/security/components/AddDirectivePanel.js:48
+#: src/security/components/AddDirectivePanel.js:86
 msgid "Add directive"
 msgstr ""
 
-#: src/security/components/AddDirectivePanel.js:72
+#: src/security/components/AddDirectivePanel.js:68
 msgid "Directive name"
 msgstr ""

@@ -25,7 +25,7 @@ class Database {
 	 */
 	public static function maybe_upgrade(): void {
 		$old_version = get_option( self::DB_VERSION_OPTION );
-		if ( $old_version === self::DB_VERSION ) {
+		if ( self::DB_VERSION === $old_version ) {
 			return;
 		}
 

@@ -1,0 +1,11 @@
+.github
+.idea
+release
+vendor
+node_modules
+src
+.wp-env.json
+.zipexclude
+foonver.toml
+Makefile
+package.json

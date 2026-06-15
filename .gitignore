@@ -7,3 +7,4 @@ languages/*.mo
 languages/*.l10n.php
 languages/*.json
 *~
+*.log
