@@ -1,6 +1,13 @@
 # Changelog
 
-## 1.8.0 (2026-06-15)
+### 1.8.1 (2026-06-15)
+
+#### Maintenance
+
+- config: update foonver parser to all (cfc1936)
+- i18n: update translation build scripts and pot file (484714a)
+
+## v1.8.0 (2026-06-15)
 
 #### Features
 
