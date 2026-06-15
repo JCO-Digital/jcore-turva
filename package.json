@@ -13,7 +13,8 @@
 		"env:start": "pnpm dlx @wordpress/env start",
 		"env:stop": "pnpm dlx @wordpress/env stop",
 		"make-pot": "pnpm dlx @wp-blocks/make-pot@1.6.3 . languages/",
-		"make-json": "pnpm --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/"
+		"make-json": "pnpm dlx --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/",
+		"po2mo": "pnpm dlx po2mo languages/ -o languages/ -r"
 	},
 	"devDependencies": {
 		"@wordpress/icons": "*",

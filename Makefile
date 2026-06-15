@@ -21,9 +21,10 @@ i18n:
 		msgfmt -o languages/jcore-turva-sv_SE.mo languages/jcore-turva-sv_SE.po; \
 		msgfmt -o languages/jcore-turva-fi.mo languages/jcore-turva-fi.po; \
 	else \
-		echo "Warning: msgfmt not found, skipping .mo generation"; \
+		echo "Warning: msgfmt not found, using po2mo fallback"; \
+		pnpm run po2mo; \
 	fi
-	wp i18n make-json languages/ --no-purge
+	pnpm run make-json
 
 release:
 	mkdir -p release
