@@ -1,6 +1,20 @@
 # Changelog
 
-## 1.5.0 (2026-06-08)
+### 1.5.1 (2026-06-15)
+
+#### Bug Fixes
+
+- database: strip query strings from blocked_uri during data normalization (604a42f)
+
+#### Documentation
+
+- add README file (af90f7d)
+
+#### Maintenance
+
+- config: add foonver configuration file (575586c)
+
+## v1.5.0 (2026-06-08)
 
 #### Features
 
