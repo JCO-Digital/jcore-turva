@@ -526,6 +526,12 @@ class Rest_Api {
 			return rest_ensure_response( array( 'received' => false ) );
 		}
 
+		// Normalize blocked-uri to strip query strings for certain services that use unique IDs per request.
+		$normalized_blocked = $blocked;
+		if ( str_contains( $blocked, '?' ) ) {
+			$normalized_blocked = explode( '?', $blocked )[0];
+		}
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
 			$wpdb->prepare(
@@ -537,7 +543,7 @@ class Rest_Api {
 					processed    = 0,
 					last_seen    = NOW()",
 				$violated,
-				$blocked
+				$normalized_blocked
 			)
 		);
 
@@ -548,7 +554,7 @@ class Rest_Api {
 				$wpdb->prepare(
 					"SELECT id FROM `{$wpdb->prefix}jcore_security_reports` WHERE violated_directive = %s AND blocked_uri = %s",
 					$violated,
-					$blocked
+					$normalized_blocked
 				)
 			);
 		}

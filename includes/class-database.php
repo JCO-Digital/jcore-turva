@@ -108,7 +108,7 @@ class Database {
 	 * Migrates data from 1.1 to 1.2.
 	 *
 	 * Moves document_uri to the new jcore_security_report_uris table and merges
-	 * duplicate reports that differ only by document_uri.
+	 * duplicate reports that differ only by document_uri or query strings in blocked_uri.
 	 */
 	private static function migrate_to_1_2(): void {
 		global $wpdb;
@@ -121,7 +121,11 @@ class Database {
 			return;
 		}
 
-		// 1. Copy all existing document_uri values to the new table.
+		// 1. Strip query strings from blocked_uri for all existing reports.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( "UPDATE `{$reports_table}` SET blocked_uri = SUBSTRING_INDEX(blocked_uri, '?', 1) WHERE blocked_uri LIKE '%?%'" );
+
+		// 2. Copy all existing document_uri values to the new table.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
 			"INSERT IGNORE INTO `{$uris_table}` (report_id, uri, last_seen)
@@ -129,7 +133,7 @@ class Database {
 			 WHERE document_uri != ''"
 		);
 
-		// 2. Find duplicates that will now conflict under the new UNIQUE KEY (violated_directive, blocked_uri).
+		// 3. Find duplicates that will now conflict under the new UNIQUE KEY (violated_directive, blocked_uri).
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$duplicates = $wpdb->get_results(
 			"SELECT violated_directive, blocked_uri, COUNT(*) as c
