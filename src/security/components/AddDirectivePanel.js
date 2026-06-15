@@ -3,7 +3,11 @@ import { Button, SelectControl, TextControl } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
-export default function AddDirectivePanel( { availableDirectives, usedDirectives, onAdd } ) {
+export default function AddDirectivePanel( {
+	availableDirectives,
+	usedDirectives,
+	onAdd,
+} ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const [ selected, setSelected ] = useState( '' );
 	const [ custom, setCustom ] = useState( '' );
@@ -42,7 +46,10 @@ export default function AddDirectivePanel( { availableDirectives, usedDirectives
 				icon={ plus }
 				variant="secondary"
 				onClick={ () => setIsOpen( true ) }
-				disabled={ remaining.length === 0 && true === false /* always allow custom */ }
+				disabled={
+					remaining.length === 0 &&
+					true === false /* always allow custom */
+				}
 			>
 				{ __( 'Add directive', 'jcore-turva' ) }
 			</Button>
@@ -50,10 +57,7 @@ export default function AddDirectivePanel( { availableDirectives, usedDirectives
 	}
 
 	const isCustom = selected === '__custom';
-	const canSubmit =
-		selected &&
-		( ! isCustom || custom.trim() ) &&
-		! isAdding;
+	const canSubmit = selected && ( ! isCustom || custom.trim() ) && ! isAdding;
 
 	return (
 		<div className="jcore-turva__add-directive">

@@ -1,10 +1,10 @@
-.PHONY: all dev ci ci-install install build release watch start stop clean
+.PHONY: all dev ci ci-install install build i18n release watch start stop clean
 
-all: install build
+all: install build i18n
 
 dev: install watch
 
-ci: install build
+ci: install build i18n
 
 ci-install: install
 
@@ -14,6 +14,12 @@ install:
 
 build:
 	pnpm build
+
+i18n:
+	pnpm run make-pot
+	msgfmt -o languages/jcore-turva-sv_SE.mo languages/jcore-turva-sv_SE.po
+	msgfmt -o languages/jcore-turva-fi.mo languages/jcore-turva-fi.po
+	wp i18n make-json languages/ --no-purge
 
 release:
 	mkdir -p release

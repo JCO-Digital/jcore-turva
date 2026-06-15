@@ -55,11 +55,15 @@ class Plugin {
 	 * Loads the plugin textdomain for PHP translations.
 	 */
 	public static function load_textdomain(): void {
-		load_plugin_textdomain(
+		$loaded = load_plugin_textdomain(
 			'jcore-turva',
 			false,
 			dirname( plugin_basename( JCORE_TURVA_PLUGIN_FILE ) ) . '/languages'
 		);
+		if ( ! $loaded ) {
+			// Fallback for some environments.
+			load_plugin_textdomain( 'jcore-turva', false, 'jcore-turva/languages' );
+		}
 	}
 
 	/**
@@ -99,19 +103,19 @@ class Plugin {
 		$asset = require $asset_file;
 
 		wp_enqueue_script(
-			'jcore-turva',
+			'jcore-turva-security',
 			plugins_url( 'build/security.js', JCORE_TURVA_PLUGIN_FILE ),
 			$asset['dependencies'],
 			$asset['version'],
 			true,
 		);
 
-		wp_set_script_translations( 'jcore-turva', 'jcore-turva', JCORE_TURVA_PLUGIN_DIR . '/languages' );
+		wp_set_script_translations( 'jcore-turva-security', 'jcore-turva', JCORE_TURVA_PLUGIN_DIR . '/languages' );
 
 		$css_file = JCORE_TURVA_BUILD_DIR . '/style-security.css';
 		if ( file_exists( $css_file ) ) {
 			wp_enqueue_style(
-				'jcore-turva',
+				'jcore-turva-security',
 				plugins_url( 'build/style-security.css', JCORE_TURVA_PLUGIN_FILE ),
 				array( 'wp-components' ),
 				$asset['version'],
@@ -119,7 +123,7 @@ class Plugin {
 		}
 
 		wp_localize_script(
-			'jcore-turva',
+			'jcore-turva-security',
 			'jcoreTurva',
 			array(
 				'apiUrl' => rest_url( 'jcore-turva/v1' ),

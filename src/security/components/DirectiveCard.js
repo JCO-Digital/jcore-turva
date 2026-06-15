@@ -53,7 +53,10 @@ function AddSourceForm( { directive, onAdd, placeholder } ) {
 				__nextHasNoMarginBottom
 				placeholder={
 					placeholder ??
-					__( "e.g. 'self', 'unsafe-inline', https://cdn.example.com", 'jcore-turva' )
+					__(
+						"e.g. 'self', 'unsafe-inline', https://cdn.example.com",
+						'jcore-turva'
+					)
 				}
 				value={ value }
 				onChange={ setValue }
@@ -88,7 +91,12 @@ export default function DirectiveCard( {
 	const flagSource = isFlag ? sources[ 0 ] : null;
 
 	return (
-		<div className={ 'jcore-turva__directive-card' + ( isFlag ? ' jcore-turva__directive-card--flag' : '' ) }>
+		<div
+			className={
+				'jcore-turva__directive-card' +
+				( isFlag ? ' jcore-turva__directive-card--flag' : '' )
+			}
+		>
 			<div className="jcore-turva__directive-header">
 				<code>{ directive }</code>
 				<Button
@@ -116,7 +124,9 @@ export default function DirectiveCard( {
 							<SourceRow
 								key={ source.id }
 								source={ source }
-								onToggle={ ( v ) => onToggleSource( source.id, v ) }
+								onToggle={ ( v ) =>
+									onToggleSource( source.id, v )
+								}
 								onDelete={ () => onDeleteSource( source.id ) }
 							/>
 						) ) }
