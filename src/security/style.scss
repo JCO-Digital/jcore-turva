@@ -19,14 +19,14 @@
 		}
 	}
 
+	.components-base-control {
+		width: 100%;
+	}
+
 	// Give each PanelRow its own breathing room when stacked.
 	.components-panel__row {
 		flex-direction: column;
 		align-items: flex-start;
-
-		.components-base-control {
-			width: 100%;
-		}
 	}
 
 	&__tab-content {
@@ -271,6 +271,7 @@
 
 		li {
 			margin-bottom: 4px;
+
 			&:last-child {
 				margin-bottom: 0;
 			}
