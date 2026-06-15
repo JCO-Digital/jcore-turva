@@ -110,7 +110,11 @@ class Plugin {
 			true,
 		);
 
-		wp_set_script_translations( 'jcore-turva-security', 'jcore-turva', JCORE_TURVA_PLUGIN_DIR . '/languages' );
+		wp_set_script_translations(
+			'jcore-turva-security',
+			'jcore-turva',
+			JCORE_TURVA_PLUGIN_DIR . '/languages'
+		);
 
 		$css_file = JCORE_TURVA_BUILD_DIR . '/style-security.css';
 		if ( file_exists( $css_file ) ) {

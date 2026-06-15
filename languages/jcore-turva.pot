@@ -29,7 +29,7 @@ msgstr ""
 #: jcore-turva.php
 #. Description of the plugin
 msgid ""
-"Security header management ? CSP, Permissions Policy, and violation "
+"Security header management — CSP, Permissions Policy, and violation "
 "reporting."
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 
 #: src/security/components/ReportsTab.js:42
 #: src/security/components/AddDirectivePanel.js:21
-msgid "? Select directive ?"
+msgid "— Select directive —"
 msgstr ""
 
 #: src/security/components/ReportsTab.js:120
@@ -283,7 +283,7 @@ msgid "Strict origin when cross-origin (recommended)"
 msgstr ""
 
 #: src/security/components/GeneralTab.js:49
-msgid "Unsafe URL ? sends full URL everywhere (not recommended)"
+msgid "Unsafe URL — sends full URL everywhere (not recommended)"
 msgstr ""
 
 #: src/security/components/GeneralTab.js:59
@@ -464,7 +464,7 @@ msgid "Clean"
 msgstr ""
 
 #: src/security/components/AddDirectivePanel.js:23
-msgid "Custom?"
+msgid "Custom…"
 msgstr ""
 
 #: src/security/components/AddDirectivePanel.js:54
