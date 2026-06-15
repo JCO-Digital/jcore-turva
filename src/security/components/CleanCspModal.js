@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import { Modal, Button, Spinner, CheckboxControl } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
