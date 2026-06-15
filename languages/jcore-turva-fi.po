@@ -396,8 +396,8 @@ msgid ""
 msgstr "Jokainen direktiivi määrittää, mitkä lähteet on sallittu tietylle resurssityypille. Lähteet kootaan Content-Security-Policy-otsakkeeksi jokaisella sivunlatauksella."
 
 #: src/security/components/AddDirectivePanel.js:19
-msgid "Custom?"
-msgstr "Oma?"
+msgid "Custom…"
+msgstr "Oma…"
 
 #: src/security/components/AddDirectivePanel.js:47
 #: src/security/components/AddDirectivePanel.js:86

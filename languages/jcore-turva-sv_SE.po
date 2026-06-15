@@ -397,8 +397,8 @@ msgid ""
 msgstr "Varje direktiv styr vilka källor som är tillåtna för en resurstyp. Källor sammanställs till en Content-Security-Policy-header vid varje sidladdning."
 
 #: src/security/components/AddDirectivePanel.js:19
-msgid "Custom?"
-msgstr "Anpassad?"
+msgid "Custom…"
+msgstr "Anpassad…"
 
 #: src/security/components/AddDirectivePanel.js:47
 #: src/security/components/AddDirectivePanel.js:86

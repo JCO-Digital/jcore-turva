@@ -1,4 +1,4 @@
-.PHONY: all dev ci ci-install install build i18n release watch start stop clean
+.PHONY: all dev ci ci-install install build i18n release watch start stop clean format
 
 all: install build i18n
 
@@ -38,6 +38,9 @@ start:
 
 stop:
 	pnpm run env:stop
+
+format:
+	pnpm run format
 
 clean:
 	rm -rf node_modules
