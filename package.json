@@ -15,7 +15,7 @@
 		"env:stop": "pnpm dlx @wordpress/env stop",
 		"make-pot": "wp i18n make-pot . languages/jcore-turva.pot --domain=jcore-turva --exclude=vendor,node_modules",
 		"make-json": "pnpm dlx --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/",
-		"po2mo": "pnpm dlx po2mo languages/ -o languages/ -r"
+		"po2mo": "pnpm dlx po2mo languages/jcore-turva-fi.po -o languages/jcore-turva-fi.mo && pnpm dlx po2mo languages/jcore-turva-sv_SE.po -o languages/jcore-turva-sv_SE.mo"
 	},
 	"devDependencies": {
 		"@wordpress/icons": "*",
