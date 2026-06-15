@@ -20,6 +20,7 @@
 
 #### Continuous Integration
 
+- reset failed version (cc3307f)
 - github: upgrade node version to 22 in release workflow (500d968)
 - github: remove explicit pnpm version from release workflow (e1f83e1)
 - release: add linting and translation audit to CI pipeline (162978b)
