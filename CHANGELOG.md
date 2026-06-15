@@ -1,6 +1,23 @@
 # Changelog
 
-## 1.6.0 (2026-06-15)
+## 1.7.0 (2026-06-15)
+
+#### Features
+
+- csp: add import and cleanup functionality for CSP sources (9a1dab5)
+- reports: add functionality to mark all reports as processed (d84c90c)
+
+#### Refactor
+
+- i18n: format source code and update translation strings (9b1fcb1)
+
+#### Styles
+
+- i18n: replace punctuation marks with standard characters in pot file (97fa3b3)
+- security: apply project-wide coding style consistency (70e6fae)
+- security: fix code style in AddDirectivePanel component (57de2f1)
+
+## v1.6.0 (2026-06-15)
 
 #### Features
 
