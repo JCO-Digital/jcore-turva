@@ -1,6 +1,29 @@
 # Changelog
 
-## 1.7.0 (2026-06-15)
+## 1.8.0 (2026-06-15)
+
+#### Features
+
+- i18n: update translation files and POT template (85f0cf1)
+
+#### Refactor
+
+- security: remove unused sprintf import from CleanCspModal (ff9952f)
+
+#### Build System
+
+- i18n: update translation scripts and configuration (116e3ea)
+
+#### Continuous Integration
+
+- github: add PHP setup and simplify check workflow (40b656d)
+
+#### Maintenance
+
+- refactor codebase to follow standard formatting and update pot file (aa3bcad)
+- update project configuration and code style (ddb8a9e)
+
+## v1.7.0 (2026-06-15)
 
 #### Features
 
