@@ -7,20 +7,34 @@ import DirectiveCard from './DirectiveCard';
 import AddDirectivePanel from './AddDirectivePanel';
 import { FLAG_DIRECTIVES } from '../constants';
 
-export default function DirectivesManager( { headerType, availableDirectives, sourcePlaceholder } ) {
+export default function DirectivesManager( {
+	headerType,
+	availableDirectives,
+	sourcePlaceholder,
+} ) {
 	const [ sources, setSources ] = useState( null );
 	const [ error, setError ] = useState( null );
 
 	useEffect( () => {
-		apiFetch( { path: addQueryArgs( '/jcore-turva/v1/sources', { header_type: headerType } ) } )
+		apiFetch( {
+			path: addQueryArgs( '/jcore-turva/v1/sources', {
+				header_type: headerType,
+			} ),
+		} )
 			.then( setSources )
-			.catch( () => setError( __( 'Failed to load directives.', 'jcore-turva' ) ) );
+			.catch( () =>
+				setError( __( 'Failed to load directives.', 'jcore-turva' ) )
+			);
 	}, [ headerType ] );
 
 	const grouped = useMemo( () => {
-		if ( ! sources ) return {};
+		if ( ! sources ) {
+			return {};
+		}
 		return sources.reduce( ( acc, source ) => {
-			if ( ! acc[ source.directive ] ) acc[ source.directive ] = [];
+			if ( ! acc[ source.directive ] ) {
+				acc[ source.directive ] = [];
+			}
 			acc[ source.directive ].push( source );
 			return acc;
 		}, {} );
@@ -60,7 +74,9 @@ export default function DirectivesManager( { headerType, availableDirectives, so
 		} catch {
 			// Revert on failure.
 			setSources( ( prev ) =>
-				prev.map( ( s ) => ( s.id === id ? { ...s, enabled: ! enabled } : s ) )
+				prev.map( ( s ) =>
+					s.id === id ? { ...s, enabled: ! enabled } : s
+				)
 			);
 		}
 	};
@@ -81,11 +97,16 @@ export default function DirectivesManager( { headerType, availableDirectives, so
 	const handleDeleteDirective = async ( directive ) => {
 		const toDelete = sources.filter( ( s ) => s.directive === directive );
 		const backup = sources;
-		setSources( ( prev ) => prev.filter( ( s ) => s.directive !== directive ) );
+		setSources( ( prev ) =>
+			prev.filter( ( s ) => s.directive !== directive )
+		);
 		try {
 			await Promise.all(
 				toDelete.map( ( s ) =>
-					apiFetch( { path: `/jcore-turva/v1/sources/${ s.id }`, method: 'DELETE' } )
+					apiFetch( {
+						path: `/jcore-turva/v1/sources/${ s.id }`,
+						method: 'DELETE',
+					} )
 				)
 			);
 		} catch {
@@ -107,7 +128,8 @@ export default function DirectivesManager( { headerType, availableDirectives, so
 			.filter( ( s ) => s.directive === 'default-src' && s.enabled )
 			.map( ( s ) => s.source );
 
-		const seedValues = defaultSrcSources.length > 0 ? defaultSrcSources : [ "'self'" ];
+		const seedValues =
+			defaultSrcSources.length > 0 ? defaultSrcSources : [ "'self'" ];
 
 		try {
 			const newSources = await Promise.all(
@@ -140,18 +162,20 @@ export default function DirectivesManager( { headerType, availableDirectives, so
 
 	return (
 		<div className="jcore-turva__directives">
-			{ Object.entries( grouped ).map( ( [ directive, directiveSources ] ) => (
-				<DirectiveCard
-					key={ directive }
-					directive={ directive }
-					sources={ directiveSources }
-					sourcePlaceholder={ sourcePlaceholder }
-					onAddSource={ handleAddSource }
-					onToggleSource={ handleToggleSource }
-					onDeleteSource={ handleDeleteSource }
-					onDeleteDirective={ handleDeleteDirective }
-				/>
-			) ) }
+			{ Object.entries( grouped ).map(
+				( [ directive, directiveSources ] ) => (
+					<DirectiveCard
+						key={ directive }
+						directive={ directive }
+						sources={ directiveSources }
+						sourcePlaceholder={ sourcePlaceholder }
+						onAddSource={ handleAddSource }
+						onToggleSource={ handleToggleSource }
+						onDeleteSource={ handleDeleteSource }
+						onDeleteDirective={ handleDeleteDirective }
+					/>
+				)
+			) }
 			<AddDirectivePanel
 				availableDirectives={ availableDirectives }
 				usedDirectives={ usedDirectives }

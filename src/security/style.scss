@@ -314,4 +314,40 @@
 			gap: 8px;
 		}
 	}
+
+	&__redundancy-list {
+		max-height: 400px;
+		overflow-y: auto;
+		border: 1px solid #dcdcde;
+		padding: 12px;
+		margin-bottom: 20px;
+	}
+
+	&__redundancy-item {
+		margin-bottom: 12px;
+		padding-bottom: 12px;
+		border-bottom: 1px solid #f0f0f0;
+
+		&:last-child {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+
+		.components-checkbox-control__label {
+			width: 100%;
+		}
+
+		code {
+			background: #f6f7f7;
+			padding: 2px 4px;
+			border-radius: 2px;
+		}
+
+		small {
+			color: #646970;
+			display: block;
+			margin-top: 4px;
+		}
+	}
 }

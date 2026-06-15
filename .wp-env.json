@@ -1,0 +1,8 @@
+{
+	"core": null,
+	"testsEnvironment": false,
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/loco-translate.2.8.5.zip"
+	]
+}
