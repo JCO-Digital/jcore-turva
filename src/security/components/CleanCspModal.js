@@ -183,44 +183,44 @@ export default function CleanCspModal( { onClose, onClean } ) {
 					) }
 				</p>
 				<div className="jcore-turva__redundancy-list">
-					{ redundancies.map( ( r ) => (
-						<div
-							key={ r.redundant.id }
-							className="jcore-turva__redundancy-item"
-						>
-							<CheckboxControl
-								label={
-									<span>
-										<code>{ r.redundant.source }</code>{ ' ' }
-										<span className="description">
-											{ sprintf(
-												/* translators: %s: directive name */
-												__( 'in %s', 'jcore-turva' ),
-												r.redundant.directive
-											) }
+					{ redundancies.map( ( r ) => {
+						const inDirective = sprintf(
+							/* translators: %s: directive name */
+							__( 'in %s', 'jcore-turva' ),
+							r.redundant.directive
+						);
+						const coveredBy = sprintf(
+							/* translators: %s: covering source */
+							__( 'Covered by: %s', 'jcore-turva' ),
+							r.coveredBy.source
+						);
+
+						return (
+							<div
+								key={ r.redundant.id }
+								className="jcore-turva__redundancy-item"
+							>
+								<CheckboxControl
+									label={
+										<span>
+											<code>{ r.redundant.source }</code>{ ' ' }
+											<span className="description">
+												{ inDirective }
+											</span>
+											<br />
+											<small>{ coveredBy }</small>
 										</span>
-										<br />
-										<small>
-											{ sprintf(
-												/* translators: %s: covering source */
-												__(
-													'Covered by: %s',
-													'jcore-turva'
-												),
-												r.coveredBy.source
-											) }
-										</small>
-									</span>
-								}
-								checked={ selectedIds.includes(
-									r.redundant.id
-								) }
-								onChange={ () =>
-									toggleSelection( r.redundant.id )
-								}
-							/>
-						</div>
-					) ) }
+									}
+									checked={ selectedIds.includes(
+										r.redundant.id
+									) }
+									onChange={ () =>
+										toggleSelection( r.redundant.id )
+									}
+								/>
+							</div>
+						);
+					} ) }
 				</div>
 			</>
 		);

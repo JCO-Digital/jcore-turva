@@ -17,8 +17,12 @@ build:
 
 i18n:
 	pnpm run make-pot
-	msgfmt -o languages/jcore-turva-sv_SE.mo languages/jcore-turva-sv_SE.po
-	msgfmt -o languages/jcore-turva-fi.mo languages/jcore-turva-fi.po
+	@if command -v msgfmt >/dev/null 2>&1; then \
+		msgfmt -o languages/jcore-turva-sv_SE.mo languages/jcore-turva-sv_SE.po; \
+		msgfmt -o languages/jcore-turva-fi.mo languages/jcore-turva-fi.po; \
+	else \
+		echo "Warning: msgfmt not found, skipping .mo generation"; \
+	fi
 	wp i18n make-json languages/ --no-purge
 
 release:

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"POT-Creation-Date: 2026-06-15T11:55:34.042Z\n"
+"POT-Creation-Date: 2026-06-15T12:37:13.805Z\n"
 "PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: J&Co Digital <support@jco.fi>\n"
 "Language-Team: J&Co Digital <support@jco.fi>\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: jcore-turva.php
 #. Description of the plugin
 msgid ""
-"Security header management — CSP, Permissions Policy, and violation "
+"Security header management ? CSP, Permissions Policy, and violation "
 "reporting."
 msgstr ""
 
@@ -70,152 +70,152 @@ msgstr ""
 msgid "Violation Reports"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:42
+#: src/security/components/ReportsTab.js:45
 #: src/security/components/AddDirectivePanel.js:21
-msgid "— Select directive —"
+msgid "? Select directive ?"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:120
+#: src/security/components/ReportsTab.js:125
 msgid "Failed to add source. Please try again."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:128
+#: src/security/components/ReportsTab.js:133
 msgid "Add as allowed source"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:137
+#: src/security/components/ReportsTab.js:142
 msgid "Violated directive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:144
-#: src/security/components/ReportsTab.js:449
+#: src/security/components/ReportsTab.js:149
+#: src/security/components/ReportsTab.js:454
 msgid "Blocked URI"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:150
+#: src/security/components/ReportsTab.js:155
 msgid "Document URIs"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:166
+#: src/security/components/ReportsTab.js:171
 msgid "Occurrences"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:173
+#: src/security/components/ReportsTab.js:178
 msgid ""
 "Edit the directive and source value below as needed before adding to your "
 "policy."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:180
+#: src/security/components/ReportsTab.js:185
 msgid "Header"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:190
-#: src/security/components/ReportsTab.js:448
-#: src/security/components/AddDirectivePanel.js:66
+#: src/security/components/ReportsTab.js:195
+#: src/security/components/ReportsTab.js:453
+#: src/security/components/AddDirectivePanel.js:64
 msgid "Directive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:197
+#: src/security/components/ReportsTab.js:202
 msgid "Source value"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:200
+#: src/security/components/ReportsTab.js:205
 msgid ""
 "Edit the value to allow, e.g. 'self', 'unsafe-inline', or "
 "https://example.com"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:215
+#: src/security/components/ReportsTab.js:220
 msgid "Add source & archive report"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:218
-#: src/security/components/ImportCspModal.js:73
-#: src/security/components/CleanCspModal.js:203
+#: src/security/components/ReportsTab.js:223
+#: src/security/components/ImportCspModal.js:83
+#: src/security/components/CleanCspModal.js:231
 #: src/security/components/AddDirectivePanel.js:93
 msgid "Cancel"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:242
+#: src/security/components/ReportsTab.js:247
 msgid "Failed to load reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:332
+#: src/security/components/ReportsTab.js:337
 msgid "Are you sure you want to archive all new reports?"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:355
+#: src/security/components/ReportsTab.js:360
 msgid ""
 "Are you sure you want to delete all reports in this view? This action "
 "cannot be undone."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:386
+#: src/security/components/ReportsTab.js:391
 msgid "New"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:396
+#: src/security/components/ReportsTab.js:401
 msgid "Archived"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:405
+#: src/security/components/ReportsTab.js:410
 msgid "Archive All"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:414
+#: src/security/components/ReportsTab.js:419
 msgid "Delete All"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:427
+#: src/security/components/ReportsTab.js:432
 msgid "No new violation reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:428
+#: src/security/components/ReportsTab.js:433
 msgid "No archived reports."
 msgstr ""
 
-#: src/security/components/ReportsTab.js:439
+#: src/security/components/ReportsTab.js:444
 msgid "Mark all as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:450
+#: src/security/components/ReportsTab.js:455
 msgid "Document"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:452
+#: src/security/components/ReportsTab.js:457
 msgid "Count"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:455
+#: src/security/components/ReportsTab.js:460
 msgid "Last seen"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:458
+#: src/security/components/ReportsTab.js:463
 msgid "Actions"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:478
+#: src/security/components/ReportsTab.js:483
 msgid "Unmark as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:482
+#: src/security/components/ReportsTab.js:487
 msgid "Mark as processed"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:530
+#: src/security/components/ReportsTab.js:535
 msgid "Review"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:543
+#: src/security/components/ReportsTab.js:548
 msgid "Archive"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:558
+#: src/security/components/ReportsTab.js:563
 msgid "Restore"
 msgstr ""
 
-#: src/security/components/ReportsTab.js:571
+#: src/security/components/ReportsTab.js:576
 msgid "Delete"
 msgstr ""
 
@@ -229,28 +229,28 @@ msgstr ""
 msgid "e.g. self, *, \"https://example.com\""
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:55
-msgid "Import failed: "
+#: src/security/components/ImportCspModal.js:58
+msgid "Import failed:"
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:56
+#: src/security/components/ImportCspModal.js:59
 msgid "Unknown error"
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:64
-#: src/security/components/CspTab.js:47
+#: src/security/components/ImportCspModal.js:68
+#: src/security/components/CspTab.js:50
 msgid "Import CSP"
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:66
+#: src/security/components/ImportCspModal.js:72
 msgid "Paste CSP string here"
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:81
+#: src/security/components/ImportCspModal.js:91
 msgid "Merge CSP"
 msgstr ""
 
-#: src/security/components/ImportCspModal.js:89
+#: src/security/components/ImportCspModal.js:99
 msgid "Replace CSP"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgid "Strict origin when cross-origin (recommended)"
 msgstr ""
 
 #: src/security/components/GeneralTab.js:49
-msgid "Unsafe URL — sends full URL everywhere (not recommended)"
+msgid "Unsafe URL ? sends full URL everywhere (not recommended)"
 msgstr ""
 
 #: src/security/components/GeneralTab.js:59
@@ -398,7 +398,7 @@ msgid "Failed to load directives."
 msgstr ""
 
 #: src/security/components/DirectiveCard.js:21
-#: src/security/components/DirectiveCard.js:115
+#: src/security/components/DirectiveCard.js:119
 msgid "Enabled"
 msgstr ""
 
@@ -406,20 +406,20 @@ msgstr ""
 msgid "Remove source"
 msgstr ""
 
-#: src/security/components/DirectiveCard.js:56
-#: src/security/components/CspTab.js:55
+#: src/security/components/DirectiveCard.js:58
+#: src/security/components/CspTab.js:58
 msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
 msgstr ""
 
-#: src/security/components/DirectiveCard.js:69
+#: src/security/components/DirectiveCard.js:73
 msgid "Add source"
 msgstr ""
 
-#: src/security/components/DirectiveCard.js:75
+#: src/security/components/DirectiveCard.js:79
 msgid "Add"
 msgstr ""
 
-#: src/security/components/DirectiveCard.js:104
+#: src/security/components/DirectiveCard.js:108
 msgid "Remove directive"
 msgstr ""
 
@@ -430,48 +430,48 @@ msgid ""
 "load."
 msgstr ""
 
-#: src/security/components/CspTab.js:41
-#: src/security/components/CleanCspModal.js:149
+#: src/security/components/CspTab.js:44
+#: src/security/components/CleanCspModal.js:223
 msgid "Clean CSP"
 msgstr ""
 
-#: src/security/components/CleanCspModal.js:135
+#: src/security/components/CleanCspModal.js:157
 msgid "Cleanup failed."
 msgstr ""
 
-#: src/security/components/CleanCspModal.js:156
+#: src/security/components/CleanCspModal.js:173
 msgid "No redundant records found."
 msgstr ""
 
-#: src/security/components/CleanCspModal.js:160
+#: src/security/components/CleanCspModal.js:178
 msgid ""
 "The following records are redundant because they are covered by broader "
 "records:"
 msgstr ""
 
 # %s: directive name
-#: src/security/components/CleanCspModal.js:178
+#: src/security/components/CleanCspModal.js:194
 msgid "in %s"
 msgstr ""
 
 # %s: covering source
-#: src/security/components/CleanCspModal.js:186
+#: src/security/components/CleanCspModal.js:204
 msgid "Covered by: %s"
 msgstr ""
 
-#: src/security/components/CleanCspModal.js:211
+#: src/security/components/CleanCspModal.js:239
 msgid "Clean"
 msgstr ""
 
 #: src/security/components/AddDirectivePanel.js:23
-msgid "Custom…"
+msgid "Custom?"
 msgstr ""
 
-#: src/security/components/AddDirectivePanel.js:54
+#: src/security/components/AddDirectivePanel.js:52
 #: src/security/components/AddDirectivePanel.js:90
 msgid "Add directive"
 msgstr ""
 
-#: src/security/components/AddDirectivePanel.js:74
+#: src/security/components/AddDirectivePanel.js:72
 msgid "Directive name"
 msgstr ""
