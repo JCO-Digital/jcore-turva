@@ -1,4 +1,4 @@
-.PHONY: all dev ci ci-install install build i18n release watch start stop clean format
+.PHONY: all dev ci ci-install install build i18n release watch start stop clean format check
 
 all: install build i18n
 
@@ -41,6 +41,11 @@ stop:
 
 format:
 	pnpm run format
+
+check:
+	pnpm run lint:js
+	pnpm run lint:css
+	pnpm run make-pot
 
 clean:
 	rm -rf node_modules

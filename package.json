@@ -9,6 +9,7 @@
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"check": "make check",
 		"start": "wp-scripts start",
 		"env:start": "pnpm dlx @wordpress/env start",
 		"env:stop": "pnpm dlx @wordpress/env stop",

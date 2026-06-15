@@ -1,71 +1,71 @@
 name: Release version
 
 on:
-    push:
-        branches:
-            - main
-            - 'push-action/**'
+  push:
+    branches:
+      - main
+      - "push-action/**"
 
 jobs:
-    check:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-            - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 22
-                  cache: 'pnpm'
-
-            - name: Install dependencies
-              run: pnpm install
-
-            - name: Lint JS
-              run: pnpm run lint:js
-
-            - name: Lint CSS
-              run: pnpm run lint:css
-
-            - name: Audit translations
-              run: pnpm run make-pot
-
-    release:
-        needs: check
-        permissions:
-            contents: write
-        runs-on: ubuntu-latest
-        outputs:
-            is_bumped: ${{ steps.foonver.outputs.is_bumped }}
-            version: ${{ steps.foonver.outputs.version }}
-            release_notes: ${{ steps.foonver.outputs.release_notes }}
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-
-            - name: Run foonver
-              id: foonver
-              uses: foonly/foonver@v0.13.0
-              with:
-                  command: 'auto'
-                  changelog: 'true'
-                  push: 'true'
-                  commit_suffix: '[skip ci]'
-                  version_sync: 'jcore-turva.php'
-
-    # Call the reusable workflow from jcore-update
-    publish:
-        needs: release
-        if: needs.release.outputs.is_bumped == 'true'
-        uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@main
+      - uses: actions/setup-node@v4
         with:
-            slug: 'jcore-turva'
-            version: ${{ needs.release.outputs.version }}
-            release_notes: ${{ needs.release.outputs.release_notes }}
-            plugin_file: 'jcore-turva.php'
-            dist_repo: 'git@git.jcore.fi:/srv/git/jcore-turva.git'
-        secrets:
-            UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
-            DIST_REPO_SSH_KEY: ${{ secrets.DIST_REPO_SSH_KEY }}
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: wp-cli
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run checks
+        run: make check
+
+  release:
+    needs: check
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    outputs:
+      is_bumped: ${{ steps.foonver.outputs.is_bumped }}
+      version: ${{ steps.foonver.outputs.version }}
+      release_notes: ${{ steps.foonver.outputs.release_notes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run foonver
+        id: foonver
+        uses: foonly/foonver@v0.13.0
+        with:
+          command: "auto"
+          changelog: "true"
+          push: "true"
+          commit_suffix: "[skip ci]"
+          version_sync: "jcore-turva.php"
+
+  # Call the reusable workflow from jcore-update
+  publish:
+    needs: release
+    if: needs.release.outputs.is_bumped == 'true'
+    uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@main
+    with:
+      slug: "jcore-turva"
+      version: ${{ needs.release.outputs.version }}
+      release_notes: ${{ needs.release.outputs.release_notes }}
+      plugin_file: "jcore-turva.php"
+      dist_repo: "git@git.jcore.fi:/srv/git/jcore-turva.git"
+    secrets:
+      UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
+      DIST_REPO_SSH_KEY: ${{ secrets.DIST_REPO_SSH_KEY }}
