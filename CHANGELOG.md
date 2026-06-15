@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.5.1 (2026-06-15)
+## 1.6.0 (2026-06-15)
+
+#### Features
+
+- reports: add bulk archive and delete functionality (ba484be)
+
+### v1.5.1 (2026-06-15)
 
 #### Bug Fixes
 
