@@ -111,6 +111,23 @@ class Rest_Api {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/reports/mark-processed',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( self::class, 'mark_all_reports_processed' ),
+				'permission_callback' => array( self::class, 'admin_permission' ),
+				'args'                => array(
+					'status' => array(
+						'type'     => 'string',
+						'required' => true,
+						'enum'     => array( 'new', 'archived' ),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/reports/delete',
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
@@ -447,6 +464,28 @@ class Rest_Api {
 		);
 
 		return rest_ensure_response( array( 'archived' => true ) );
+	}
+
+	/**
+	 * POST /reports/mark-processed — marks all reports in a view as processed.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 */
+	public static function mark_all_reports_processed( \WP_REST_Request $request ): \WP_REST_Response {
+		global $wpdb;
+
+		$status = $request->get_param( 'status' );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->update(
+			$wpdb->prefix . 'jcore_security_reports',
+			array( 'processed' => 1 ),
+			array( 'status' => $status ),
+			array( '%d' ),
+			array( '%s' )
+		);
+
+		return rest_ensure_response( array( 'processed' => true ) );
 	}
 
 	/**

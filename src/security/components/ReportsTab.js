@@ -250,6 +250,20 @@ export default function ReportsTab() {
 		}
 	};
 
+	const handleMarkAllProcessed = async () => {
+		const backup = reports;
+		setReports((prev) => prev.map((r) => ({ ...r, processed: true })));
+		try {
+			await apiFetch({
+				path: "/jcore-turva/v1/reports/mark-processed",
+				method: "POST",
+				data: { status: statusFilter },
+			});
+		} catch {
+			setReports(backup);
+		}
+	};
+
 	const handleArchive = async (id) => {
 		const backup = reports;
 		setReports((prev) => prev.filter((r) => r.id !== id));
@@ -385,7 +399,15 @@ export default function ReportsTab() {
 				<table className="jcore-turva__reports-table widefat striped">
 					<thead>
 						<tr>
-							<th className="jcore-turva__col-processed" />
+							<th className="jcore-turva__col-processed">
+								<Button
+									icon={check}
+									label={__("Mark all as processed", "jcore-turva")}
+									size="small"
+									variant="tertiary"
+									onClick={handleMarkAllProcessed}
+								/>
+							</th>
 							<th>{__("Directive", "jcore-turva")}</th>
 							<th>{__("Blocked URI", "jcore-turva")}</th>
 							<th>{__("Document", "jcore-turva")}</th>
