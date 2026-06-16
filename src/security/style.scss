@@ -33,6 +33,49 @@
 		padding-top: 16px;
 	}
 
+	.components-tab-panel__tabs {
+		@media (max-width: 782px) {
+			display: flex;
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			margin-left: -20px; // Offset the admin wrap padding
+			margin-right: -20px;
+			padding: 0 20px;
+			border-bottom: 1px solid #dcdcde;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+			-ms-overflow-style: none; // IE and Edge
+			scrollbar-width: none; // Firefox
+
+			.components-button {
+				flex-shrink: 0;
+				white-space: nowrap;
+				height: 48px;
+			}
+		}
+	}
+
+	&__tab-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 16px;
+
+		.description {
+			margin: 0;
+		}
+	}
+
+	&__tab-actions {
+		display: flex;
+		gap: 8px;
+		flex-shrink: 0;
+	}
+
 	// ── General tab ──────────────────────────────────────────────────────────
 
 	&__actions {
@@ -82,6 +125,7 @@
 			color: #1e1e1e;
 			background: none;
 			padding: 0;
+			word-break: break-all;
 		}
 	}
 
@@ -98,6 +142,12 @@
 		padding: 5px 0;
 		border-bottom: 1px solid #f0f0f0;
 
+		@media (max-width: 782px) {
+			flex-wrap: wrap;
+			padding: 10px 0;
+			gap: 12px;
+		}
+
 		&:last-of-type {
 			border-bottom: none;
 		}
@@ -105,6 +155,7 @@
 		// Shrink toggle to just the switch — hide the label text visually.
 		.jcore-turva__source-toggle {
 			margin: 0;
+			width: auto; // Prevent global 100% width from squeezing the row
 
 			.components-toggle-control__label {
 				display: none;
@@ -118,11 +169,19 @@
 	}
 
 	&__source-value {
+		display: inline-block;
 		flex: 1;
 		font-size: 12px;
 		color: #1e1e1e;
 		background: none;
 		padding: 0;
+		word-break: break-all;
+
+		@media (max-width: 782px) {
+			flex: none;
+			width: 100%;
+			font-size: 14px;
+		}
 
 		&.is-disabled {
 			color: #a7aaad;
@@ -205,7 +264,7 @@
 	&__report-header {
 		display: flex;
 		align-items: center;
-		flex-wrap: no-wrap;
+		flex-wrap: wrap;
 		gap: 8px;
 
 		.jcore-turva__directive {
@@ -224,12 +283,19 @@
 			text-overflow: ellipsis;
 			display: inline-block;
 			vertical-align: middle;
+
+			@media (max-width: 782px) {
+				max-width: 100%;
+				white-space: normal;
+				word-break: break-all;
+			}
 		}
 	}
 
 	&__report-details {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		gap: 8px;
 		font-size: 12px;
 		color: #646970;
@@ -241,6 +307,11 @@
 			gap: 4px;
 			overflow: hidden;
 			white-space: nowrap;
+
+			@media (max-width: 782px) {
+				white-space: normal;
+				flex-wrap: wrap;
+			}
 		}
 
 		code {
@@ -251,6 +322,11 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+
+			@media (max-width: 782px) {
+				white-space: normal;
+				word-break: break-all;
+			}
 		}
 	}
 
@@ -353,7 +429,7 @@
 	}
 
 	&__review-form {
-		min-width: 480px;
+		width: 100%;
 
 		.components-base-control {
 			margin-bottom: 16px;
@@ -418,12 +494,104 @@
 			background: #f6f7f7;
 			padding: 2px 4px;
 			border-radius: 2px;
+			word-break: break-all;
 		}
 
 		small {
 			color: #646970;
 			display: block;
 			margin-top: 4px;
+		}
+	}
+}
+
+.jcore-turva {
+	@media (max-width: 782px) {
+		&__tab-header {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		&__tab-actions {
+			justify-content: flex-start;
+		}
+
+		&__filter-bar {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 16px;
+		}
+
+		&__status-filters,
+		&__bulk-actions {
+			justify-content: space-between;
+			width: 100%;
+		}
+
+		&__reports-table {
+			display: block;
+
+			thead {
+				display: none;
+			}
+
+			tbody,
+			tr,
+			td {
+				display: block;
+				width: 100%;
+			}
+
+			tr {
+				padding: 12px 0;
+				border-bottom: 1px solid #dcdcde;
+			}
+
+			td {
+				padding: 4px 0 !important;
+				border: none;
+
+				&.jcore-turva__col-processed {
+					display: inline-block;
+					width: auto !important;
+					padding: 0 !important;
+				}
+
+				&.jcore-turva__report-actions {
+					flex-direction: row;
+					gap: 8px;
+					margin-top: 8px;
+				}
+			}
+		}
+
+		&__add-source {
+			flex-direction: column;
+			align-items: stretch;
+
+			.components-button {
+				justify-content: center;
+			}
+		}
+
+		&__add-directive {
+			&-actions {
+				flex-direction: column;
+
+				.components-button {
+					width: 100%;
+					justify-content: center;
+				}
+			}
+		}
+
+		&__modal-actions {
+			flex-direction: column;
+
+			.components-button {
+				width: 100%;
+				justify-content: center;
+			}
 		}
 	}
 }
