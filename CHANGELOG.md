@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.9.0 (2026-06-16)
+### 1.9.1 (2026-06-16)
+
+#### Build System
+
+- composer: add plugin metadata to composer.json (ad8bb93)
+
+## v1.9.0 (2026-06-16)
 
 #### Features
 
