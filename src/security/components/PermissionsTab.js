@@ -1,25 +1,25 @@
-import { __ } from "@wordpress/i18n";
-import DirectivesManager from "./DirectivesManager";
-import { PERMISSIONS_DIRECTIVES } from "../constants";
+import { __ } from '@wordpress/i18n';
+import DirectivesManager from './DirectivesManager';
+import { PERMISSIONS_DIRECTIVES } from '../constants';
 
 export default function PermissionsTab() {
 	return (
 		<div className="jcore-turva__tab-content">
 			<div className="jcore-turva__tab-header">
 				<p className="description">
-					{__(
+					{ __(
 						'Control which browser features are allowed on this site. Each directive takes one or more origins: * (all), self, or "https://example.com".',
-						"jcore-turva",
-					)}
+						'jcore-turva'
+					) }
 				</p>
 			</div>
 			<DirectivesManager
 				headerType="permissions"
-				availableDirectives={PERMISSIONS_DIRECTIVES}
-				sourcePlaceholder={__(
+				availableDirectives={ PERMISSIONS_DIRECTIVES }
+				sourcePlaceholder={ __(
 					'e.g. self, *, "https://example.com"',
-					"jcore-turva",
-				)}
+					'jcore-turva'
+				) }
 			/>
 		</div>
 	);

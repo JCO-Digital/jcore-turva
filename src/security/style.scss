@@ -34,6 +34,7 @@
 	}
 
 	.components-tab-panel__tabs {
+
 		@media (max-width: 782px) {
 			display: flex;
 			flex-wrap: nowrap;
@@ -506,7 +507,9 @@
 }
 
 .jcore-turva {
+
 	@media (max-width: 782px) {
+
 		&__tab-header {
 			flex-direction: column;
 			align-items: stretch;
@@ -575,6 +578,7 @@
 		}
 
 		&__add-directive {
+
 			&-actions {
 				flex-direction: column;
 
