@@ -1,9 +1,10 @@
 # Changelog
 
-### 1.9.2 (2026-06-16)
+### 1.9.3 (2026-06-16)
 
 #### Maintenance
 
+- languages: remove translation source file and update gitignore (2e7b84a)
 - i18n: update translation template file (943c559)
 
 ### v1.9.1 (2026-06-16)
