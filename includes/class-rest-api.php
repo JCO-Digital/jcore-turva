@@ -435,12 +435,11 @@ class Rest_Api {
 		$table_name = $wpdb->prefix . 'jcore_security_sources';
 		$format     = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$deleted = $wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i WHERE id IN ($format)",
-				$table_name,
-				...$ids
+				array_merge( array( $table_name ), $ids )
 			)
 		);
 
@@ -531,12 +530,11 @@ class Rest_Api {
 		$uris       = array();
 		if ( ! empty( $report_ids ) ) {
 			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$uri_rows = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT report_id, uri FROM %i WHERE report_id IN ($placeholders) ORDER BY last_seen DESC",
-					$wpdb->prefix . 'jcore_security_report_uris',
-					...$report_ids
+					array_merge( array( $wpdb->prefix . 'jcore_security_report_uris' ), $report_ids )
 				)
 			);
 			foreach ( $uri_rows as $uri_row ) {
@@ -665,12 +663,11 @@ class Rest_Api {
 
 		if ( ! empty( $report_ids ) ) {
 			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i WHERE report_id IN ($placeholders)",
-					$wpdb->prefix . 'jcore_security_report_uris',
-					...$report_ids
+					array_merge( array( $wpdb->prefix . 'jcore_security_report_uris' ), $report_ids )
 				)
 			);
 

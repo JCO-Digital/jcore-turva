@@ -1,4 +1,16 @@
-# JCORE Turva
+=== JCORE Turva ===
+Contributors: jco-fi
+Tags: security, csp, permissions-policy, headers, reports
+Requires at least: 6.7
+Tested up to: 7.0
+Requires PHP: 8.2
+Stable tag: 1.9.4
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Manage security headers like CSP and Permissions Policy with violation reporting through a modern React interface.
+
+## Description
 
 JCORE Turva is a WordPress plugin designed to help you manage security headers for your website. It provides a user-friendly interface for configuring Content Security Policy (CSP) and Permissions Policy, along with a built-in violation reporting system to help you monitor and refine your security settings.
 

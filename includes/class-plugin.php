@@ -41,28 +41,12 @@ class Plugin {
 		);
 		( new PluginUpdateHooks( $config ) )->register();
 
-		add_action( 'init', array( self::class, 'load_textdomain' ) );
 		add_action( 'send_headers', array( Headers::class, 'send' ) );
 		Rest_Api::register();
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( self::class, 'add_menu_page' ) );
 			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_assets' ) );
-		}
-	}
-
-	/**
-	 * Loads the plugin textdomain for PHP translations.
-	 */
-	public static function load_textdomain(): void {
-		$loaded = load_plugin_textdomain(
-			'jcore-turva',
-			false,
-			dirname( plugin_basename( JCORE_TURVA_PLUGIN_FILE ) ) . '/languages'
-		);
-		if ( ! $loaded ) {
-			// Fallback for some environments.
-			load_plugin_textdomain( 'jcore-turva', false, 'jcore-turva/languages' );
 		}
 	}
 
