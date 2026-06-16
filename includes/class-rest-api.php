@@ -275,14 +275,18 @@ class Rest_Api {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT * FROM `{$wpdb->prefix}jcore_security_sources` WHERE header_type = %s ORDER BY directive, id",
+					'SELECT * FROM %i WHERE header_type = %s ORDER BY directive, id',
+					$wpdb->prefix . 'jcore_security_sources',
 					$header_type
 				)
 			);
 		} else {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$rows = $wpdb->get_results(
-				"SELECT * FROM `{$wpdb->prefix}jcore_security_sources` ORDER BY header_type, directive, id" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$wpdb->prepare(
+					'SELECT * FROM %i ORDER BY header_type, directive, id',
+					$wpdb->prefix . 'jcore_security_sources'
+				)
 			);
 		}
 
@@ -320,7 +324,8 @@ class Rest_Api {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$exists = $wpdb->get_var(
 					$wpdb->prepare(
-						"SELECT COUNT(*) FROM `{$table_name}` WHERE header_type = %s AND directive = %s AND source = %s",
+						'SELECT COUNT(*) FROM %i WHERE header_type = %s AND directive = %s AND source = %s',
+						$table_name,
 						$header_type,
 						$directive,
 						$source
@@ -368,7 +373,7 @@ class Rest_Api {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}jcore_security_sources` WHERE id = %d", $wpdb->insert_id )
+			$wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $wpdb->prefix . 'jcore_security_sources', $wpdb->insert_id )
 		);
 
 		return rest_ensure_response( self::prepare_source( $row ) );
@@ -408,7 +413,7 @@ class Rest_Api {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}jcore_security_sources` WHERE id = %d", $id )
+			$wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $wpdb->prefix . 'jcore_security_sources', $id )
 		);
 
 		return rest_ensure_response( self::prepare_source( $row ) );
@@ -433,7 +438,8 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$deleted = $wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM `{$table_name}` WHERE id IN ($format)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"DELETE FROM %i WHERE id IN ($format)",
+				$table_name,
 				...$ids
 			)
 		);
@@ -515,7 +521,8 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM `{$wpdb->prefix}jcore_security_reports` WHERE status = %s ORDER BY last_seen DESC",
+				'SELECT * FROM %i WHERE status = %s ORDER BY last_seen DESC',
+				$wpdb->prefix . 'jcore_security_reports',
 				$status
 			)
 		);
@@ -524,10 +531,11 @@ class Rest_Api {
 		$uris       = array();
 		if ( ! empty( $report_ids ) ) {
 			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$uri_rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT report_id, uri FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id IN ($placeholders) ORDER BY last_seen DESC",
+					"SELECT report_id, uri FROM %i WHERE report_id IN ($placeholders) ORDER BY last_seen DESC",
+					$wpdb->prefix . 'jcore_security_report_uris',
 					...$report_ids
 				)
 			);
@@ -565,7 +573,7 @@ class Rest_Api {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}jcore_security_reports` WHERE id = %d", $id )
+			$wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $wpdb->prefix . 'jcore_security_reports', $id )
 		);
 
 		if ( ! $row ) {
@@ -575,7 +583,8 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row->uris = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT uri FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id = %d ORDER BY last_seen DESC",
+				'SELECT uri FROM %i WHERE report_id = %d ORDER BY last_seen DESC',
+				$wpdb->prefix . 'jcore_security_report_uris',
 				$id
 			)
 		);
@@ -648,18 +657,31 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$report_ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT id FROM `{$wpdb->prefix}jcore_security_reports` WHERE status = %s",
+				'SELECT id FROM %i WHERE status = %s',
+				$wpdb->prefix . 'jcore_security_reports',
 				$status
 			)
 		);
 
 		if ( ! empty( $report_ids ) ) {
 			$placeholders = implode( ',', array_fill( 0, count( $report_ids ), '%d' ) );
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
-			$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}jcore_security_report_uris` WHERE report_id IN ($placeholders)", ...$report_ids ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i WHERE report_id IN ($placeholders)",
+					$wpdb->prefix . 'jcore_security_report_uris',
+					...$report_ids
+				)
+			);
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}jcore_security_reports` WHERE status = %s", $status ) );
+			$wpdb->query(
+				$wpdb->prepare(
+					'DELETE FROM %i WHERE status = %s',
+					$wpdb->prefix . 'jcore_security_reports',
+					$status
+				)
+			);
 		}
 
 		return rest_ensure_response( array( 'deleted' => true ) );
@@ -801,7 +823,7 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO `{$wpdb->prefix}jcore_security_reports`
+				"INSERT INTO %i
 					(violated_directive, blocked_uri, report_count, status, first_seen, last_seen)
 				VALUES (%s, %s, 1, 'new', NOW(), NOW())
 				ON DUPLICATE KEY UPDATE
@@ -809,6 +831,7 @@ class Rest_Api {
 					status       = 'new',
 					processed    = 0,
 					last_seen    = NOW()",
+				$wpdb->prefix . 'jcore_security_reports',
 				$violated,
 				$normalized_blocked
 			)
@@ -819,7 +842,8 @@ class Rest_Api {
 			// On DUPLICATE KEY UPDATE, insert_id might not be what we expect in all environments.
 			$report_id = (int) $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT id FROM `{$wpdb->prefix}jcore_security_reports` WHERE violated_directive = %s AND blocked_uri = %s",
+					'SELECT id FROM %i WHERE violated_directive = %s AND blocked_uri = %s',
+					$wpdb->prefix . 'jcore_security_reports',
 					$violated,
 					$normalized_blocked
 				)
@@ -830,11 +854,12 @@ class Rest_Api {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO `{$wpdb->prefix}jcore_security_report_uris`
+					'INSERT INTO %i
 						(report_id, uri, last_seen)
 					VALUES (%d, %s, NOW())
 					ON DUPLICATE KEY UPDATE
-						last_seen = NOW()",
+						last_seen = NOW()',
+					$wpdb->prefix . 'jcore_security_report_uris',
 					$report_id,
 					$document
 				)

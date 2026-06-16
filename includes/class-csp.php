@@ -28,7 +28,8 @@ class Csp {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT directive, source FROM `{$wpdb->prefix}jcore_security_sources` WHERE header_type = %s AND enabled = 1 ORDER BY directive, id",
+				'SELECT directive, source FROM %i WHERE header_type = %s AND enabled = 1 ORDER BY directive, id',
+				$wpdb->prefix . 'jcore_security_sources',
 				'csp'
 			)
 		);

@@ -116,39 +116,49 @@ class Database {
 		$uris_table    = $wpdb->prefix . 'jcore_security_report_uris';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$has_column = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM `' . $reports_table . '` LIKE %s', 'document_uri' ) );
+		$has_column = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $reports_table, 'document_uri' ) );
 		if ( empty( $has_column ) ) {
 			return;
 		}
 
 		// 1. Strip query strings from blocked_uri for all existing reports.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( "UPDATE `{$reports_table}` SET blocked_uri = SUBSTRING_INDEX(blocked_uri, '?', 1) WHERE blocked_uri LIKE '%?%'" );
+		$wpdb->query( $wpdb->prepare( 'UPDATE %i SET blocked_uri = SUBSTRING_INDEX(blocked_uri, \'?\', 1) WHERE blocked_uri LIKE %s', $reports_table, '%?%' ) );
 
 		// 2. Copy all existing document_uri values to the new table.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
-			"INSERT IGNORE INTO `{$uris_table}` (report_id, uri, last_seen)
-			 SELECT id, document_uri, last_seen FROM `{$reports_table}`
-			 WHERE document_uri != ''"
+			$wpdb->prepare(
+				'INSERT IGNORE INTO %i (report_id, uri, last_seen)
+				 SELECT id, document_uri, last_seen FROM %i
+				 WHERE document_uri != %s',
+				$uris_table,
+				$reports_table,
+				''
+			)
 		);
 
 		// 3. Find duplicates that will now conflict under the new UNIQUE KEY (violated_directive, blocked_uri).
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$duplicates = $wpdb->get_results(
-			"SELECT violated_directive, blocked_uri, COUNT(*) as c
-			 FROM `{$reports_table}`
-			 GROUP BY violated_directive, blocked_uri
-			 HAVING c > 1"
+			$wpdb->prepare(
+				'SELECT violated_directive, blocked_uri, COUNT(*) as c
+				 FROM %i
+				 GROUP BY violated_directive, blocked_uri
+				 HAVING c > %d',
+				$reports_table,
+				1
+			)
 		);
 
 		foreach ( $duplicates as $dup ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT id, report_count, first_seen, last_seen, status, processed FROM `{$reports_table}`
+					'SELECT id, report_count, first_seen, last_seen, status, processed FROM %i
 					 WHERE violated_directive = %s AND blocked_uri = %s
-					 ORDER BY first_seen ASC",
+					 ORDER BY first_seen ASC',
+					$reports_table,
 					$dup->violated_directive,
 					$dup->blocked_uri
 				)
@@ -184,7 +194,8 @@ class Database {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->query(
 					$wpdb->prepare(
-						"UPDATE IGNORE `{$uris_table}` SET report_id = %d WHERE report_id = %d",
+						'UPDATE IGNORE %i SET report_id = %d WHERE report_id = %d',
+						$uris_table,
 						$primary->id,
 						$row->id
 					)
@@ -225,7 +236,7 @@ class Database {
 		$table = $wpdb->prefix . 'jcore_security_sources';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$table}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$count = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', $table ) );
 		if ( 0 === $count ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->insert(
