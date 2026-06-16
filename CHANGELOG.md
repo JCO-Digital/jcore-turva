@@ -1,6 +1,36 @@
 # Changelog
 
-### 1.9.4 (2026-06-16)
+## 1.10.0 (2026-06-16)
+
+#### Features
+
+- ui: add mobile responsive layout for security dashboard (4a47d7d)
+- reports: redesign report list view for better readability (2168fa7)
+
+#### Bug Fixes
+
+- api: ignore phpcs warnings for direct database query (7adad48)
+
+#### Refactor
+
+- plugin: clean up codebase and improve DB query safety (9fb59b1)
+- database: replace raw query interpolation with wpdb prepare placeholders (5e13275)
+
+#### Styles
+
+- security: clean up duplicate styles and adjust flex properties (8bdbc66)
+- security: apply project-wide coding style consistency (005795b)
+
+#### Build System
+
+- deps: update project dependencies (92a0a0d)
+- deps: add plugin-check to development environment (a51e95b)
+
+#### Continuous Integration
+
+- github: add slack notification to release workflow (65adcc3)
+
+### v1.9.4 (2026-06-16)
 
 #### Bug Fixes
 
