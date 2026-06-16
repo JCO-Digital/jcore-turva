@@ -1,6 +1,20 @@
 # Changelog
 
-### 1.8.1 (2026-06-15)
+## 1.9.0 (2026-06-16)
+
+#### Features
+
+- reports: add path suggestion buttons and update archive logic (cfe9c48)
+
+#### Styles
+
+- apply consistent code formatting (50ba915)
+
+#### Maintenance
+
+- i18n: update translation files and POT template (a423b5c)
+
+### v1.8.1 (2026-06-15)
 
 #### Maintenance
 
