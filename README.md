@@ -1,12 +1,13 @@
-=== JCORE Turva ===
-Contributors: jco-fi
-Tags: security, csp, permissions-policy, headers, reports
-Requires at least: 6.7
-Tested up to: 7.0
-Requires PHP: 8.2
-Stable tag: 1.9.4
-License: GPL-2.0-or-later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+# JCORE Turva
+
+**Contributors:** jco-fi  
+**Tags:** security, csp, permissions-policy, headers, reports  
+**Requires at least:** 6.7  
+**Tested up to:** 7.0  
+**Requires PHP:** 8.2  
+**Stable tag:** 1.9.4  
+**License:** GPL-2.0-or-later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
 Manage security headers like CSP and Permissions Policy with violation reporting through a modern React interface.
 
