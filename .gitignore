@@ -3,6 +3,7 @@ node_modules/
 PLAN.md
 release/
 vendor/
+languages/*.pot
 languages/*.mo
 languages/*.l10n.php
 languages/*.json
