@@ -5,9 +5,9 @@ msgstr ""
 "Project-Id-Version: JCORE Turva 1.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jcore-turva\n"
 "POT-Creation-Date: 2026-06-15T14:27:03+00:00\n"
-"PO-Revision-Date: 2026-06-15 14:32+0000\n"
+"PO-Revision-Date: 2026-06-16 08:43+0000\n"
 "Last-Translator: \n"
-"Language-Team: Svenska\n"
+"Language-Team: Swedish\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,174 +15,62 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: jcore-turva\n"
+"X-Loco-Version: 2.8.5; wp-7.0; php-8.3.31"
 
-#. Plugin Name of the plugin
-#: jcore-turva.php
-msgid "JCORE Turva"
-msgstr "JCORE Turva"
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:21
+#: src/security/components/ReportsTab.js:45
+msgid "- Select directive -"
+msgstr "— Välj direktiv —"
 
-#. Description of the plugin
-#: jcore-turva.php
-#, fuzzy
+#: build/security.js:1 src/security/components/ReportsTab.js:450
+msgid "Actions"
+msgstr "Handlingar"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:79
+msgid "Add"
+msgstr "Lägg till"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:126
+msgid "Add as allowed source"
+msgstr "Lägg till som tillåten källa"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:52
+#: src/security/components/AddDirectivePanel.js:90
+msgid "Add directive"
+msgstr "Lägg till direktiv"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:73
+#: src/security/components/ReportsTab.js:209
+msgid "Add source"
+msgstr "Lägg till källa"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:519
+msgid "Archive"
+msgstr "Arkivera"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:403
+msgid "Archive All"
+msgstr "Arkivera alla"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:399
+msgid "Archive Processed"
+msgstr "Arkivera bearbetade rapporter"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:391
+msgid "Archived"
+msgstr "Arkiverade"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:322
+msgid "Are you sure you want to archive all new reports?"
+msgstr "Är du säker på att du vill arkivera alla nya rapporter?"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:356
 msgid ""
-"Security header management - CSP, Permissions Policy, and violation "
-"reporting."
+"Are you sure you want to delete all reports in this view? This action cannot "
+"be undone."
 msgstr ""
-"Hantering av säkerhetsheadrar — CSP, Permissions Policy och överträdelse-"
-"rapportering."
-
-#. Author of the plugin
-#: jcore-turva.php
-msgid "J&Co Digital"
-msgstr "J&Co Digital"
-
-#. Author URI of the plugin
-#: jcore-turva.php
-msgid "https://jco.fi"
-msgstr "https://jco.fi"
-
-#: includes/class-plugin.php:74 includes/class-plugin.php:75
-#: build/security.js:1 src/security/App.js:31
-msgid "Security"
-msgstr "Säkerhet"
-
-#: jcore-turva.php:54
-msgid "Settings"
-msgstr "Inställningar"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:18
-msgid "No referrer"
-msgstr "Ingen referrer"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:22
-msgid "No referrer when downgrade"
-msgstr "Ingen referrer vid nedgradering"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:26
-msgid "Origin only"
-msgstr "Endast ursprung"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:30
-msgid "Origin when cross-origin"
-msgstr "Ursprung vid korsat ursprung"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:34
-msgid "Same origin only"
-msgstr "Endast samma ursprung"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:38
-msgid "Strict origin"
-msgstr "Strikt ursprung"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:42
-msgid "Strict origin when cross-origin (recommended)"
-msgstr "Strikt ursprung vid korsat ursprung (rekommenderas)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:49
-#, fuzzy
-msgid "Unsafe URL - sends full URL everywhere (not recommended)"
-msgstr "Osäker URL — skickar hela URL:en överallt (rekommenderas ej)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:59
-msgid "Disabled"
-msgstr "Inaktiverad"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:63
-msgid "Report Only"
-msgstr "Endast rapport"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:67
-msgid "Enabled (Enforced)"
-msgstr "Aktiverad (Tvingande)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:81
-msgid "Failed to load settings."
-msgstr "Misslyckades med att ladda inställningar."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:119
-msgid "HTTP Security Headers"
-msgstr "HTTP-säkerhetsheadrar"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:125
-msgid "HTTP Strict Transport Security (HSTS)"
-msgstr "HTTP Strict Transport Security (HSTS)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:129
-msgid ""
-"Forces browsers to use HTTPS for future visits. Only enable on HTTPS sites."
-msgstr ""
-"Tvingar webbläsare att använda HTTPS för framtida besök. Aktivera endast på "
-"HTTPS-webbplatser."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:141
-msgid "Max Age (seconds)"
-msgstr "Max ålder (sekunder)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:145
-msgid ""
-"How long browsers should remember to use HTTPS. Default: 31536000 (1 year)."
-msgstr ""
-"Hur länge webbläsare ska komma ihåg att använda HTTPS. Standard: 31536000 (1 "
-"år)."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:164
-msgid "X-Content-Type-Options: nosniff"
-msgstr "X-Content-Type-Options: nosniff"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:168
-msgid "Prevents browsers from MIME-sniffing the declared content type."
-msgstr "Förhindrar webbläsare från att MIME-sniffa den deklarerade innehållstypen."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:179
-msgid "X-XSS-Protection"
-msgstr "X-XSS-Protection"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:180
-msgid ""
-"Legacy XSS filter for older browsers. Not needed if a strong CSP is in place."
-msgstr ""
-"Gammalt XSS-filter för äldre webbläsare. Behövs inte om en stark CSP används."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:191
-msgid "Referrer-Policy"
-msgstr "Referrer-Policy"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:192
-msgid "Controls how much referrer information is included with requests."
-msgstr "Styr hur mycket referrer-information som skickas med anropen."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:204
-msgid "Policy value"
-msgstr "Policy-värde"
-
-#: build/security.js:1 src/security/App.js:10
-#: src/security/components/GeneralTab.js:218
-msgid "Content Security Policy"
-msgstr "Policy för innehållssäkerhet (CSP)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:224
-msgid "CSP Mode"
-msgstr "CSP-läge"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:225
-msgid "Control how the Content Security Policy is applied."
-msgstr "Styr hur Content Security Policy tillämpas."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:238
-msgid "CSP Test Mode"
-msgstr "CSP-testläge"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:239
-msgid ""
-"Sends Content-Security-Policy-Report-Only for administrators. Useful when "
-"adding new resources to the page."
-msgstr ""
-"Skickar Content-Security-Policy-Report-Only för administratörer. Användbart "
-"när du lägger till nya resurser på sidan."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:253
-msgid "Google Multi-Domain Support"
-msgstr "Stöd för flera Google-domäner"
+"Är du säker på att du vill ta bort alla rapporter i denna vy? Denna åtgärd "
+"kan inte ångras."
 
 #: build/security.js:1 src/security/components/GeneralTab.js:257
 msgid ""
@@ -194,122 +82,21 @@ msgstr ""
 "src om någon Google-domän läggs till i dessa direktiv. Användbart för Google-"
 "tjänster som omdirigerar baserat på användarens plats."
 
-#: build/security.js:1 src/security/components/GeneralTab.js:109
-msgid "Failed to save settings."
-msgstr "Misslyckades med att spara inställningar."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:276
-msgid "Save Settings"
-msgstr "Spara inställningar"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:280
-msgid "Settings saved."
-msgstr "Inställningar sparade."
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:21
-#: src/security/components/DirectiveCard.js:119
-msgid "Enabled"
-msgstr "Aktiverad"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:27
-msgid "Remove source"
-msgstr "Ta bort källa"
-
-#: build/security.js:1 src/security/components/CspTab.js:58
-#: src/security/components/DirectiveCard.js:58
-msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
-msgstr "t.ex. 'self', 'unsafe-inline', https://cdn.exempel.se"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:73
-msgid "Add source"
-msgstr "Lägg till källa"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:79
-msgid "Add"
-msgstr "Lägg till"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:108
-msgid "Remove directive"
-msgstr "Ta bort direktiv"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:21
-#: src/security/components/ReportsTab.js:45
-msgid "- Select directive -"
-msgstr "— Välj direktiv —"
-
-#: build/security.js:1
-msgid "Custom..."
-msgstr "Anpassad..."
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:52
-#: src/security/components/AddDirectivePanel.js:90
-msgid "Add directive"
-msgstr "Lägg till direktiv"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:64
-#: src/security/components/ReportsTab.js:195
-#: src/security/components/ReportsTab.js:453
-msgid "Directive"
-msgstr "Direktiv"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:72
-msgid "Directive name"
-msgstr "Direktivnamn"
+#: build/security.js:1 src/security/components/ReportsTab.js:140
+#: src/security/components/ReportsTab.js:441
+msgid "Blocked URI"
+msgstr "Blockerad URI"
 
 #: build/security.js:1 src/security/components/AddDirectivePanel.js:93
 #: src/security/components/CleanCspModal.js:239
 #: src/security/components/ImportCspModal.js:83
-#: src/security/components/ReportsTab.js:223
+#: src/security/components/ReportsTab.js:212
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: build/security.js:1 src/security/components/DirectivesManager.js:26
-msgid "Failed to load directives."
-msgstr "Misslyckades med att ladda direktiv."
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:58
-msgid "Import failed:"
-msgstr "Importen misslyckades:"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:59
-msgid "Unknown error"
-msgstr "Okänt fel"
-
-#: build/security.js:1 src/security/components/CspTab.js:50
-#: src/security/components/ImportCspModal.js:68
-msgid "Import CSP"
-msgstr "Importera CSP"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:72
-msgid "Paste CSP string here"
-msgstr "Klistra in CSP-strängen här"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:91
-msgid "Merge CSP"
-msgstr "Slå ihop CSP"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:99
-msgid "Replace CSP"
-msgstr "Ersätt CSP"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:175
-msgid "No redundant records found."
-msgstr "Inga överflödiga poster hittades."
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:180
-msgid ""
-"The following records are redundant because they are covered by broader "
-"records:"
-msgstr ""
-"Följande poster är överflödiga eftersom de täcks av bredare poster:"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:197
-msgid "in"
-msgstr "i"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:202
-msgid "Covered by:"
-msgstr "Täcks av:"
+#: build/security.js:1 src/security/components/CleanCspModal.js:251
+msgid "Clean"
+msgstr "Rensa"
 
 #: build/security.js:1 src/security/components/CleanCspModal.js:227
 #: src/security/components/CspTab.js:44
@@ -320,9 +107,86 @@ msgstr "Rensa CSP"
 msgid "Cleanup failed."
 msgstr "Rensningen misslyckades."
 
-#: build/security.js:1 src/security/components/CleanCspModal.js:251
-msgid "Clean"
-msgstr "Rensa"
+#: build/security.js:1 src/security/App.js:10
+#: src/security/components/GeneralTab.js:218
+msgid "Content Security Policy"
+msgstr "Policy för innehållssäkerhet (CSP)"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:225
+msgid "Control how the Content Security Policy is applied."
+msgstr "Styr hur Content Security Policy tillämpas."
+
+#: build/security.js:1 src/security/components/PermissionsTab.js:9
+msgid ""
+"Control which browser features are allowed on this site. Each directive "
+"takes one or more origins: * (all), self, or \"https://example.com\"."
+msgstr ""
+"Styr vilka webbläsarfunktioner som är tillåtna på denna webbplats. Varje "
+"direktiv tar en eller flera ursprung: * (alla), self eller \"https://exempel."
+"se\"."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:192
+msgid "Controls how much referrer information is included with requests."
+msgstr "Styr hur mycket referrer-information som skickas med anropen."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:444
+msgid "Count"
+msgstr "Antal"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:202
+msgid "Covered by:"
+msgstr "Täcks av:"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:224
+msgid "CSP Mode"
+msgstr "CSP-läge"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:238
+msgid "CSP Test Mode"
+msgstr "CSP-testläge"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:23
+msgid "Custom…"
+msgstr "Anpassad…"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:537
+msgid "Delete"
+msgstr "Ta bort"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:409
+msgid "Delete All"
+msgstr "Ta bort alla"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:64
+#: src/security/components/ReportsTab.js:186
+#: src/security/components/ReportsTab.js:440
+msgid "Directive"
+msgstr "Direktiv"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:72
+msgid "Directive name"
+msgstr "Direktivnamn"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:59
+msgid "Disabled"
+msgstr "Inaktiverad"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:442
+msgid "Document"
+msgstr "Dokument"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:146
+msgid "Document URIs"
+msgstr "Dokument-URI:er"
+
+#: build/security.js:1 src/security/components/CspTab.js:58
+#: src/security/components/DirectiveCard.js:58
+msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
+msgstr "t.ex. 'self', 'unsafe-inline', https://cdn.exempel.se"
+
+#: build/security.js:1 src/security/components/PermissionsTab.js:17
+msgid "e.g. self, *, \"https://example.com\""
+msgstr "t.ex. self, *, \"https://exempel.se\""
 
 #: build/security.js:1 src/security/components/CspTab.js:34
 msgid ""
@@ -333,41 +197,7 @@ msgstr ""
 "Varje direktiv styr vilka källor som är tillåtna för en resurstyp. Källor "
 "sammanställs till en Content-Security-Policy-header vid varje sidladdning."
 
-#: build/security.js:1 src/security/components/PermissionsTab.js:9
-msgid ""
-"Control which browser features are allowed on this site. Each directive "
-"takes one or more origins: * (all), self, or \"https://example.com\"."
-msgstr ""
-"Styr vilka webbläsarfunktioner som är tillåtna på denna webbplats. Varje "
-"direktiv tar en eller flera ursprung: * (alla), self eller \"https://"
-"exempel.se\"."
-
-#: build/security.js:1 src/security/components/PermissionsTab.js:17
-msgid "e.g. self, *, \"https://example.com\""
-msgstr "t.ex. self, *, \"https://exempel.se\""
-
-#: build/security.js:1 src/security/components/ReportsTab.js:133
-msgid "Add as allowed source"
-msgstr "Lägg till som tillåten källa"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:142
-msgid "Violated directive"
-msgstr "Brutet direktiv"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:149
-#: src/security/components/ReportsTab.js:454
-msgid "Blocked URI"
-msgstr "Blockerad URI"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:155
-msgid "Document URIs"
-msgstr "Dokument-URI:er"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:171
-msgid "Occurrences"
-msgstr "Förekomster"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:178
+#: build/security.js:1 src/security/components/ReportsTab.js:169
 msgid ""
 "Edit the directive and source value below as needed before adding to your "
 "policy."
@@ -375,125 +205,291 @@ msgstr ""
 "Redigera direktivet och källvärdet nedan vid behov innan du lägger till det "
 "i din policy."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:185
-msgid "Header"
-msgstr "Header"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:202
-msgid "Source value"
-msgstr "Källvärde"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:205
+#: build/security.js:1 src/security/components/ReportsTab.js:196
 msgid ""
 "Edit the value to allow, e.g. 'self', 'unsafe-inline', or https://example.com"
 msgstr ""
-"Redigera värdet som ska tillåtas, t.ex. 'self', 'unsafe-inline' eller "
-"https://exempel.se"
+"Redigera värdet som ska tillåtas, t.ex. 'self', 'unsafe-inline' eller https:"
+"//exempel.se"
 
-#: build/security.js:1 src/security/components/ReportsTab.js:125
+#: build/security.js:1 src/security/components/DirectiveCard.js:21
+#: src/security/components/DirectiveCard.js:119
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:67
+msgid "Enabled (Enforced)"
+msgstr "Aktiverad (Tvingande)"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:119
 msgid "Failed to add source. Please try again."
 msgstr "Misslyckades med att lägga till källa. Försök igen."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:220
-msgid "Add source & archive report"
-msgstr "Lägg till källa och arkivera rapport"
+#: build/security.js:1 src/security/components/DirectivesManager.js:26
+msgid "Failed to load directives."
+msgstr "Misslyckades med att ladda direktiv."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:247
+#: build/security.js:1 src/security/components/ReportsTab.js:235
 msgid "Failed to load reports."
 msgstr "Misslyckades med att ladda rapporter."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:391
-msgid "New"
-msgstr "Nya"
+#: build/security.js:1 src/security/components/GeneralTab.js:81
+msgid "Failed to load settings."
+msgstr "Misslyckades med att ladda inställningar."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:401
-msgid "Archived"
-msgstr "Arkiverade"
+#: build/security.js:1 src/security/components/GeneralTab.js:109
+msgid "Failed to save settings."
+msgstr "Misslyckades med att spara inställningar."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:337
-msgid "Are you sure you want to archive all new reports?"
-msgstr "Är du säker på att du vill arkivera alla nya rapporter?"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:410
-msgid "Archive All"
-msgstr "Arkivera alla"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:360
+#: build/security.js:1 src/security/components/GeneralTab.js:129
 msgid ""
-"Are you sure you want to delete all reports in this view? This action cannot "
-"be undone."
+"Forces browsers to use HTTPS for future visits. Only enable on HTTPS sites."
 msgstr ""
-"Är du säker på att du vill ta bort alla rapporter i denna vy? Denna åtgärd "
-"kan inte ångras."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:419
-msgid "Delete All"
-msgstr "Ta bort alla"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:432
-msgid "No new violation reports."
-msgstr "Inga nya rapporter om överträdelser."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:433
-msgid "No archived reports."
-msgstr "Inga arkiverade rapporter."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:444
-msgid "Mark all as processed"
-msgstr "Markera alla som behandlade"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:455
-msgid "Document"
-msgstr "Dokument"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:457
-msgid "Count"
-msgstr "Antal"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:460
-msgid "Last seen"
-msgstr "Senast sedd"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:463
-msgid "Actions"
-msgstr "Handlingar"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:483
-msgid "Unmark as processed"
-msgstr "Avmarkera som behandlad"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:487
-msgid "Mark as processed"
-msgstr "Markera som behandlad"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:535
-msgid "Review"
-msgstr "Granska"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:548
-msgid "Archive"
-msgstr "Arkivera"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:563
-msgid "Restore"
-msgstr "Återställ"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:576
-msgid "Delete"
-msgstr "Ta bort"
+"Tvingar webbläsare att använda HTTPS för framtida besök. Aktivera endast på "
+"HTTPS-webbplatser."
 
 #: build/security.js:1 src/security/App.js:9
 msgid "General"
 msgstr "Allmänt"
 
+#: build/security.js:1 src/security/components/GeneralTab.js:253
+msgid "Google Multi-Domain Support"
+msgstr "Stöd för flera Google-domäner"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:176
+msgid "Header"
+msgstr "Header"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:145
+msgid ""
+"How long browsers should remember to use HTTPS. Default: 31536000 (1 year)."
+msgstr ""
+"Hur länge webbläsare ska komma ihåg att använda HTTPS. Standard: 31536000 (1 "
+"år)."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:119
+msgid "HTTP Security Headers"
+msgstr "HTTP-säkerhetsheadrar"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:125
+msgid "HTTP Strict Transport Security (HSTS)"
+msgstr "HTTP Strict Transport Security (HSTS)"
+
+#. Author URI of the plugin
+#: jcore-turva.php
+msgid "https://jco.fi"
+msgstr "https://jco.fi"
+
+#: build/security.js:1 src/security/components/CspTab.js:50
+#: src/security/components/ImportCspModal.js:68
+msgid "Import CSP"
+msgstr "Importera CSP"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:58
+msgid "Import failed:"
+msgstr "Importen misslyckades:"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:197
+msgid "in"
+msgstr "i"
+
+#. Author of the plugin
+#: jcore-turva.php
+msgid "J&Co Digital"
+msgstr "J&Co Digital"
+
+#. Plugin Name of the plugin
+#: jcore-turva.php
+msgid "JCORE Turva"
+msgstr "JCORE Turva"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:447
+msgid "Last seen"
+msgstr "Senast sedd"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:180
+msgid ""
+"Legacy XSS filter for older browsers. Not needed if a strong CSP is in place."
+msgstr ""
+"Gammalt XSS-filter för äldre webbläsare. Behövs inte om en stark CSP används."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:434
+msgid "Mark all as processed"
+msgstr "Markera alla som behandlade"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:471
+msgid "Mark as processed"
+msgstr "Markera som behandlad"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:141
+msgid "Max Age (seconds)"
+msgstr "Max ålder (sekunder)"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:91
+msgid "Merge CSP"
+msgstr "Slå ihop CSP"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:385
+msgid "New"
+msgstr "Nya"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:423
+msgid "No archived reports."
+msgstr "Inga arkiverade rapporter."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:422
+msgid "No new violation reports."
+msgstr "Inga nya rapporter om överträdelser."
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:175
+msgid "No redundant records found."
+msgstr "Inga överflödiga poster hittades."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:18
+msgid "No referrer"
+msgstr "Ingen referrer"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:22
+msgid "No referrer when downgrade"
+msgstr "Ingen referrer vid nedgradering"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:162
+msgid "Occurrences"
+msgstr "Förekomster"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:26
+msgid "Origin only"
+msgstr "Endast ursprung"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:30
+msgid "Origin when cross-origin"
+msgstr "Ursprung vid korsat ursprung"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:72
+msgid "Paste CSP string here"
+msgstr "Klistra in CSP-strängen här"
+
 #: build/security.js:1 src/security/App.js:11
 msgid "Permissions Policy"
 msgstr "Behörighetspolicy"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:204
+msgid "Policy value"
+msgstr "Policy-värde"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:168
+msgid "Prevents browsers from MIME-sniffing the declared content type."
+msgstr ""
+"Förhindrar webbläsare från att MIME-sniffa den deklarerade innehållstypen."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:191
+msgid "Referrer-Policy"
+msgstr "Referrer-Policy"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:108
+msgid "Remove directive"
+msgstr "Ta bort direktiv"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:27
+msgid "Remove source"
+msgstr "Ta bort källa"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:99
+msgid "Replace CSP"
+msgstr "Ersätt CSP"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:63
+msgid "Report Only"
+msgstr "Endast rapport"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:529
+msgid "Restore"
+msgstr "Återställ"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:511
+msgid "Review"
+msgstr "Granska"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:34
+msgid "Same origin only"
+msgstr "Endast samma ursprung"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:276
+msgid "Save Settings"
+msgstr "Spara inställningar"
+
+#: includes/class-plugin.php:74 includes/class-plugin.php:75
+#: build/security.js:1 src/security/App.js:31
+msgid "Security"
+msgstr "Säkerhet"
+
+#. Description of the plugin
+#: jcore-turva.php
+msgid ""
+"Security header management - CSP, Permissions Policy, and violation "
+"reporting."
+msgstr ""
+"Hantering av säkerhetsheadrar - CSP, Permissions Policy och överträdelse-"
+"rapportering."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:239
+msgid ""
+"Sends Content-Security-Policy-Report-Only for administrators. Useful when "
+"adding new resources to the page."
+msgstr ""
+"Skickar Content-Security-Policy-Report-Only för administratörer. Användbart "
+"när du lägger till nya resurser på sidan."
+
+#: jcore-turva.php:54
+msgid "Settings"
+msgstr "Inställningar"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:280
+msgid "Settings saved."
+msgstr "Inställningar sparade."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:193
+msgid "Source value"
+msgstr "Källvärde"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:38
+msgid "Strict origin"
+msgstr "Strikt ursprung"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:42
+msgid "Strict origin when cross-origin (recommended)"
+msgstr "Strikt ursprung vid korsat ursprung (rekommenderas)"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:180
+msgid ""
+"The following records are redundant because they are covered by broader "
+"records:"
+msgstr "Följande poster är överflödiga eftersom de täcks av bredare poster:"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:59
+msgid "Unknown error"
+msgstr "Okänt fel"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:470
+msgid "Unmark as processed"
+msgstr "Avmarkera som behandlad"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:49
+msgid "Unsafe URL - sends full URL everywhere (not recommended)"
+msgstr "Osäker URL - skickar hela URL:en överallt (rekommenderas ej)"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:134
+msgid "Violated directive"
+msgstr "Brutet direktiv"
 
 #: build/security.js:1 src/security/App.js:12
 msgid "Violation Reports"
 msgstr "Överträdelse-rapporter"
 
-#: src/security/components/AddDirectivePanel.js:23
-msgid "Custom…"
-msgstr "Anpassad…"
+#: build/security.js:1 src/security/components/GeneralTab.js:164
+msgid "X-Content-Type-Options: nosniff"
+msgstr "X-Content-Type-Options: nosniff"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:179
+msgid "X-XSS-Protection"
+msgstr "X-XSS-Protection"

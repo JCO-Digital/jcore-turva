@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: JCORE Turva 1.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jcore-turva\n"
 "POT-Creation-Date: 2026-06-15T14:27:03+00:00\n"
-"PO-Revision-Date: 2026-06-15 14:32+0000\n"
+"PO-Revision-Date: 2026-06-16 08:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -15,175 +15,62 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Domain: jcore-turva\n"
 "X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.5; wp-7.0; php-8.3.31"
 
-#. Plugin Name of the plugin
-#: jcore-turva.php
-msgid "JCORE Turva"
-msgstr "JCORE Turva"
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:21
+#: src/security/components/ReportsTab.js:45
+msgid "- Select directive -"
+msgstr "— Valitse direktiivi —"
 
-#. Description of the plugin
-#: jcore-turva.php
-#, fuzzy
+#: build/security.js:1 src/security/components/ReportsTab.js:450
+msgid "Actions"
+msgstr "Toiminnot"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:79
+msgid "Add"
+msgstr "Lisää"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:126
+msgid "Add as allowed source"
+msgstr "Lisää sallittuna lähteenä"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:52
+#: src/security/components/AddDirectivePanel.js:90
+msgid "Add directive"
+msgstr "Lisää direktiivi"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:73
+#: src/security/components/ReportsTab.js:209
+msgid "Add source"
+msgstr "Lisää lähde"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:519
+msgid "Archive"
+msgstr "Arkistoi"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:403
+msgid "Archive All"
+msgstr "Arkistoi kaikki"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:399
+msgid "Archive Processed"
+msgstr "Arkistoi käsitellyt raportit"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:391
+msgid "Archived"
+msgstr "Arkistoidut"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:322
+msgid "Are you sure you want to archive all new reports?"
+msgstr "Haluatko varmasti arkistoida kaikki uudet raportit?"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:356
 msgid ""
-"Security header management - CSP, Permissions Policy, and violation "
-"reporting."
+"Are you sure you want to delete all reports in this view? This action cannot "
+"be undone."
 msgstr ""
-"Tietoturvaotsakkeiden hallinta — CSP, Permissions Policy ja "
-"poikkeamaraportointi."
-
-#. Author of the plugin
-#: jcore-turva.php
-msgid "J&Co Digital"
-msgstr "J&Co Digital"
-
-#. Author URI of the plugin
-#: jcore-turva.php
-msgid "https://jco.fi"
-msgstr "https://jco.fi"
-
-#: includes/class-plugin.php:74 includes/class-plugin.php:75
-#: build/security.js:1 src/security/App.js:31
-msgid "Security"
-msgstr "Tietoturva"
-
-#: jcore-turva.php:54
-msgid "Settings"
-msgstr "Asetukset"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:18
-msgid "No referrer"
-msgstr "No referrer"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:22
-msgid "No referrer when downgrade"
-msgstr "No referrer when downgrade"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:26
-msgid "Origin only"
-msgstr "Origin only"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:30
-msgid "Origin when cross-origin"
-msgstr "Origin when cross-origin"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:34
-msgid "Same origin only"
-msgstr "Same origin only"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:38
-msgid "Strict origin"
-msgstr "Strict origin"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:42
-msgid "Strict origin when cross-origin (recommended)"
-msgstr "Strict origin when cross-origin (suositus)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:49
-#, fuzzy
-msgid "Unsafe URL - sends full URL everywhere (not recommended)"
-msgstr "Unsafe URL — lähettää koko osoitteen kaikkialle (ei suositella)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:59
-msgid "Disabled"
-msgstr "Pois käytöstä"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:63
-msgid "Report Only"
-msgstr "Vain raportointi"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:67
-msgid "Enabled (Enforced)"
-msgstr "Päällä (Pakotettu)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:81
-msgid "Failed to load settings."
-msgstr "Asetusten lataaminen epäonnistui."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:119
-msgid "HTTP Security Headers"
-msgstr "HTTP-tietoturvaotsakkeet"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:125
-msgid "HTTP Strict Transport Security (HSTS)"
-msgstr "HTTP Strict Transport Security (HSTS)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:129
-msgid ""
-"Forces browsers to use HTTPS for future visits. Only enable on HTTPS sites."
-msgstr ""
-"Pakottaa selaimet käyttämään HTTPS-yhteyttä tulevilla käynneillä. Ota "
-"käyttöön vain HTTPS-sivustoilla."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:141
-msgid "Max Age (seconds)"
-msgstr "Max Age (sekuntia)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:145
-msgid ""
-"How long browsers should remember to use HTTPS. Default: 31536000 (1 year)."
-msgstr ""
-"Kuinka kauan selainten tulee muistaa käyttää HTTPS-yhteyttä. Oletus: "
-"31536000 (1 vuosi)."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:164
-msgid "X-Content-Type-Options: nosniff"
-msgstr "X-Content-Type-Options: nosniff"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:168
-msgid "Prevents browsers from MIME-sniffing the declared content type."
-msgstr "Estää selaimia päättelemästä sisältötyyppiä muuksi kuin ilmoitettu."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:179
-msgid "X-XSS-Protection"
-msgstr "X-XSS-Protection"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:180
-msgid ""
-"Legacy XSS filter for older browsers. Not needed if a strong CSP is in place."
-msgstr ""
-"Vanhan tyylinen XSS-suodatin vanhoille selaimille. Ei tarvita, jos vahva CSP "
-"on käytössä."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:191
-msgid "Referrer-Policy"
-msgstr "Referrer-Policy"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:192
-msgid "Controls how much referrer information is included with requests."
-msgstr "Määrittää, kuinka paljon viittaustietoja lähetetään pyyntöjen mukana."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:204
-msgid "Policy value"
-msgstr "Käytännön arvo"
-
-#: build/security.js:1 src/security/App.js:10
-#: src/security/components/GeneralTab.js:218
-msgid "Content Security Policy"
-msgstr "Content Security Policy (CSP)"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:224
-msgid "CSP Mode"
-msgstr "CSP-tila"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:225
-msgid "Control how the Content Security Policy is applied."
-msgstr "Määritä, miten Content Security Policy -käytäntöä sovelletaan."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:238
-msgid "CSP Test Mode"
-msgstr "CSP-testitila"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:239
-msgid ""
-"Sends Content-Security-Policy-Report-Only for administrators. Useful when "
-"adding new resources to the page."
-msgstr ""
-"Lähettää Content-Security-Policy-Report-Only -otsakkeen ylläpitäjille. "
-"Hyödyllinen uusia resursseja lisättäessä."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:253
-msgid "Google Multi-Domain Support"
-msgstr "Google Multi-Domain -tuki"
+"Haluatko varmasti poistaa kaikki tämän näkymän raportit? Tätä toimintoa ei "
+"voi kumota."
 
 #: build/security.js:1 src/security/components/GeneralTab.js:257
 msgid ""
@@ -196,122 +83,21 @@ msgstr ""
 "lisätään niihin. Hyödyllinen Googlen palveluille, jotka uudelleenohjaavat "
 "käyttäjän sijainnin perusteella."
 
-#: build/security.js:1 src/security/components/GeneralTab.js:109
-msgid "Failed to save settings."
-msgstr "Asetusten tallentaminen epäonnistui."
-
-#: build/security.js:1 src/security/components/GeneralTab.js:276
-msgid "Save Settings"
-msgstr "Tallenna asetukset"
-
-#: build/security.js:1 src/security/components/GeneralTab.js:280
-msgid "Settings saved."
-msgstr "Asetukset tallennettu."
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:21
-#: src/security/components/DirectiveCard.js:119
-msgid "Enabled"
-msgstr "Päällä"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:27
-msgid "Remove source"
-msgstr "Poista lähde"
-
-#: build/security.js:1 src/security/components/CspTab.js:58
-#: src/security/components/DirectiveCard.js:58
-msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
-msgstr "esim. 'self', 'unsafe-inline', https://cdn.esimerkki.fi"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:73
-msgid "Add source"
-msgstr "Lisää lähde"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:79
-msgid "Add"
-msgstr "Lisää"
-
-#: build/security.js:1 src/security/components/DirectiveCard.js:108
-msgid "Remove directive"
-msgstr "Poista direktiivi"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:21
-#: src/security/components/ReportsTab.js:45
-msgid "- Select directive -"
-msgstr "— Valitse direktiivi —"
-
-#: build/security.js:1
-msgid "Custom..."
-msgstr "Oma..."
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:52
-#: src/security/components/AddDirectivePanel.js:90
-msgid "Add directive"
-msgstr "Lisää direktiivi"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:64
-#: src/security/components/ReportsTab.js:195
-#: src/security/components/ReportsTab.js:453
-msgid "Directive"
-msgstr "Direktiivi"
-
-#: build/security.js:1 src/security/components/AddDirectivePanel.js:72
-msgid "Directive name"
-msgstr "Direktiivin nimi"
+#: build/security.js:1 src/security/components/ReportsTab.js:140
+#: src/security/components/ReportsTab.js:441
+msgid "Blocked URI"
+msgstr "Estetty URI"
 
 #: build/security.js:1 src/security/components/AddDirectivePanel.js:93
 #: src/security/components/CleanCspModal.js:239
 #: src/security/components/ImportCspModal.js:83
-#: src/security/components/ReportsTab.js:223
+#: src/security/components/ReportsTab.js:212
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: build/security.js:1 src/security/components/DirectivesManager.js:26
-msgid "Failed to load directives."
-msgstr "Direktiivien lataaminen epäonnistui."
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:58
-msgid "Import failed:"
-msgstr "Tuonti epäonnistui:"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:59
-msgid "Unknown error"
-msgstr "Tuntematon virhe"
-
-#: build/security.js:1 src/security/components/CspTab.js:50
-#: src/security/components/ImportCspModal.js:68
-msgid "Import CSP"
-msgstr "Tuo CSP"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:72
-msgid "Paste CSP string here"
-msgstr "Liitä CSP-merkkijono tähän"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:91
-msgid "Merge CSP"
-msgstr "Yhdistä CSP"
-
-#: build/security.js:1 src/security/components/ImportCspModal.js:99
-msgid "Replace CSP"
-msgstr "Korvaa CSP"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:175
-msgid "No redundant records found."
-msgstr "Turhia tietueita ei löytynyt."
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:180
-msgid ""
-"The following records are redundant because they are covered by broader "
-"records:"
-msgstr ""
-"Seuraavat tietueet ovat turhia, koska ne sisältyvät laajempiin tietueisiin:"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:197
-msgid "in"
-msgstr "direktiivissä"
-
-#: build/security.js:1 src/security/components/CleanCspModal.js:202
-msgid "Covered by:"
-msgstr "Kattavuus:"
+#: build/security.js:1 src/security/components/CleanCspModal.js:251
+msgid "Clean"
+msgstr "Siivoa"
 
 #: build/security.js:1 src/security/components/CleanCspModal.js:227
 #: src/security/components/CspTab.js:44
@@ -322,9 +108,86 @@ msgstr "Siivoa CSP"
 msgid "Cleanup failed."
 msgstr "Siivous epäonnistui."
 
-#: build/security.js:1 src/security/components/CleanCspModal.js:251
-msgid "Clean"
-msgstr "Siivoa"
+#: build/security.js:1 src/security/App.js:10
+#: src/security/components/GeneralTab.js:218
+msgid "Content Security Policy"
+msgstr "Content Security Policy (CSP)"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:225
+msgid "Control how the Content Security Policy is applied."
+msgstr "Määritä, miten Content Security Policy -käytäntöä sovelletaan."
+
+#: build/security.js:1 src/security/components/PermissionsTab.js:9
+msgid ""
+"Control which browser features are allowed on this site. Each directive "
+"takes one or more origins: * (all), self, or \"https://example.com\"."
+msgstr ""
+"Hallitse sivustolla sallittuja web-selaimen ominaisuuksia. Jokainen "
+"direktiivi ottaa yhden tai useamman lähteen: * (kaikki), self tai \"https:"
+"//esimerkki.fi\"."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:192
+msgid "Controls how much referrer information is included with requests."
+msgstr "Määrittää, kuinka paljon viittaustietoja lähetetään pyyntöjen mukana."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:444
+msgid "Count"
+msgstr "Määrä"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:202
+msgid "Covered by:"
+msgstr "Kattavuus:"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:224
+msgid "CSP Mode"
+msgstr "CSP-tila"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:238
+msgid "CSP Test Mode"
+msgstr "CSP-testitila"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:23
+msgid "Custom…"
+msgstr "Oma…"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:537
+msgid "Delete"
+msgstr "Poista"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:409
+msgid "Delete All"
+msgstr "Poista kaikki"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:64
+#: src/security/components/ReportsTab.js:186
+#: src/security/components/ReportsTab.js:440
+msgid "Directive"
+msgstr "Direktiivi"
+
+#: build/security.js:1 src/security/components/AddDirectivePanel.js:72
+msgid "Directive name"
+msgstr "Direktiivin nimi"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:59
+msgid "Disabled"
+msgstr "Pois käytöstä"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:442
+msgid "Document"
+msgstr "Dokumentti"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:146
+msgid "Document URIs"
+msgstr "Dokumenttien URI-osoitteet"
+
+#: build/security.js:1 src/security/components/CspTab.js:58
+#: src/security/components/DirectiveCard.js:58
+msgid "e.g. 'self', 'unsafe-inline', https://cdn.example.com"
+msgstr "esim. 'self', 'unsafe-inline', https://cdn.esimerkki.fi"
+
+#: build/security.js:1 src/security/components/PermissionsTab.js:17
+msgid "e.g. self, *, \"https://example.com\""
+msgstr "esim. self, *, \"https://esimerkki.fi\""
 
 #: build/security.js:1 src/security/components/CspTab.js:34
 msgid ""
@@ -336,166 +199,299 @@ msgstr ""
 "resurssityypille. Lähteet kootaan Content-Security-Policy-otsakkeeksi "
 "jokaisella sivunlatauksella."
 
-#: build/security.js:1 src/security/components/PermissionsTab.js:9
-msgid ""
-"Control which browser features are allowed on this site. Each directive "
-"takes one or more origins: * (all), self, or \"https://example.com\"."
-msgstr ""
-"Hallitse sivustolla sallittuja web-selaimen ominaisuuksia. Jokainen "
-"direktiivi ottaa yhden tai useamman lähteen: * (kaikki), self tai \"https://"
-"esimerkki.fi\"."
-
-#: build/security.js:1 src/security/components/PermissionsTab.js:17
-msgid "e.g. self, *, \"https://example.com\""
-msgstr "esim. self, *, \"https://esimerkki.fi\""
-
-#: build/security.js:1 src/security/components/ReportsTab.js:133
-msgid "Add as allowed source"
-msgstr "Lisää sallittuna lähteenä"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:142
-msgid "Violated directive"
-msgstr "Rikottu direktiivi"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:149
-#: src/security/components/ReportsTab.js:454
-msgid "Blocked URI"
-msgstr "Estetty URI"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:155
-msgid "Document URIs"
-msgstr "Dokumenttien URI-osoitteet"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:171
-msgid "Occurrences"
-msgstr "Esiintymät"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:178
+#: build/security.js:1 src/security/components/ReportsTab.js:169
 msgid ""
 "Edit the directive and source value below as needed before adding to your "
 "policy."
 msgstr ""
 "Muokkaa direktiiviä ja lähdettä tarvittaessa ennen sen lisäämistä käytäntöön."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:185
-msgid "Header"
-msgstr "Otsake"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:202
-msgid "Source value"
-msgstr "Lähteen arvo"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:205
+#: build/security.js:1 src/security/components/ReportsTab.js:196
 msgid ""
 "Edit the value to allow, e.g. 'self', 'unsafe-inline', or https://example.com"
 msgstr ""
-"Muokkaa sallittavaa arvoa, esim. 'self', 'unsafe-inline' tai https://"
-"esimerkki.fi"
+"Muokkaa sallittavaa arvoa, esim. 'self', 'unsafe-inline' tai https:"
+"//esimerkki.fi"
 
-#: build/security.js:1 src/security/components/ReportsTab.js:125
+#: build/security.js:1 src/security/components/DirectiveCard.js:21
+#: src/security/components/DirectiveCard.js:119
+msgid "Enabled"
+msgstr "Päällä"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:67
+msgid "Enabled (Enforced)"
+msgstr "Päällä (Pakotettu)"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:119
 msgid "Failed to add source. Please try again."
 msgstr "Lähteen lisääminen epäonnistui. Ole hyvä ja yritä uudelleen."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:220
-msgid "Add source & archive report"
-msgstr "Lisää lähde ja arkistoi raportti"
+#: build/security.js:1 src/security/components/DirectivesManager.js:26
+msgid "Failed to load directives."
+msgstr "Direktiivien lataaminen epäonnistui."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:247
+#: build/security.js:1 src/security/components/ReportsTab.js:235
 msgid "Failed to load reports."
 msgstr "Raporttien lataaminen epäonnistui."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:391
-msgid "New"
-msgstr "Uudet"
+#: build/security.js:1 src/security/components/GeneralTab.js:81
+msgid "Failed to load settings."
+msgstr "Asetusten lataaminen epäonnistui."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:401
-msgid "Archived"
-msgstr "Arkistoidut"
+#: build/security.js:1 src/security/components/GeneralTab.js:109
+msgid "Failed to save settings."
+msgstr "Asetusten tallentaminen epäonnistui."
 
-#: build/security.js:1 src/security/components/ReportsTab.js:337
-msgid "Are you sure you want to archive all new reports?"
-msgstr "Haluatko varmasti arkistoida kaikki uudet raportit?"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:410
-msgid "Archive All"
-msgstr "Arkistoi kaikki"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:360
+#: build/security.js:1 src/security/components/GeneralTab.js:129
 msgid ""
-"Are you sure you want to delete all reports in this view? This action cannot "
-"be undone."
+"Forces browsers to use HTTPS for future visits. Only enable on HTTPS sites."
 msgstr ""
-"Haluatko varmasti poistaa kaikki tämän näkymän raportit? Tätä toimintoa ei "
-"voi kumota."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:419
-msgid "Delete All"
-msgstr "Poista kaikki"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:432
-msgid "No new violation reports."
-msgstr "Ei uusia poikkeamaraportteja."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:433
-msgid "No archived reports."
-msgstr "Ei arkistoituja raportteja."
-
-#: build/security.js:1 src/security/components/ReportsTab.js:444
-msgid "Mark all as processed"
-msgstr "Merkitse kaikki käsitellyiksi"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:455
-msgid "Document"
-msgstr "Dokumentti"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:457
-msgid "Count"
-msgstr "Määrä"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:460
-msgid "Last seen"
-msgstr "Viimeksi nähty"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:463
-msgid "Actions"
-msgstr "Toiminnot"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:483
-msgid "Unmark as processed"
-msgstr "Poista merkintä käsitellystä"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:487
-msgid "Mark as processed"
-msgstr "Merkitse käsitellyksi"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:535
-msgid "Review"
-msgstr "Tarkista"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:548
-msgid "Archive"
-msgstr "Arkistoi"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:563
-msgid "Restore"
-msgstr "Palauta"
-
-#: build/security.js:1 src/security/components/ReportsTab.js:576
-msgid "Delete"
-msgstr "Poista"
+"Pakottaa selaimet käyttämään HTTPS-yhteyttä tulevilla käynneillä. Ota "
+"käyttöön vain HTTPS-sivustoilla."
 
 #: build/security.js:1 src/security/App.js:9
 msgid "General"
 msgstr "Yleiset"
 
+#: build/security.js:1 src/security/components/GeneralTab.js:253
+msgid "Google Multi-Domain Support"
+msgstr "Google Multi-Domain -tuki"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:176
+msgid "Header"
+msgstr "Otsake"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:145
+msgid ""
+"How long browsers should remember to use HTTPS. Default: 31536000 (1 year)."
+msgstr ""
+"Kuinka kauan selainten tulee muistaa käyttää HTTPS-yhteyttä. Oletus: "
+"31536000 (1 vuosi)."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:119
+msgid "HTTP Security Headers"
+msgstr "HTTP-tietoturvaotsakkeet"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:125
+msgid "HTTP Strict Transport Security (HSTS)"
+msgstr "HTTP Strict Transport Security (HSTS)"
+
+#. Author URI of the plugin
+#: jcore-turva.php
+msgid "https://jco.fi"
+msgstr "https://jco.fi"
+
+#: build/security.js:1 src/security/components/CspTab.js:50
+#: src/security/components/ImportCspModal.js:68
+msgid "Import CSP"
+msgstr "Tuo CSP"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:58
+msgid "Import failed:"
+msgstr "Tuonti epäonnistui:"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:197
+msgid "in"
+msgstr "direktiivissä"
+
+#. Author of the plugin
+#: jcore-turva.php
+msgid "J&Co Digital"
+msgstr "J&Co Digital"
+
+#. Plugin Name of the plugin
+#: jcore-turva.php
+msgid "JCORE Turva"
+msgstr "JCORE Turva"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:447
+msgid "Last seen"
+msgstr "Viimeksi nähty"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:180
+msgid ""
+"Legacy XSS filter for older browsers. Not needed if a strong CSP is in place."
+msgstr ""
+"Vanhan tyylinen XSS-suodatin vanhoille selaimille. Ei tarvita, jos vahva CSP "
+"on käytössä."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:434
+msgid "Mark all as processed"
+msgstr "Merkitse kaikki käsitellyiksi"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:471
+msgid "Mark as processed"
+msgstr "Merkitse käsitellyksi"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:141
+msgid "Max Age (seconds)"
+msgstr "Max Age (sekuntia)"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:91
+msgid "Merge CSP"
+msgstr "Yhdistä CSP"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:385
+msgid "New"
+msgstr "Uudet"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:423
+msgid "No archived reports."
+msgstr "Ei arkistoituja raportteja."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:422
+msgid "No new violation reports."
+msgstr "Ei uusia poikkeamaraportteja."
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:175
+msgid "No redundant records found."
+msgstr "Turhia tietueita ei löytynyt."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:18
+msgid "No referrer"
+msgstr "No referrer"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:22
+msgid "No referrer when downgrade"
+msgstr "No referrer when downgrade"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:162
+msgid "Occurrences"
+msgstr "Esiintymät"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:26
+msgid "Origin only"
+msgstr "Origin only"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:30
+msgid "Origin when cross-origin"
+msgstr "Origin when cross-origin"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:72
+msgid "Paste CSP string here"
+msgstr "Liitä CSP-merkkijono tähän"
+
 #: build/security.js:1 src/security/App.js:11
 msgid "Permissions Policy"
 msgstr "Permissions Policy"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:204
+msgid "Policy value"
+msgstr "Käytännön arvo"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:168
+msgid "Prevents browsers from MIME-sniffing the declared content type."
+msgstr "Estää selaimia päättelemästä sisältötyyppiä muuksi kuin ilmoitettu."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:191
+msgid "Referrer-Policy"
+msgstr "Referrer-Policy"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:108
+msgid "Remove directive"
+msgstr "Poista direktiivi"
+
+#: build/security.js:1 src/security/components/DirectiveCard.js:27
+msgid "Remove source"
+msgstr "Poista lähde"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:99
+msgid "Replace CSP"
+msgstr "Korvaa CSP"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:63
+msgid "Report Only"
+msgstr "Vain raportointi"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:529
+msgid "Restore"
+msgstr "Palauta"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:511
+msgid "Review"
+msgstr "Tarkista"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:34
+msgid "Same origin only"
+msgstr "Same origin only"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:276
+msgid "Save Settings"
+msgstr "Tallenna asetukset"
+
+#: includes/class-plugin.php:74 includes/class-plugin.php:75
+#: build/security.js:1 src/security/App.js:31
+msgid "Security"
+msgstr "Tietoturva"
+
+#. Description of the plugin
+#: jcore-turva.php
+msgid ""
+"Security header management - CSP, Permissions Policy, and violation "
+"reporting."
+msgstr ""
+"Tietoturvaotsakkeiden hallinta - CSP, Permissions Policy ja "
+"poikkeamaraportointi."
+
+#: build/security.js:1 src/security/components/GeneralTab.js:239
+msgid ""
+"Sends Content-Security-Policy-Report-Only for administrators. Useful when "
+"adding new resources to the page."
+msgstr ""
+"Lähettää Content-Security-Policy-Report-Only -otsakkeen ylläpitäjille. "
+"Hyödyllinen uusia resursseja lisättäessä."
+
+#: jcore-turva.php:54
+msgid "Settings"
+msgstr "Asetukset"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:280
+msgid "Settings saved."
+msgstr "Asetukset tallennettu."
+
+#: build/security.js:1 src/security/components/ReportsTab.js:193
+msgid "Source value"
+msgstr "Lähteen arvo"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:38
+msgid "Strict origin"
+msgstr "Strict origin"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:42
+msgid "Strict origin when cross-origin (recommended)"
+msgstr "Strict origin when cross-origin (suositus)"
+
+#: build/security.js:1 src/security/components/CleanCspModal.js:180
+msgid ""
+"The following records are redundant because they are covered by broader "
+"records:"
+msgstr ""
+"Seuraavat tietueet ovat turhia, koska ne sisältyvät laajempiin tietueisiin:"
+
+#: build/security.js:1 src/security/components/ImportCspModal.js:59
+msgid "Unknown error"
+msgstr "Tuntematon virhe"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:470
+msgid "Unmark as processed"
+msgstr "Poista merkintä käsitellystä"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:49
+msgid "Unsafe URL - sends full URL everywhere (not recommended)"
+msgstr "Unsafe URL - lähettää koko osoitteen kaikkialle (ei suositella)"
+
+#: build/security.js:1 src/security/components/ReportsTab.js:134
+msgid "Violated directive"
+msgstr "Rikottu direktiivi"
 
 #: build/security.js:1 src/security/App.js:12
 msgid "Violation Reports"
 msgstr "Poikkeamaraportit"
 
-#: src/security/components/AddDirectivePanel.js:23
-msgid "Custom…"
-msgstr "Oma…"
+#: build/security.js:1 src/security/components/GeneralTab.js:164
+msgid "X-Content-Type-Options: nosniff"
+msgstr "X-Content-Type-Options: nosniff"
+
+#: build/security.js:1 src/security/components/GeneralTab.js:179
+msgid "X-XSS-Protection"
+msgstr "X-XSS-Protection"
