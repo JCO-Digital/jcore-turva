@@ -3,6 +3,7 @@
 	"testsEnvironment": false,
 	"plugins": [
 		".",
-		"https://downloads.wordpress.org/plugin/loco-translate.2.8.5.zip"
+		"https://downloads.wordpress.org/plugin/loco-translate.2.8.5.zip",
+		"https://downloads.wordpress.org/plugin/plugin-check.2.0.0.zip"
 	]
 }
