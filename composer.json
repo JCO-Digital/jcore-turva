@@ -1,4 +1,14 @@
 {
+	"name": "jcodigital/jcore-turva",
+	"description": "JCORE Turva is a WordPress plugin designed to help you manage security headers for your website.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-only",
+	"authors": [
+		{
+			"name": "JCo Digital",
+			"email": "support@jco.fi"
+		}
+	],
 	"require": {
 		"jcodigital/jcore-update": "^1.1"
 	}
