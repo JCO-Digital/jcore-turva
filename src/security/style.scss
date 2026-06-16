@@ -254,6 +254,8 @@
 	&__report-actions {
 		display: flex;
 		flex-direction: column;
+		gap: 4px;
+		align-items: center;
 	}
 
 	&__report-main {
@@ -371,12 +373,6 @@
 				opacity: 0.8;
 			}
 		}
-	}
-
-	&__report-actions {
-		display: flex;
-		gap: 4px;
-		align-items: center;
 	}
 
 	// ── Review modal ──────────────────────────────────────────────────────────
@@ -504,9 +500,6 @@
 			margin-top: 4px;
 		}
 	}
-}
-
-.jcore-turva {
 
 	@media (max-width: 782px) {
 
