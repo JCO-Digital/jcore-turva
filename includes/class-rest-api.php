@@ -153,6 +153,12 @@ class Rest_Api {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( self::class, 'archive_all_reports' ),
 				'permission_callback' => array( self::class, 'admin_permission' ),
+				'args'                => array(
+					'processed_only' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+				),
 			)
 		);
 
@@ -585,13 +591,23 @@ class Rest_Api {
 	public static function archive_all_reports( \WP_REST_Request $request ): \WP_REST_Response {
 		global $wpdb;
 
+		$where        = array( 'status' => 'new' );
+		$where_format = array( '%s' );
+		if ( $request->get_param( 'processed_only' ) ) {
+			$where['processed'] = 1;
+			$where_format[]     = '%d';
+		}
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->update(
 			$wpdb->prefix . 'jcore_security_reports',
-			array( 'status' => 'archived' ),
-			array( 'status' => 'new' ),
-			array( '%s' ),
-			array( '%s' )
+			array(
+				'status'    => 'archived',
+				'processed' => 1,
+			),
+			$where,
+			array( '%s', '%d' ),
+			$where_format
 		);
 
 		return rest_ensure_response( array( 'archived' => true ) );
@@ -662,9 +678,12 @@ class Rest_Api {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$updated = $wpdb->update(
 			$wpdb->prefix . 'jcore_security_reports',
-			array( 'status' => 'archived' ),
+			array(
+				'status'    => 'archived',
+				'processed' => 1,
+			),
 			array( 'id' => $id ),
-			array( '%s' ),
+			array( '%s', '%d' ),
 			array( '%d' )
 		);
 
@@ -787,6 +806,7 @@ class Rest_Api {
 				VALUES (%s, %s, 1, 'new', NOW(), NOW())
 				ON DUPLICATE KEY UPDATE
 					report_count = report_count + 1,
+					status       = 'new',
 					processed    = 0,
 					last_seen    = NOW()",
 				$violated,
