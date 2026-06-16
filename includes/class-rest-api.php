@@ -837,6 +837,7 @@ class Rest_Api {
 		$report_id = $wpdb->insert_id;
 		if ( ! $report_id ) {
 			// On DUPLICATE KEY UPDATE, insert_id might not be what we expect in all environments.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$report_id = (int) $wpdb->get_var(
 				$wpdb->prepare(
 					'SELECT id FROM %i WHERE violated_directive = %s AND blocked_uri = %s',
