@@ -1,5 +1,5 @@
 .jcore-turva {
-	max-width: 800px;
+	max-width: 1200px;
 
 	// Remove default panel border so PanelBody borders stand on their own.
 	> .components-tab-panel > .components-panel {
@@ -178,47 +178,109 @@
 
 		th,
 		td {
-			vertical-align: middle;
+			vertical-align: top;
+			padding-top: 12px;
+			padding-bottom: 12px;
 		}
 
 		code {
-			background: none;
-			padding: 0;
+			background: #f6f7f7;
+			padding: 2px 4px;
 			font-size: 11px;
+			border-radius: 2px;
 		}
 	}
 
-	&__uri-cell {
-		max-width: 200px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+	&__report-actions {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__report-main {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__report-header {
+		display: flex;
+		align-items: center;
+		flex-wrap: no-wrap;
+		gap: 8px;
+
+		.jcore-turva__directive {
+			flex-shrink: 0;
+			font-weight: 600;
+			color: #1e1e1e;
+			background: #dcdcde;
+		}
+
+		.jcore-turva__blocked-uri {
+			flex-shrink: 1;
+			color: #646970;
+			max-width: 600px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+
+	&__report-details {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 12px;
+		color: #646970;
+		max-width: 100%;
+
+		> span {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
 
 		code {
-			vertical-align: middle;
+			font-size: 10px;
+			background: none;
+			padding: 0;
+			color: #1e1e1e;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	&__report-meta {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 11px;
+		color: #a7aaad;
+
+		.jcore-turva__meta-sep {
+			color: #dcdcde;
 		}
 	}
 
 	&__uri-count {
 		font-size: 10px;
-		color: #646970;
-		vertical-align: middle;
+		color: #a7aaad;
 	}
 
 	&__col-processed {
 		width: 32px;
 		padding-right: 0 !important;
-	}
-
-	&__col-count,
-	&__col-date {
-		white-space: nowrap;
-		width: 1%;
+		vertical-align: middle !important;
 	}
 
 	&__col-actions {
-		white-space: nowrap;
 		width: 1%;
+		white-space: nowrap;
+		vertical-align: middle !important;
 	}
 
 	&__report-row {

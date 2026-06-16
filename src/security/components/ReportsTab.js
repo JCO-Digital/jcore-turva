@@ -8,7 +8,7 @@ import {
 	TextControl,
 } from '@wordpress/components';
 import { check } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { CSP_DIRECTIVES, PERMISSIONS_DIRECTIVES } from '../constants';
@@ -586,15 +586,7 @@ export default function ReportsTab() {
 									onClick={ handleMarkAllProcessed }
 								/>
 							</th>
-							<th>{ __( 'Directive', 'jcore-turva' ) }</th>
-							<th>{ __( 'Blocked URI', 'jcore-turva' ) }</th>
-							<th>{ __( 'Document', 'jcore-turva' ) }</th>
-							<th className="jcore-turva__col-count">
-								{ __( 'Count', 'jcore-turva' ) }
-							</th>
-							<th className="jcore-turva__col-date">
-								{ __( 'Last seen', 'jcore-turva' ) }
-							</th>
+							<th>{ __( 'Violation Report', 'jcore-turva' ) }</th>
 							<th className="jcore-turva__col-actions">
 								{ __( 'Actions', 'jcore-turva' ) }
 							</th>
@@ -636,28 +628,76 @@ export default function ReportsTab() {
 									/>
 								</td>
 								<td>
-									<code>{ report.violated_directive }</code>
+									<div className="jcore-turva__report-main">
+										<div className="jcore-turva__report-header">
+											<code className="jcore-turva__directive">
+												{ report.violated_directive }
+											</code>
+											<code
+												className="jcore-turva__blocked-uri"
+												title={ report.blocked_uri }
+											>
+												{ report.blocked_uri }
+											</code>
+										</div>
+										<div className="jcore-turva__report-details">
+											<span>
+												{ __(
+													'In document:',
+													'jcore-turva'
+												) }{ ' ' }
+												<code
+													title={
+														report.document_uri
+													}
+												>
+													{ report.document_uri }
+												</code>
+											</span>
+											{ report.uris?.length > 1 && (
+												<span className="jcore-turva__uri-count">
+													{ ' ' }
+													(
+													{ sprintf(
+														/* translators: %d: number of more URIs */
+														__(
+															'+%d more',
+															'jcore-turva'
+														),
+														report.uris.length - 1
+													) }
+													)
+												</span>
+											) }
+										</div>
+										<div className="jcore-turva__report-meta">
+											<span>
+												{ sprintf(
+													/* translators: %d: number of occurrences */
+													_n(
+														'%d occurrence',
+														'%d occurrences',
+														report.report_count,
+														'jcore-turva'
+													),
+													report.report_count
+												) }
+											</span>
+											<span className="jcore-turva__meta-sep">
+												|
+											</span>
+											<span>
+												{ __(
+													'Last seen:',
+													'jcore-turva'
+												) }{ ' ' }
+												{ formatDate(
+													report.last_seen
+												) }
+											</span>
+										</div>
+									</div>
 								</td>
-								<td
-									className="jcore-turva__uri-cell"
-									title={ report.blocked_uri }
-								>
-									<code>{ report.blocked_uri }</code>
-								</td>
-								<td
-									className="jcore-turva__uri-cell"
-									title={ report.document_uri }
-								>
-									<code>{ report.document_uri }</code>
-									{ report.uris?.length > 1 && (
-										<span className="jcore-turva__uri-count">
-											{ ' ' }
-											({ report.uris.length })
-										</span>
-									) }
-								</td>
-								<td>{ report.report_count }</td>
-								<td>{ formatDate( report.last_seen ) }</td>
 								<td className="jcore-turva__report-actions">
 									{ statusFilter === 'new' ? (
 										<>
