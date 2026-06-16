@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6357262b6028bcf5105a91d0b712172c",
+    "content-hash": "bfd6cca8dd2295551d9243559039f3d3",
     "packages": [
         {
             "name": "jcodigital/jcore-update",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JCO-Digital/jcore-update.git",
-                "reference": "37192594b87b61838393dcd4b5f021eafac4ebf6"
+                "reference": "2f2e4cc967cfc90ee7b33edbda1c815ca360ea30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JCO-Digital/jcore-update/zipball/37192594b87b61838393dcd4b5f021eafac4ebf6",
-                "reference": "37192594b87b61838393dcd4b5f021eafac4ebf6",
+                "url": "https://api.github.com/repos/JCO-Digital/jcore-update/zipball/2f2e4cc967cfc90ee7b33edbda1c815ca360ea30",
+                "reference": "2f2e4cc967cfc90ee7b33edbda1c815ca360ea30",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^8.2"
+                "php": "^8.1"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -40,9 +40,9 @@
             "description": "Composer-installable WordPress plugin updater integration for the JCORE Update API.",
             "support": {
                 "issues": "https://github.com/JCO-Digital/jcore-update/issues",
-                "source": "https://github.com/JCO-Digital/jcore-update/tree/v1.1.0"
+                "source": "https://github.com/JCO-Digital/jcore-update/tree/v1.2.0"
             },
-            "time": "2026-05-28T11:06:27+00:00"
+            "time": "2026-06-05T12:18:20+00:00"
         }
     ],
     "packages-dev": [],

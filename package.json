@@ -18,9 +18,9 @@
 		"po2mo": "pnpm dlx po2mo languages/jcore-turva-fi.po -o languages/jcore-turva-fi.mo && pnpm dlx po2mo languages/jcore-turva-sv_SE.po -o languages/jcore-turva-sv_SE.mo"
 	},
 	"devDependencies": {
-		"@wordpress/icons": "*",
-		"@wordpress/scripts": "^30.15.0",
-		"@wordpress/url": "*"
+		"@wordpress/icons": "^14.0.0",
+		"@wordpress/scripts": "^30.27.0",
+		"@wordpress/url": "^4.48.0"
 	},
 	"packageManager": "pnpm@11.3.0"
 }
