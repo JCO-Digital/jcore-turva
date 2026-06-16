@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: JCORE Turva 1.8.1\n"
+"Project-Id-Version: JCORE Turva 1.9.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jcore-turva\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-16T08:07:40+00:00\n"
+"POT-Creation-Date: 2026-06-16T10:46:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jcore-turva\n"
@@ -235,7 +235,7 @@ msgstr ""
 
 #: build/security.js:1
 #: src/security/components/DirectiveCard.js:73
-#: src/security/components/ReportsTab.js:209
+#: src/security/components/ReportsTab.js:275
 msgid "Add source"
 msgstr ""
 
@@ -268,8 +268,8 @@ msgstr ""
 
 #: build/security.js:1
 #: src/security/components/AddDirectivePanel.js:64
-#: src/security/components/ReportsTab.js:186
-#: src/security/components/ReportsTab.js:440
+#: src/security/components/ReportsTab.js:196
+#: src/security/components/ReportsTab.js:589
 msgid "Directive"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 #: src/security/components/AddDirectivePanel.js:93
 #: src/security/components/CleanCspModal.js:239
 #: src/security/components/ImportCspModal.js:83
-#: src/security/components/ReportsTab.js:212
+#: src/security/components/ReportsTab.js:278
 msgid "Cancel"
 msgstr ""
 
@@ -374,158 +374,158 @@ msgid "e.g. self, *, \"https://example.com\""
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:126
+#: src/security/components/ReportsTab.js:134
 msgid "Add as allowed source"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:134
+#: src/security/components/ReportsTab.js:143
 msgid "Violated directive"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:140
-#: src/security/components/ReportsTab.js:441
+#: src/security/components/ReportsTab.js:150
+#: src/security/components/ReportsTab.js:590
 msgid "Blocked URI"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:146
+#: src/security/components/ReportsTab.js:156
 msgid "Document URIs"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:162
+#: src/security/components/ReportsTab.js:172
 msgid "Occurrences"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:169
+#: src/security/components/ReportsTab.js:179
 msgid "Edit the directive and source value below as needed before adding to your policy."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:176
+#: src/security/components/ReportsTab.js:186
 msgid "Header"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:193
+#: src/security/components/ReportsTab.js:203
 msgid "Source value"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:196
+#: src/security/components/ReportsTab.js:206
 msgid "Edit the value to allow, e.g. 'self', 'unsafe-inline', or https://example.com"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:119
+#: src/security/components/ReportsTab.js:126
 msgid "Failed to add source. Please try again."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:235
+#: src/security/components/ReportsTab.js:337
 msgid "Failed to load reports."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:385
+#: src/security/components/ReportsTab.js:511
 msgid "New"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:391
+#: src/security/components/ReportsTab.js:521
 msgid "Archived"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:399
+#: src/security/components/ReportsTab.js:532
 msgid "Archive Processed"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:322
+#: src/security/components/ReportsTab.js:443
 msgid "Are you sure you want to archive all new reports?"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:403
+#: src/security/components/ReportsTab.js:539
 msgid "Archive All"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:356
+#: src/security/components/ReportsTab.js:480
 msgid "Are you sure you want to delete all reports in this view? This action cannot be undone."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:409
+#: src/security/components/ReportsTab.js:549
 msgid "Delete All"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:422
+#: src/security/components/ReportsTab.js:562
 msgid "No new violation reports."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:423
+#: src/security/components/ReportsTab.js:563
 msgid "No archived reports."
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:434
+#: src/security/components/ReportsTab.js:580
 msgid "Mark all as processed"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:442
+#: src/security/components/ReportsTab.js:591
 msgid "Document"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:444
+#: src/security/components/ReportsTab.js:593
 msgid "Count"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:447
+#: src/security/components/ReportsTab.js:596
 msgid "Last seen"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:450
+#: src/security/components/ReportsTab.js:599
 msgid "Actions"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:470
+#: src/security/components/ReportsTab.js:619
 msgid "Unmark as processed"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:471
+#: src/security/components/ReportsTab.js:623
 msgid "Mark as processed"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:511
+#: src/security/components/ReportsTab.js:671
 msgid "Review"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:519
+#: src/security/components/ReportsTab.js:684
 msgid "Archive"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:529
+#: src/security/components/ReportsTab.js:699
 msgid "Restore"
 msgstr ""
 
 #: build/security.js:1
-#: src/security/components/ReportsTab.js:537
+#: src/security/components/ReportsTab.js:712
 msgid "Delete"
 msgstr ""
 
