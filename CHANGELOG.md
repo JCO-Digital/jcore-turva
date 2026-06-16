@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.9.3 (2026-06-16)
+### 1.9.4 (2026-06-16)
+
+#### Bug Fixes
+
+- security: update CSS selector for toggle control label (d34e78d)
+
+### v1.9.3 (2026-06-16)
 
 #### Maintenance
 
