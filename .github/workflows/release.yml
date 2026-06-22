@@ -57,20 +57,7 @@ jobs:
           changelog: "true"
           push: "true"
           commit_suffix: "[skip ci]"
-          version_sync: "jcore-turva.php"
-
-      - name: Update README
-        if: steps.foonver.outputs.is_bumped == 'true'
-        run: |
-          node scripts/update-readme.js
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          if ! git diff --cached --quiet; then
-            git commit -m "docs: update README headers [skip ci]"
-            git pull --rebase origin ${{ github.ref_name }}
-            git push origin ${{ github.ref_name }}
-          fi
+          version_sync: "jcore-turva.php,README.md"
 
   # Call the reusable workflow from jcore-update
   publish:
