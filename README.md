@@ -5,9 +5,9 @@
 **Requires at least:** 6.7  
 **Tested up to:** 7.0  
 **Requires PHP:** 8.2  
-**Stable tag:** 1.9.4  
+**Stable tag:** 1.10.0  
 **License:** GPL-2.0-or-later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 Manage security headers like CSP and Permissions Policy with violation reporting through a modern React interface.
 
@@ -54,6 +54,7 @@ A `Makefile` is provided for convenience:
 
 - `pnpm install`: Install JavaScript dependencies.
 - `composer install`: Install PHP dependencies.
+- `pnpm update-readme`: Update `README.md` headers from the plugin file.
 - `pnpm build`: Build the production assets.
 - `pnpm start`: Start the development server with live reloading.
 - `pnpm format`: Format the code according to WordPress standards.

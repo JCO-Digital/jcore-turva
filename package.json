@@ -5,6 +5,7 @@
 	"author": "J&Co Digital <support@jco.fi>",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
+		"update-readme": "node scripts/update-readme.js",
 		"build": "wp-scripts build",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
