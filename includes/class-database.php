@@ -261,7 +261,7 @@ class Database {
 					'xss_protection'      => false,
 					'referrer_policy'     => false,
 					'referrer_value'      => 'strict-origin-when-cross-origin',
-					'csp_mode'            => 'enabled',
+					'csp_mode'            => 'disabled',
 					'csp_test_mode'       => false,
 					'google_multi_domain' => false,
 				),
