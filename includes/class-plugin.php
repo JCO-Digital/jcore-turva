@@ -41,6 +41,8 @@ class Plugin {
 		);
 		( new PluginUpdateHooks( $config ) )->register();
 
+		Compat::init();
+
 		add_action( 'send_headers', array( Headers::class, 'send' ) );
 		Rest_Api::register();
 
@@ -114,8 +116,9 @@ class Plugin {
 			'jcore-turva-security',
 			'jcoreTurva',
 			array(
-				'apiUrl' => rest_url( 'jcore-turva/v1' ),
-				'nonce'  => wp_create_nonce( 'wp_rest' ),
+				'apiUrl'         => rest_url( 'jcore-turva/v1' ),
+				'nonce'          => wp_create_nonce( 'wp_rest' ),
+				'jcore2Detected' => Compat::is_jcore2_detected(),
 			)
 		);
 	}

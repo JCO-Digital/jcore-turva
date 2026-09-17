@@ -13,7 +13,9 @@ function SourceRow( { source, onToggle, onDelete } ) {
 					( ! source.enabled ? ' is-disabled' : '' )
 				}
 			>
-				{ source.source }
+				{ source.source === ''
+					? __( '(empty — feature denied)', 'jcore-turva' )
+					: source.source }
 			</code>
 			<ToggleControl
 				__nextHasNoMarginBottom

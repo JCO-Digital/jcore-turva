@@ -1,6 +1,7 @@
 import { useState, useEffect } from "@wordpress/element";
 import {
 	Button,
+	Notice,
 	Panel,
 	PanelBody,
 	PanelRow,
@@ -11,6 +12,7 @@ import {
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import { JCORE2_DETECTED } from "../constants";
 
 const REFERRER_OPTIONS = [
 	{
@@ -235,6 +237,36 @@ export default function GeneralTab() {
 						/>
 					</PanelRow>
 				</PanelBody>
+				{JCORE2_DETECTED && (
+					<PanelBody
+						title={__("Theme Compatibility", "jcore-turva")}
+						initialOpen={true}
+					>
+						<PanelRow>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={__(
+									"Disable JCORE 2 theme security headers",
+									"jcore-turva",
+								)}
+								help={__(
+									"The JCORE 2 theme sends its own security headers and adds a second Security page under Settings. This plugin replaces that functionality entirely.",
+									"jcore-turva",
+								)}
+								checked={settings.disable_jcore2 !== false}
+								onChange={(v) => update("disable_jcore2", v)}
+							/>
+						</PanelRow>
+						{settings.disable_jcore2 === false && (
+							<Notice status="warning" isDismissible={false}>
+								{__(
+									"The theme is sending its own headers alongside this plugin. Browsers combine multiple Content-Security-Policy headers into the strictest common set, so the theme policy will keep blocking resources allowed here.",
+									"jcore-turva",
+								)}
+							</Notice>
+						)}
+					</PanelBody>
+				)}
 			</Panel>
 			<div className="jcore-turva__actions">
 				<Button

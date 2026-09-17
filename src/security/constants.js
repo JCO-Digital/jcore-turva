@@ -1,4 +1,5 @@
 export const CSP_DIRECTIVES = [
+	'default-src',
 	'script-src',
 	'script-src-elem',
 	'script-src-attr',
@@ -38,3 +39,6 @@ export const PERMISSIONS_DIRECTIVES = [
 
 // Directives that are boolean flags with no source list.
 export const FLAG_DIRECTIVES = [ 'upgrade-insecure-requests' ];
+
+// Whether the JCORE 2 theme security module was detected on this site.
+export const JCORE2_DETECTED = !! window.jcoreTurva?.jcore2Detected;

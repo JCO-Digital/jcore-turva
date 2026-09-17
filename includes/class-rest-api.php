@@ -138,6 +138,24 @@ class Rest_Api {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/jcore2/policies',
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( self::class, 'get_jcore2_policies' ),
+				'permission_callback' => array( self::class, 'admin_permission' ),
+				'args'                => array(
+					'header_type' => array(
+						'type'              => 'string',
+						'enum'              => array( 'csp', 'permissions' ),
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/reports',
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
@@ -494,7 +512,7 @@ class Rest_Api {
 	 * @param \WP_REST_Request $request The REST request.
 	 */
 	public static function save_settings( \WP_REST_Request $request ): \WP_REST_Response {
-		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode', 'google_multi_domain' );
+		$allowed = array( 'hsts', 'hsts_max_age', 'nosniff', 'xss_protection', 'referrer_policy', 'referrer_value', 'csp_mode', 'csp_test_mode', 'google_multi_domain', 'disable_jcore2' );
 		$current = get_option( 'jcore_turva_settings', array() );
 		foreach ( $allowed as $key ) {
 			if ( $request->has_param( $key ) ) {
@@ -503,6 +521,20 @@ class Rest_Api {
 		}
 		update_option( 'jcore_turva_settings', $current );
 		return rest_ensure_response( $current );
+	}
+
+	/**
+	 * GET /jcore2/policies — returns the JCORE 2 theme policy as importable pairs.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 */
+	public static function get_jcore2_policies( \WP_REST_Request $request ): \WP_REST_Response {
+		return rest_ensure_response(
+			array(
+				'available'  => Compat::is_jcore2_detected(),
+				'directives' => Compat::get_jcore2_directives( $request->get_param( 'header_type' ) ),
+			)
+		);
 	}
 
 	/**

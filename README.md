@@ -21,6 +21,7 @@ JCORE Turva is a WordPress plugin designed to help you manage security headers f
 - **Permissions Policy**: Control which browser features and APIs can be used on your site.
 - **Violation Reporting**: Capture and view security policy violations directly within your WordPress admin dashboard.
 - **Regional Google Domains**: Automatically expand Google domains to their regional TLDs for broader compatibility.
+- **JCORE 2 Compatibility**: Automatically detects and disables the JCORE 2 theme's built-in security module, which would otherwise send a competing set of headers, and imports its CSP and Permissions Policy so nothing is lost in the migration.
 - **Automatic Updates**: Integrated with the J&Co Digital update system.
 - **React-based UI**: A modern, responsive settings interface built with React.
 

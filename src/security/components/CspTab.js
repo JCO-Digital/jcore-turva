@@ -4,11 +4,13 @@ import { Button } from '@wordpress/components';
 import DirectivesManager from './DirectivesManager';
 import ImportCspModal from './ImportCspModal';
 import CleanCspModal from './CleanCspModal';
-import { CSP_DIRECTIVES } from '../constants';
+import ImportJcore2Modal from './ImportJcore2Modal';
+import { CSP_DIRECTIVES, JCORE2_DETECTED } from '../constants';
 
 export default function CspTab() {
 	const [ isImportModalOpen, setIsImportModalOpen ] = useState( false );
 	const [ isCleanModalOpen, setIsCleanModalOpen ] = useState( false );
+	const [ isJcore2ModalOpen, setIsJcore2ModalOpen ] = useState( false );
 	const [ refreshTicket, setRefreshTicket ] = useState( 0 );
 
 	const handleImportComplete = () => {
@@ -18,6 +20,11 @@ export default function CspTab() {
 
 	const handleCleanComplete = () => {
 		setIsCleanModalOpen( false );
+		setRefreshTicket( ( prev ) => prev + 1 );
+	};
+
+	const handleJcore2ImportComplete = () => {
+		setIsJcore2ModalOpen( false );
 		setRefreshTicket( ( prev ) => prev + 1 );
 	};
 
@@ -43,6 +50,14 @@ export default function CspTab() {
 					>
 						{ __( 'Import CSP', 'jcore-turva' ) }
 					</Button>
+					{ JCORE2_DETECTED && (
+						<Button
+							variant="secondary"
+							onClick={ () => setIsJcore2ModalOpen( true ) }
+						>
+							{ __( 'Import from JCORE 2', 'jcore-turva' ) }
+						</Button>
+					) }
 				</div>
 			</div>
 			<DirectivesManager
@@ -64,6 +79,13 @@ export default function CspTab() {
 				<CleanCspModal
 					onClose={ () => setIsCleanModalOpen( false ) }
 					onClean={ handleCleanComplete }
+				/>
+			) }
+			{ isJcore2ModalOpen && (
+				<ImportJcore2Modal
+					headerType="csp"
+					onClose={ () => setIsJcore2ModalOpen( false ) }
+					onImport={ handleJcore2ImportComplete }
 				/>
 			) }
 		</div>
