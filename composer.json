@@ -10,6 +10,6 @@
 		}
 	],
 	"require": {
-		"jcodigital/jcore-update": "^1.1"
+		"jcodigital/jcore-update": "^1"
 	}
 }

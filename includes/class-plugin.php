@@ -36,7 +36,7 @@ class Plugin {
 		$config = new UpdateConfig(
 			pluginFile: JCORE_TURVA_PLUGIN_FILE,
 			slug: 'jcore-turva',
-			version: PluginHelper::getVersion( __FILE__ ),
+			version: PluginHelper::getVersion( JCORE_TURVA_PLUGIN_FILE ),
 			apiBaseUrl: 'https://update.jcore.fi/v1',
 		);
 		( new PluginUpdateHooks( $config ) )->register();
