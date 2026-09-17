@@ -1,6 +1,20 @@
 # Changelog
 
-## 1.11.0 (2026-06-22)
+## 1.12.0 (2026-09-17)
+
+#### Features
+
+- compat: add compatibility layer for JCORE 2 security module (e6c4703)
+
+#### Bug Fixes
+
+- security: disable Content Security Policy by default (343efad)
+
+#### Styles
+
+- security: format code with prettier and single quotes (8be00d1)
+
+## v1.11.0 (2026-06-22)
 
 #### Features
 
