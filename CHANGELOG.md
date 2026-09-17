@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.12.0 (2026-09-17)
+### 1.12.1 (2026-09-17)
+
+#### Build System
+
+- composer: update jcore-update dependency (bb2e388)
+
+## v1.12.0 (2026-09-17)
 
 #### Features
 
