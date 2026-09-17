@@ -1,6 +1,24 @@
 # Changelog
 
-## 1.10.0 (2026-06-16)
+## 1.11.0 (2026-06-22)
+
+#### Features
+
+- ci: automate README header updates during release (9fd46c3)
+
+#### Bug Fixes
+
+- security: handle CSP sub-directive logic in review modal (1525864)
+
+#### Documentation
+
+- readme: format project metadata using markdown (64fa5c9)
+
+#### Maintenance
+
+- scripts: apply consistent formatting to update-readme.js (3673486)
+
+## v1.10.0 (2026-06-16)
 
 #### Features
 
