@@ -2,7 +2,7 @@
 Contributors: jcodigital
 Tags: security, csp, permissions-policy, headers, reports
 Requires at least: 6.7
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.2
 Stable tag: 1.12.1
 License: GPL-2.0-or-later
@@ -243,4 +243,3 @@ Deleting the plugin drops its three tables and removes its options. Deactivating
 * Build: deps - add package manager configuration to package.json
 * CI: github - remove manual commit step for built blocks
 * CI: release - update sync file and add update api notification
-
