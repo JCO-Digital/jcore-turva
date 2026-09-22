@@ -5,7 +5,7 @@
  * Description:       Security header management - CSP, Permissions Policy, and violation reporting.
  * Version:           1.12.1
  * Requires at least: 6.7
- * Tested up to:      7.0
+ * Tested up to:      7.1
  * Requires PHP:      8.2
  * Author:            J&Co Digital Oy
  * Author URI:        https://jco.fi
