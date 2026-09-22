@@ -20,6 +20,42 @@ class Database {
 	private const DB_VERSION_OPTION = 'jcore_turva_db_version';
 
 	/**
+	 * Option holding the general settings array.
+	 */
+	public const SETTINGS_OPTION = 'jcore_turva_settings';
+
+	/**
+	 * Unprefixed table names, keyed by the short name the rest of the plugin uses.
+	 */
+	private const TABLES = array(
+		'sources'     => 'jcore_security_sources',
+		'reports'     => 'jcore_security_reports',
+		'report_uris' => 'jcore_security_report_uris',
+	);
+
+	/**
+	 * Returns the prefixed name of one of the plugin's tables.
+	 *
+	 * @param string $name One of `sources`, `reports` or `report_uris`.
+	 *
+	 * @return string
+	 */
+	public static function table( string $name ): string {
+		global $wpdb;
+
+		return $wpdb->prefix . self::TABLES[ $name ];
+	}
+
+	/**
+	 * Returns every table the plugin owns, prefixed.
+	 *
+	 * @return string[]
+	 */
+	public static function tables(): array {
+		return array_map( array( self::class, 'table' ), array_keys( self::TABLES ) );
+	}
+
+	/**
 	 * Runs install() if the stored DB version is behind the current one.
 	 * Called on every plugins_loaded so schema changes deploy without reactivation.
 	 */
@@ -59,7 +95,7 @@ class Database {
 		$charset = $wpdb->get_charset_collate();
 
 		dbDelta(
-			"CREATE TABLE {$wpdb->prefix}jcore_security_sources (
+			'CREATE TABLE ' . self::table( 'sources' ) . " (
 			  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
 			  header_type VARCHAR(20)  NOT NULL DEFAULT '',
 			  directive   VARCHAR(50)  NOT NULL DEFAULT '',
@@ -68,11 +104,11 @@ class Database {
 			  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  PRIMARY KEY  (id),
 			  KEY header_directive_enabled (header_type, directive, enabled)
-			) {$charset};"
+			) " . $charset . ';'
 		);
 
 		dbDelta(
-			"CREATE TABLE {$wpdb->prefix}jcore_security_reports (
+			'CREATE TABLE ' . self::table( 'reports' ) . " (
 			  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
 			  violated_directive VARCHAR(100) NOT NULL DEFAULT '',
 			  blocked_uri        VARCHAR(255) NOT NULL DEFAULT '',
@@ -83,11 +119,11 @@ class Database {
 			  last_seen          DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  PRIMARY KEY  (id),
 			  UNIQUE KEY dedup (violated_directive, blocked_uri)
-			) {$charset};"
+			) " . $charset . ';'
 		);
 
 		dbDelta(
-			"CREATE TABLE {$wpdb->prefix}jcore_security_report_uris (
+			'CREATE TABLE ' . self::table( 'report_uris' ) . " (
 			  id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
 			  report_id  INT UNSIGNED NOT NULL,
 			  uri        VARCHAR(512) NOT NULL DEFAULT '',
@@ -95,7 +131,7 @@ class Database {
 			  PRIMARY KEY  (id),
 			  KEY report_id_last_seen (report_id, last_seen),
 			  UNIQUE KEY report_uri (report_id, uri(191))
-			) {$charset};"
+			) " . $charset . ';'
 		);
 
 		if ( $update_version && get_option( self::DB_VERSION_OPTION ) !== self::DB_VERSION ) {
@@ -112,8 +148,8 @@ class Database {
 	 */
 	private static function migrate_to_1_2(): void {
 		global $wpdb;
-		$reports_table = $wpdb->prefix . 'jcore_security_reports';
-		$uris_table    = $wpdb->prefix . 'jcore_security_report_uris';
+		$reports_table = self::table( 'reports' );
+		$uris_table    = self::table( 'report_uris' );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$has_column = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $reports_table, 'document_uri' ) );
@@ -233,7 +269,7 @@ class Database {
 	private static function seed_defaults(): void {
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'jcore_security_sources';
+		$table = self::table( 'sources' );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$count = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', $table ) );
@@ -251,7 +287,7 @@ class Database {
 			);
 		}
 
-		if ( ! get_option( 'jcore_turva_settings' ) ) {
+		if ( ! get_option( self::SETTINGS_OPTION ) ) {
 			update_option(
 				'jcore_turva_settings',
 				array(

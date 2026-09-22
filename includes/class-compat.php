@@ -38,11 +38,15 @@ class Compat {
 
 	/**
 	 * Whether the JCORE 2 security module was found on this site.
+	 *
+	 * @var bool
 	 */
 	private static bool $jcore2_detected = false;
 
 	/**
 	 * Whether any JCORE 2 callback was actually removed.
+	 *
+	 * @var bool
 	 */
 	private static bool $jcore2_disabled = false;
 
@@ -95,7 +99,7 @@ class Compat {
 	 * Whether the JCORE 2 takeover is enabled. Defaults to on.
 	 */
 	public static function is_jcore2_disable_enabled(): bool {
-		$settings = get_option( 'jcore_turva_settings', array() );
+		$settings = get_option( Database::SETTINGS_OPTION, array() );
 		$enabled  = ! isset( $settings['disable_jcore2'] ) || ! empty( $settings['disable_jcore2'] );
 
 		/**
@@ -267,14 +271,14 @@ class Compat {
 	 * Matches both the `Class::method` string and `array( Class, 'method' )` forms,
 	 * and any child theme class extending the theme security class.
 	 *
-	 * @param mixed  $function The registered callback.
-	 * @param string $method   Static method name to match.
+	 * @param mixed  $registered The registered callback.
+	 * @param string $method     Static method name to match.
 	 */
-	private static function is_jcore2_callback( mixed $function, string $method ): bool {
-		if ( is_string( $function ) && str_contains( $function, '::' ) ) {
-			list( $class, $callback_method ) = explode( '::', $function, 2 );
-		} elseif ( is_array( $function ) && 2 === count( $function ) ) {
-			list( $class, $callback_method ) = $function;
+	private static function is_jcore2_callback( mixed $registered, string $method ): bool {
+		if ( is_string( $registered ) && str_contains( $registered, '::' ) ) {
+			list( $class, $callback_method ) = explode( '::', $registered, 2 );
+		} elseif ( is_array( $registered ) && 2 === count( $registered ) ) {
+			list( $class, $callback_method ) = $registered;
 			$class                           = is_object( $class ) ? get_class( $class ) : (string) $class;
 		} else {
 			return false;

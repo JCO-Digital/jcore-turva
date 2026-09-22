@@ -22,7 +22,7 @@ class Csp {
 	public static function build_header(): string {
 		global $wpdb;
 
-		$settings            = get_option( 'jcore_turva_settings', array() );
+		$settings            = get_option( Database::SETTINGS_OPTION, array() );
 		$google_multi_domain = ! empty( $settings['google_multi_domain'] );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery

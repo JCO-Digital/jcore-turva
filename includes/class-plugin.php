@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin bootstrap — admin pages and asset enqueueing.
+ * Plugin bootstrap.
  *
  * @package Jcore\Turva
  */
@@ -9,117 +9,108 @@ namespace Jcore\Turva;
 
 use Jcore\Update\Config\UpdateConfig;
 use Jcore\Update\Hooks\PluginUpdateHooks;
-use Jcore\Update\Support\PluginHelper;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit();
+	exit;
 }
 
 /**
- * Wires up actions and registers the admin page.
+ * Wires every component to its hooks.
  */
-class Plugin {
-
-	private static bool $initialized = false;
+final class Plugin {
 
 	/**
-	 * Registers all hooks. Called once on plugins_loaded.
+	 * The single instance.
+	 *
+	 * @var Plugin|null
 	 */
-	public static function init(): void {
-		if ( self::$initialized ) {
-			return;
-		}
-		self::$initialized = true;
+	private static ?Plugin $instance = null;
 
+	/**
+	 * Returns the single instance.
+	 *
+	 * @return Plugin
+	 */
+	public static function instance(): Plugin {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Registers every hook. Called once on `plugins_loaded`.
+	 *
+	 * @return void
+	 */
+	public function boot(): void {
 		Database::maybe_upgrade();
 
-		$config = new UpdateConfig(
-			pluginFile: JCORE_TURVA_PLUGIN_FILE,
-			slug: 'jcore-turva',
-			version: PluginHelper::getVersion( JCORE_TURVA_PLUGIN_FILE ),
-			apiBaseUrl: 'https://update.jcore.fi/v1',
-		);
-		( new PluginUpdateHooks( $config ) )->register();
+		$this->register_updater();
 
 		Compat::init();
 
 		add_action( 'send_headers', array( Headers::class, 'send' ) );
-		Rest_Api::register();
+		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 
 		if ( is_admin() ) {
-			add_action( 'admin_menu', array( self::class, 'add_menu_page' ) );
-			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_assets' ) );
+			Admin\Menu::register();
+			add_filter( 'plugin_action_links_' . plugin_basename( JCORE_TURVA_FILE ), array( $this, 'action_links' ) );
 		}
 	}
 
 	/**
-	 * Registers the Settings > Security sub-page.
-	 */
-	public static function add_menu_page(): void {
-		add_options_page(
-			__( 'Security', 'jcore-turva' ),
-			__( 'Security', 'jcore-turva' ),
-			'manage_options',
-			'jcore-turva',
-			array( self::class, 'render_page' ),
-		);
-	}
-
-	/**
-	 * Outputs the React app mount point.
-	 */
-	public static function render_page(): void {
-		echo '<div id="jcore-turva-app"></div>';
-	}
-
-	/**
-	 * Enqueues the React app only on our admin page.
+	 * Hooks the plugin into the J&Co Digital update service.
 	 *
-	 * @param string $hook The current admin page hook.
+	 * The library is vendored into the release; a source checkout without a
+	 * `composer install` simply runs without update checks.
+	 *
+	 * @return void
 	 */
-	public static function enqueue_assets( string $hook ): void {
-		if ( 'settings_page_jcore-turva' !== $hook ) {
+	private function register_updater(): void {
+		if ( ! class_exists( UpdateConfig::class ) ) {
 			return;
 		}
 
-		$asset_file = JCORE_TURVA_BUILD_DIR . '/security.asset.php';
-		if ( ! file_exists( $asset_file ) ) {
-			return;
-		}
-		$asset = require $asset_file;
-
-		wp_enqueue_script(
-			'jcore-turva-security',
-			plugins_url( 'build/security.js', JCORE_TURVA_PLUGIN_FILE ),
-			$asset['dependencies'],
-			$asset['version'],
-			true,
+		$config = new UpdateConfig(
+			pluginFile: JCORE_TURVA_FILE,
+			slug: 'jcore-turva',
+			version: JCORE_TURVA_VERSION,
+			apiBaseUrl: 'https://update.jcore.fi/v1',
 		);
 
-		wp_set_script_translations(
-			'jcore-turva-security',
-			'jcore-turva',
-			JCORE_TURVA_PLUGIN_DIR . '/languages'
-		);
+		( new PluginUpdateHooks( $config ) )->register();
+	}
 
-		$css_file = JCORE_TURVA_BUILD_DIR . '/style-security.css';
-		if ( file_exists( $css_file ) ) {
-			wp_enqueue_style(
-				'jcore-turva-security',
-				plugins_url( 'build/style-security.css', JCORE_TURVA_PLUGIN_FILE ),
-				array( 'wp-components' ),
-				$asset['version'],
-			);
-		}
+	/**
+	 * Registers the REST routes the settings screen talks to.
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes(): void {
+		( new Rest\Sources_Controller() )->register_routes();
+		( new Rest\Settings_Controller() )->register_routes();
+		( new Rest\Reports_Controller() )->register_routes();
+	}
 
-		wp_localize_script(
-			'jcore-turva-security',
-			'jcoreTurva',
-			array(
-				'apiUrl'         => rest_url( 'jcore-turva/v1' ),
-				'nonce'          => wp_create_nonce( 'wp_rest' ),
-				'jcore2Detected' => Compat::is_jcore2_detected(),
+	/**
+	 * Adds a Settings link on the Plugins screen.
+	 *
+	 * @param string[] $links Existing action links.
+	 *
+	 * @return string[]
+	 */
+	public function action_links( array $links ): array {
+		array_unshift(
+			$links,
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( Admin\Menu::url() ),
+				esc_html__( 'Settings', 'jcore-turva' )
 			)
 		);
+
+		return $links;
 	}
 }

@@ -1,27 +1,37 @@
 {
-	"name": "jcore-turva",
-	"version": "1.12.1",
-	"description": "JCORE Turva security plugin",
-	"author": "J&Co Digital <support@jco.fi>",
-	"license": "GPL-2.0-or-later",
-	"scripts": {
-		"update-readme": "node scripts/update-readme.js",
-		"build": "wp-scripts build",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"check": "make check",
-		"start": "wp-scripts start",
-		"env:start": "pnpm dlx @wordpress/env start",
-		"env:stop": "pnpm dlx @wordpress/env stop",
-		"make-pot": "wp i18n make-pot . languages/jcore-turva.pot --domain=jcore-turva --exclude=vendor,node_modules",
-		"make-json": "pnpm dlx --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/",
-		"po2mo": "pnpm dlx po2mo languages/jcore-turva-fi.po -o languages/jcore-turva-fi.mo && pnpm dlx po2mo languages/jcore-turva-sv_SE.po -o languages/jcore-turva-sv_SE.mo"
-	},
-	"devDependencies": {
-		"@wordpress/icons": "^14.0.0",
-		"@wordpress/scripts": "^30.27.0",
-		"@wordpress/url": "^4.48.0"
-	},
-	"packageManager": "pnpm@11.3.0"
+  "name": "jcore-turva",
+  "version": "1.12.1",
+  "description": "Security header management for WordPress - CSP, Permissions Policy, and violation reporting.",
+  "author": "J&Co Digital Oy <support@jco.fi>",
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "format": "wp-scripts format src",
+    "lint:js": "wp-scripts lint-js src",
+    "lint:css": "wp-scripts lint-style 'src/**/*.scss'",
+    "lint:php": "composer lint",
+    "check": "pnpm lint:js && pnpm lint:css && pnpm lint:php",
+    "i18n": "pnpm make-pot && pnpm make-mo && pnpm make-json",
+    "make-pot": "wp i18n make-pot . languages/jcore-turva.pot --domain=jcore-turva --slug=jcore-turva --exclude=vendor,node_modules,src,release,.wp",
+    "make-mo": "wp i18n make-mo languages languages",
+    "make-json": "pnpm dlx --package='@wp-blocks/make-pot@1.6.3' makejson build/ languages/",
+    "playground": "wp-playground-cli server --blueprint=.wp/blueprint.json --mount=.:/wordpress/wp-content/plugins/jcore-turva --php=8.2 --port=8882"
+  },
+  "devDependencies": {
+    "@wordpress/icons": "^14.0.0",
+    "@wordpress/scripts": "^30.27.0",
+    "@wordpress/url": "^4.48.0",
+    "@wp-playground/cli": "^3.1.54"
+  },
+  "packageManager": "pnpm@11.3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JCO-Digital/jcore-turva.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JCO-Digital/jcore-turva/issues"
+  },
+  "homepage": "https://github.com/JCO-Digital/jcore-turva#readme"
 }

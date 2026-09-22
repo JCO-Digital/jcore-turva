@@ -1,85 +1,110 @@
 # JCORE Turva
 
-**Contributors:** jco-fi  
-**Tags:** security, csp, permissions-policy, headers, reports  
-**Requires at least:** 6.7  
-**Tested up to:** 7.0  
-**Requires PHP:** 8.2  
-**Stable tag:** 1.12.1  
-**License:** GPL-2.0-or-later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+Security header management for WordPress: Content Security Policy, Permissions Policy, and the violation reports they produce, from one screen in wp-admin.
 
-Manage security headers like CSP and Permissions Policy with violation reporting through a modern React interface.
-
-## Description
-
-JCORE Turva is a WordPress plugin designed to help you manage security headers for your website. It provides a user-friendly interface for configuring Content Security Policy (CSP) and Permissions Policy, along with a built-in violation reporting system to help you monitor and refine your security settings.
-
-## Features
-
-- **Content Security Policy (CSP) Management**: Easily define directives for your CSP to protect your site from XSS and other injection attacks.
-- **Permissions Policy**: Control which browser features and APIs can be used on your site.
-- **Violation Reporting**: Capture and view security policy violations directly within your WordPress admin dashboard.
-- **Regional Google Domains**: Automatically expand Google domains to their regional TLDs for broader compatibility.
-- **JCORE 2 Compatibility**: Automatically detects and disables the JCORE 2 theme's built-in security module, which would otherwise send a competing set of headers, and imports its CSP and Permissions Policy so nothing is lost in the migration.
-- **Automatic Updates**: Integrated with the J&Co Digital update system.
-- **React-based UI**: A modern, responsive settings interface built with React.
+This file covers the repository and the development workflow. What the plugin does, and how to use it, is in [readme.txt](readme.txt).
 
 ## Requirements
 
-- **WordPress**: 6.7 or higher
-- **PHP**: 8.2 or higher
+- PHP 8.2+
+- WordPress 6.7+
+- Node 22+ and [pnpm](https://pnpm.io/)
+- [Composer](https://getcomposer.org/) and [WP-CLI](https://wp-cli.org/) (WP-CLI is only needed for the translation targets)
 
-## Installation
+## Getting started
 
-1. Upload the `jcore-turva` folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Navigate to **Settings > JCORE Turva** to configure your security headers.
-
-## Development
-
-To set up the development environment, you will need `pnpm` and `composer` installed.
-
-### Makefile Commands
-
-A `Makefile` is provided for convenience:
-
-- `make install`: Install both JavaScript and PHP dependencies.
-- `make build`: Run the build process.
-- `make start`: Start the WordPress environment.
-- `make stop`: Stop the WordPress environment.
-- `make release`: Create a zip file for release in the `release/` directory.
-- `make clean`: Remove all build and dependency directories.
-
-### Build Scripts
-
-- `pnpm install`: Install JavaScript dependencies.
-- `composer install`: Install PHP dependencies.
-- `pnpm update-readme`: Update `README.md` headers from the plugin file.
-- `pnpm build`: Build the production assets.
-- `pnpm start`: Start the development server with live reloading.
-- `pnpm format`: Format the code according to WordPress standards.
-- `pnpm lint:js`: Lint the JavaScript files.
-- `pnpm lint:css`: Lint the SCSS files.
-
-### WordPress Environment
-
-You can use the provided `@wordpress/env` configuration to quickly spin up a local WordPress environment:
-
-```bash
-pnpm env:start
+```sh
+pnpm install
+composer install
+pnpm build
 ```
 
-To stop the environment:
+Then run a throwaway WordPress with the plugin mounted:
 
-```bash
-pnpm env:stop
+```sh
+pnpm playground
 ```
+
+That serves [WordPress Playground](https://wordpress.org/playground/) on <http://localhost:8882> from `.wp/blueprint.json`, logged in as `admin` / `password` and landing on the plugin's settings screen. Plugin Check is installed alongside it.
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm build` | Build the admin app into `build/`. |
+| `pnpm start` | Same, in watch mode. |
+| `pnpm check` | Everything CI lints: ESLint, Stylelint and PHPCS. |
+| `pnpm lint:js` / `lint:css` / `lint:php` | One linter at a time. |
+| `pnpm format` | Format `src/` with `wp-scripts format`. |
+| `composer lint:fix` | Fix what PHPCBF can fix. |
+| `pnpm i18n` | Regenerate the POT, the MO files and the JS translation JSON. |
+| `pnpm playground` | Serve the plugin in WordPress Playground. |
+
+A `Makefile` wraps the same scripts (`make ci` is the entry point the shared publish workflow calls); it is a shim, not a second build system.
+
+## Layout
+
+```
+jcore-turva.php              Plugin header, constants, autoloader, bootstrap
+uninstall.php                Drops the tables and options on delete
+includes/
+  class-plugin.php           Wires every component to its hooks
+  class-database.php         Table names, schema and migrations
+  class-headers.php          Sends the headers on send_headers
+  class-csp.php              Builds the Content-Security-Policy value
+  class-permissions.php      Builds the Permissions-Policy value
+  class-google-domains.php   Regional Google TLDs
+  class-compat.php           Detects and unhooks the JCORE 2 security module
+  admin/class-menu.php       Settings > Security page and its assets
+  rest/class-controller.php  Shared namespace and permission check
+  rest/class-*-controller.php  sources, settings, reports
+views/admin/page.php         Mount point for the React app
+src/security/                The admin app (@wordpress/scripts)
+languages/                   .po sources; .pot, .mo and .json are generated
+```
+
+Classes autoload from the `Jcore\Turva` namespace: `Jcore\Turva\Rest\Sources_Controller` lives in `includes/rest/class-sources-controller.php`.
+
+## REST API
+
+Everything the admin app does goes through `jcore-turva/v1`. All routes require `manage_options`, except `POST /csp-report`, which is the public endpoint the CSP `report-uri` points browsers at.
+
+| Route | Methods |
+| --- | --- |
+| `/sources` | GET, POST, DELETE |
+| `/sources/import` | POST |
+| `/sources/{id}` | PUT/PATCH, DELETE |
+| `/jcore2/policies` | GET |
+| `/settings` | GET, POST |
+| `/reports` | GET |
+| `/reports/archive`, `/reports/mark-processed`, `/reports/delete` | POST |
+| `/reports/{id}` | PUT/PATCH, DELETE |
+| `/reports/{id}/archive`, `/reports/{id}/unarchive` | POST |
+
+## Database
+
+Three tables, created on activation and kept up to date by `Database::maybe_upgrade()` on every load:
+
+- `{prefix}jcore_security_sources` – one row per directive source, for both header types.
+- `{prefix}jcore_security_reports` – violations, deduplicated on (directive, blocked URI) and counted.
+- `{prefix}jcore_security_report_uris` – the documents each violation was seen on.
+
+## Filters
+
+- `jcore_turva_disable_jcore2` – return `false` to leave the JCORE 2 theme's security module hooked up.
+
+## Releasing
+
+Pushing to `main` runs `.github/workflows/release.yml`:
+
+1. **check** – lint, build, then run Plugin Check against the tree minus `.distignore`. Also runs on pull requests.
+2. **release** – [foonver](https://github.com/foonly/foonver) reads the conventional commits since the last tag, bumps the version, syncs it into `jcore-turva.php`, `readme.txt` and `package.json`, writes the `== Changelog ==` section of `readme.txt` and pushes the tag. Its configuration lives in `.foonver.toml`.
+3. **publish** – the reusable workflow in [jcore-update](https://github.com/JCO-Digital/jcore-update) builds the zip, attaches it to a GitHub release, registers the version with `update.jcore.fi`, pushes to the dist repository and posts to Slack.
+
+Nothing here is published to wordpress.org. Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org/), or foonver will not know what to bump.
+
+`.distignore` is the single list of what does not ship — it drives both the packaged zip and the dist repository.
 
 ## License
 
-This project is licensed under the GPL-2.0-or-later License. See the [LICENSE](https://www.gnu.org/licenses/gpl-2.0.html) file for details.
-
-## Author
-
-Created by [J&Co Digital](https://jco.fi).
+GPL-2.0-or-later. See [LICENSE](LICENSE).

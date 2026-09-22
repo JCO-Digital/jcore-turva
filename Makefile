@@ -1,54 +1,33 @@
-.PHONY: all dev ci ci-install install build i18n release watch start stop clean format check
+# Thin wrapper over the pnpm scripts. `make ci` is the entry point the shared
+# publish workflow in jcore-update calls; the rest are local shortcuts.
+
+.PHONY: all ci install build i18n check format start playground clean
 
 all: install build i18n
 
-dev: install watch
-
 ci: install build i18n
 
-ci-install: install
-
 install:
-	pnpm i
-	composer install --no-dev
+	pnpm install
+	composer install --no-dev --no-interaction --prefer-dist
 
 build:
 	pnpm build
 
 i18n:
-	pnpm run make-pot
-	@if command -v msgfmt >/dev/null 2>&1; then \
-		msgfmt -o languages/jcore-turva-sv_SE.mo languages/jcore-turva-sv_SE.po; \
-		msgfmt -o languages/jcore-turva-fi.mo languages/jcore-turva-fi.po; \
-	else \
-		echo "Warning: msgfmt not found, using po2mo fallback"; \
-		pnpm run po2mo; \
-	fi
-	pnpm run make-json
-
-release:
-	mkdir -p release
-	zip release/jcore-turva.zip -r * -x@.zipexclude
-
-watch:
-	pnpm run watch
-
-start:
-	pnpm run env:start
-
-stop:
-	pnpm run env:stop
-
-format:
-	pnpm run format
+	pnpm i18n
 
 check:
-	pnpm run lint:js
-	pnpm run lint:css
-	pnpm run make-pot
+	pnpm check
+
+format:
+	pnpm format
+
+start:
+	pnpm start
+
+playground:
+	pnpm playground
 
 clean:
-	rm -rf node_modules
-	rm -rf vendor
-	rm -rf build
-	rm -rf release
+	rm -rf build node_modules release vendor

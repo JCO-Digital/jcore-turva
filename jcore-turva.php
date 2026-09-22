@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name:       JCORE Turva
+ * Plugin URI:        https://github.com/JCO-Digital/jcore-turva
  * Description:       Security header management - CSP, Permissions Policy, and violation reporting.
  * Version:           1.12.1
  * Requires at least: 6.7
  * Tested up to:      7.0
  * Requires PHP:      8.2
- * Author:            J&Co Digital
+ * Author:            J&Co Digital Oy
  * Author URI:        https://jco.fi
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,45 +23,68 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-	require_once __DIR__ . '/vendor/autoload.php';
+define( 'JCORE_TURVA_VERSION', '1.12.1' );
+define( 'JCORE_TURVA_FILE', __FILE__ );
+define( 'JCORE_TURVA_PATH', plugin_dir_path( __FILE__ ) );
+define( 'JCORE_TURVA_URL', plugin_dir_url( __FILE__ ) );
+
+// The update library is vendored into the release, but a source checkout has
+// no vendor directory until `composer install` has run.
+if ( is_readable( JCORE_TURVA_PATH . 'vendor/autoload.php' ) ) {
+	require_once JCORE_TURVA_PATH . 'vendor/autoload.php';
 }
 
-define( 'JCORE_TURVA_PLUGIN_FILE', __FILE__ );
-define( 'JCORE_TURVA_PLUGIN_DIR', __DIR__ );
-define( 'JCORE_TURVA_BUILD_DIR', __DIR__ . '/build' );
-
+/**
+ * Autoloads classes from the Jcore\Turva namespace.
+ *
+ * Maps `Jcore\Turva\Foo\Bar_Baz` to `includes/foo/class-bar-baz.php`, the file
+ * naming the WordPress coding standards ask for.
+ *
+ * @param string $class_name Fully qualified class name.
+ *
+ * @return void
+ */
 spl_autoload_register(
 	static function ( string $class_name ): void {
-		if ( ! str_starts_with( $class_name, 'Jcore\\Turva\\' ) ) {
+		$prefix = __NAMESPACE__ . '\\';
+		if ( ! str_starts_with( $class_name, $prefix ) ) {
 			return;
 		}
-		$name = substr( $class_name, strlen( 'Jcore\\Turva\\' ) );
-		$name = strtolower( str_replace( '_', '-', $name ) );
-		$file = __DIR__ . "/includes/class-{$name}.php";
-		if ( file_exists( $file ) ) {
-			require_once $file;
+
+		$parts = explode( '\\', substr( $class_name, strlen( $prefix ) ) );
+		$parts = array_map(
+			static function ( string $part ): string {
+				return strtolower( str_replace( '_', '-', $part ) );
+			},
+			$parts
+		);
+
+		$parts[ array_key_last( $parts ) ] = 'class-' . end( $parts );
+
+		$file = JCORE_TURVA_PATH . 'includes/' . implode( '/', $parts ) . '.php';
+
+		if ( is_readable( $file ) ) {
+			require $file;
 		}
 	}
 );
 
 register_activation_hook( __FILE__, array( Database::class, 'install' ) );
 
-add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
-
-add_filter(
-	'plugin_action_links_' . plugin_basename( __FILE__ ),
-	static function ( array $links ): array {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=jcore-turva' ) . '">' . __( 'Settings', 'jcore-turva' ) . '</a>';
-		array_unshift( $links, $settings_link );
-		return $links;
+add_action(
+	'plugins_loaded',
+	static function (): void {
+		Plugin::instance()->boot();
 	}
 );
 
+// Registered at file scope, not in Plugin::boot(): other JCORE components read
+// this list while plugins are still loading.
 add_filter(
 	'jcore_plugins_loaded',
 	static function ( array $plugins ): array {
 		$plugins['jcore-turva'] = __DIR__;
+
 		return $plugins;
 	}
 );

@@ -24,7 +24,7 @@ class Headers {
 			return;
 		}
 
-		$settings = get_option( 'jcore_turva_settings', array() );
+		$settings = get_option( Database::SETTINGS_OPTION, array() );
 
 		if ( ! empty( $settings['hsts'] ) ) {
 			$max_age = (int) ( $settings['hsts_max_age'] ?? 31536000 );
