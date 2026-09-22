@@ -1,6 +1,6 @@
 {
   "name": "jcore-turva",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "description": "Security header management for WordPress - CSP, Permissions Policy, and violation reporting.",
   "author": "J&Co Digital Oy <support@jco.fi>",
   "license": "GPL-2.0-or-later",
