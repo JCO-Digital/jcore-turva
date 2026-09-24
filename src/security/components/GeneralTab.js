@@ -267,6 +267,28 @@ export default function GeneralTab() {
 						/>
 					</PanelRow>
 				</PanelBody>
+				<PanelBody
+					title={ __( 'Login', 'jcore-turva' ) }
+					initialOpen={ true }
+				>
+					<PanelRow>
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Hide account details in login errors',
+								'jcore-turva'
+							) }
+							help={ __(
+								'WordPress tells visitors whether a username exists or only the password was wrong. This replaces both messages with a generic one so accounts cannot be enumerated.',
+								'jcore-turva'
+							) }
+							checked={ !! settings.hide_login_errors }
+							onChange={ ( v ) =>
+								update( 'hide_login_errors', v )
+							}
+						/>
+					</PanelRow>
+				</PanelBody>
 				{ JCORE2_DETECTED && (
 					<PanelBody
 						title={ __( 'Theme Compatibility', 'jcore-turva' ) }

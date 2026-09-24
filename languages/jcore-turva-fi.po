@@ -495,3 +495,27 @@ msgstr "X-Content-Type-Options: nosniff"
 #: build/security.js:1 src/security/components/GeneralTab.js:179
 msgid "X-XSS-Protection"
 msgstr "X-XSS-Protection"
+
+#: includes/class-login.php
+msgid "Error:"
+msgstr "Virhe:"
+
+#: includes/class-login.php
+msgid "The username or password you entered is incorrect."
+msgstr "Antamasi käyttäjätunnus tai salasana on virheellinen."
+
+#: includes/class-login.php
+msgid "Lost your password?"
+msgstr "Salasana hukassa?"
+
+#: build/security.js:1 src/security/components/GeneralTab.js
+msgid "Login"
+msgstr "Kirjautuminen"
+
+#: build/security.js:1 src/security/components/GeneralTab.js
+msgid "Hide account details in login errors"
+msgstr "Piilota tilin tiedot kirjautumisvirheistä"
+
+#: build/security.js:1 src/security/components/GeneralTab.js
+msgid "WordPress tells visitors whether a username exists or only the password was wrong. This replaces both messages with a generic one so accounts cannot be enumerated."
+msgstr "WordPress kertoo kävijälle, onko käyttäjätunnus olemassa vai oliko vain salasana väärä. Tämä korvaa molemmat viestit yleisellä viestillä, jotta tilejä ei voi luetella."

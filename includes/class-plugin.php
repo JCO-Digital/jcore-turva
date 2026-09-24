@@ -50,6 +50,7 @@ final class Plugin {
 		$this->register_updater();
 
 		Compat::init();
+		Login::init();
 
 		add_action( 'send_headers', array( Headers::class, 'send' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );

@@ -39,6 +39,7 @@ final class Settings_Controller extends Controller {
 		'csp_test_mode',
 		'google_multi_domain',
 		'disable_jcore2',
+		'hide_login_errors',
 	);
 
 	/**

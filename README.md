@@ -55,6 +55,7 @@ includes/
   class-permissions.php      Builds the Permissions-Policy value
   class-google-domains.php   Regional Google TLDs
   class-compat.php           Detects and unhooks the JCORE 2 security module
+  class-login.php            Masks account-revealing login errors
   admin/class-menu.php       Settings > Security page and its assets
   rest/class-controller.php  Shared namespace and permission check
   rest/class-*-controller.php  sources, settings, reports
@@ -92,6 +93,8 @@ Three tables, created on activation and kept up to date by `Database::maybe_upgr
 ## Filters
 
 - `jcore_turva_disable_jcore2` – return `false` to leave the JCORE 2 theme's security module hooked up.
+- `jcore_turva_hide_login_errors` – override the "Hide account details in login errors" setting.
+- `jcore_turva_login_error_message` – the HTML shown instead of the core username/password errors when they are hidden.
 
 ## Releasing
 
