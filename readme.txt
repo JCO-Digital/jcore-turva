@@ -4,7 +4,7 @@ Tags: security, csp, permissions-policy, headers, reports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.12.2
+Stable tag: 1.13.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,11 @@ Deleting the plugin drops its three tables and removes its options. Deactivating
 
 == Changelog ==
 
-= 1.12.2 (2026-09-22) =
+= 1.13.0 (2026-09-24) =
+
+* Feature: login - add option to hide account details in login errors
+
+= v1.12.2 (2026-09-22) =
 
 * Refactor: plugin - restructure codebase and add configuration files
 * Documentation: readme - update tested up to version to 7.1

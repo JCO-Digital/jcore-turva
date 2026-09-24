@@ -3,7 +3,7 @@
  * Plugin Name:       JCORE Turva
  * Plugin URI:        https://github.com/JCO-Digital/jcore-turva
  * Description:       Security header management - CSP, Permissions Policy, and violation reporting.
- * Version:           1.12.2
+ * Version:           1.13.0
  * Requires at least: 6.7
  * Tested up to:      7.1
  * Requires PHP:      8.2
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JCORE_TURVA_VERSION', '1.12.2' );
+define( 'JCORE_TURVA_VERSION', '1.13.0' );
 define( 'JCORE_TURVA_FILE', __FILE__ );
 define( 'JCORE_TURVA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'JCORE_TURVA_URL', plugin_dir_url( __FILE__ ) );
