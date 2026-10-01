@@ -17,37 +17,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Csp {
 
 	/**
+	 * Object cache key for get_policy().
+	 */
+	private const POLICY_CACHE_KEY = 'csp_policy';
+
+	/**
+	 * Directives Turva manages. Keep in sync with CSP_DIRECTIVES in
+	 * src/security/constants.js.
+	 */
+	public const DIRECTIVES = array(
+		'default-src',
+		'script-src',
+		'script-src-elem',
+		'script-src-attr',
+		'style-src',
+		'style-src-elem',
+		'style-src-attr',
+		'img-src',
+		'font-src',
+		'connect-src',
+		'media-src',
+		'object-src',
+		'frame-src',
+		'worker-src',
+		'manifest-src',
+		'child-src',
+		'prefetch-src',
+		'base-uri',
+		'form-action',
+		'frame-ancestors',
+		'upgrade-insecure-requests',
+	);
+
+	/**
 	 * Builds and returns the full CSP header value, or empty string if no directives are configured.
 	 */
 	public static function build_header(): string {
-		global $wpdb;
+		$directives = self::get_policy();
 
-		$settings            = get_option( Database::SETTINGS_OPTION, array() );
-		$google_multi_domain = ! empty( $settings['google_multi_domain'] );
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT directive, source FROM %i WHERE header_type = %s AND enabled = 1 ORDER BY directive, id',
-				$wpdb->prefix . 'jcore_security_sources',
-				'csp'
-			)
-		);
-
-		if ( empty( $rows ) ) {
+		if ( empty( $directives ) ) {
 			return '';
-		}
-
-		$directives = array();
-		foreach ( $rows as $row ) {
-			$directives[ $row->directive ][] = $row->source;
 		}
 
 		$parts = array();
 		foreach ( $directives as $directive => $sources ) {
-			if ( $google_multi_domain && in_array( $directive, array( 'connect-src', 'img-src' ), true ) ) {
-				$sources = self::expand_google_domains( $sources );
-			}
 			// upgrade-insecure-requests is a boolean flag with no source list.
 			if ( 'upgrade-insecure-requests' === $directive ) {
 				$parts[] = $directive;
@@ -59,6 +72,59 @@ class Csp {
 		$parts[] = 'report-uri ' . rest_url( 'jcore-turva/v1/csp-report' );
 
 		return implode( '; ', $parts );
+	}
+
+	/**
+	 * Returns the enabled CSP sources grouped by directive, exactly as they are sent.
+	 *
+	 * Cached in the object cache until a source changes, since the public report
+	 * endpoint needs it on every request.
+	 *
+	 * @return array<string, string[]>
+	 */
+	public static function get_policy(): array {
+		global $wpdb;
+
+		$cached = wp_cache_get( self::POLICY_CACHE_KEY, 'jcore_turva' );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$settings            = get_option( Database::SETTINGS_OPTION, array() );
+		$google_multi_domain = ! empty( $settings['google_multi_domain'] );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT directive, source FROM %i WHERE header_type = %s AND enabled = 1 ORDER BY directive, id',
+				Database::table( 'sources' ),
+				'csp'
+			)
+		);
+
+		$directives = array();
+		foreach ( $rows as $row ) {
+			$directives[ $row->directive ][] = $row->source;
+		}
+
+		if ( $google_multi_domain ) {
+			foreach ( array( 'connect-src', 'img-src' ) as $directive ) {
+				if ( isset( $directives[ $directive ] ) ) {
+					$directives[ $directive ] = self::expand_google_domains( $directives[ $directive ] );
+				}
+			}
+		}
+
+		wp_cache_set( self::POLICY_CACHE_KEY, $directives, 'jcore_turva' );
+
+		return $directives;
+	}
+
+	/**
+	 * Drops the cached policy. Call after any change to the sources or settings.
+	 */
+	public static function flush_policy_cache(): void {
+		wp_cache_delete( self::POLICY_CACHE_KEY, 'jcore_turva' );
 	}
 
 	/**

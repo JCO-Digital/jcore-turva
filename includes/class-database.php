@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Database {
 
-	private const DB_VERSION        = '1.2';
+	private const DB_VERSION        = '1.3';
 	private const DB_VERSION_OPTION = 'jcore_turva_db_version';
 
 	/**
@@ -117,6 +117,7 @@ class Database {
 			  processed          TINYINT(1)   NOT NULL DEFAULT 0,
 			  first_seen         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  last_seen          DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  resurfaced_at      DATETIME     NULL DEFAULT NULL,
 			  PRIMARY KEY  (id),
 			  UNIQUE KEY dedup (violated_directive, blocked_uri)
 			) " . $charset . ';'

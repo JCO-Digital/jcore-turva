@@ -81,6 +81,26 @@ export default function DirectivesManager( {
 		}
 	};
 
+	const handleEditSource = async ( id, value ) => {
+		const previous = sources.find( ( s ) => s.id === id )?.source;
+		setSources( ( prev ) =>
+			prev.map( ( s ) => ( s.id === id ? { ...s, source: value } : s ) )
+		);
+		try {
+			await apiFetch( {
+				path: `/jcore-turva/v1/sources/${ id }`,
+				method: 'PUT',
+				data: { source: value },
+			} );
+		} catch {
+			setSources( ( prev ) =>
+				prev.map( ( s ) =>
+					s.id === id ? { ...s, source: previous } : s
+				)
+			);
+		}
+	};
+
 	const handleDeleteSource = async ( id ) => {
 		const backup = sources;
 		setSources( ( prev ) => prev.filter( ( s ) => s.id !== id ) );
@@ -169,8 +189,10 @@ export default function DirectivesManager( {
 						directive={ directive }
 						sources={ directiveSources }
 						sourcePlaceholder={ sourcePlaceholder }
+						showMatchType={ headerType === 'csp' }
 						onAddSource={ handleAddSource }
 						onToggleSource={ handleToggleSource }
+						onEditSource={ handleEditSource }
 						onDeleteSource={ handleDeleteSource }
 						onDeleteDirective={ handleDeleteDirective }
 					/>

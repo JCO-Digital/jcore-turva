@@ -1,19 +1,85 @@
 import { useState } from '@wordpress/element';
-import { Button, TextControl, ToggleControl } from '@wordpress/components';
-import { trash, plus } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
+import {
+	Button,
+	Modal,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { trash, plus, pencil, check, closeSmall } from '@wordpress/icons';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { FLAG_DIRECTIVES } from '../constants';
+import { describeSource, sourceValueClassName } from '../utils';
 
-function SourceRow( { source, onToggle, onDelete } ) {
+function SourceRow( { source, showMatchType, onToggle, onEdit, onDelete } ) {
+	const [ draft, setDraft ] = useState( null );
+	const isEditing = draft !== null;
+
+	const cancel = () => setDraft( null );
+
+	const save = () => {
+		const trimmed = draft.trim();
+		setDraft( null );
+		if ( trimmed && trimmed !== source.source ) {
+			onEdit( trimmed );
+		}
+	};
+
+	if ( isEditing ) {
+		return (
+			<div className="jcore-turva__source-row is-editing">
+				<TextControl
+					__nextHasNoMarginBottom
+					className="jcore-turva__source-edit"
+					label={ __( 'Source', 'jcore-turva' ) }
+					hideLabelFromVision
+					value={ draft }
+					onChange={ setDraft }
+					onKeyDown={ ( e ) => {
+						if ( e.key === 'Enter' ) {
+							save();
+						} else if ( e.key === 'Escape' ) {
+							cancel();
+						}
+					} }
+					// eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's click on Edit.
+					autoFocus
+				/>
+				<Button
+					icon={ check }
+					label={ __( 'Save', 'jcore-turva' ) }
+					variant="tertiary"
+					size="small"
+					onClick={ save }
+				/>
+				<Button
+					icon={ closeSmall }
+					label={ __( 'Cancel', 'jcore-turva' ) }
+					variant="tertiary"
+					size="small"
+					onClick={ cancel }
+				/>
+			</div>
+		);
+	}
+
+	const isEmpty = source.source === '';
+
 	return (
 		<div className="jcore-turva__source-row">
 			<code
 				className={
-					'jcore-turva__source-value' +
+					( showMatchType
+						? sourceValueClassName( source.source )
+						: 'jcore-turva__source-value' ) +
 					( ! source.enabled ? ' is-disabled' : '' )
 				}
+				title={
+					showMatchType
+						? describeSource( source.source ).description
+						: undefined
+				}
 			>
-				{ source.source === ''
+				{ isEmpty
 					? __( '(empty — feature denied)', 'jcore-turva' )
 					: source.source }
 			</code>
@@ -24,6 +90,15 @@ function SourceRow( { source, onToggle, onDelete } ) {
 				checked={ source.enabled }
 				onChange={ onToggle }
 			/>
+			{ ! isEmpty && (
+				<Button
+					icon={ pencil }
+					label={ __( 'Edit source', 'jcore-turva' ) }
+					variant="tertiary"
+					size="small"
+					onClick={ () => setDraft( source.source ) }
+				/>
+			) }
 			<Button
 				icon={ trash }
 				label={ __( 'Remove source', 'jcore-turva' ) }
@@ -88,13 +163,16 @@ export default function DirectiveCard( {
 	directive,
 	sources,
 	sourcePlaceholder,
+	showMatchType,
 	onAddSource,
 	onToggleSource,
+	onEditSource,
 	onDeleteSource,
 	onDeleteDirective,
 } ) {
 	const isFlag = FLAG_DIRECTIVES.includes( directive );
 	const flagSource = isFlag ? sources[ 0 ] : null;
+	const [ isConfirmingDelete, setIsConfirmingDelete ] = useState( false );
 
 	return (
 		<div
@@ -111,9 +189,57 @@ export default function DirectiveCard( {
 					isDestructive
 					variant="tertiary"
 					size="small"
-					onClick={ () => onDeleteDirective( directive ) }
+					onClick={ () => setIsConfirmingDelete( true ) }
 				/>
 			</div>
+			{ isConfirmingDelete && (
+				<Modal
+					title={ __( 'Remove directive?', 'jcore-turva' ) }
+					size="small"
+					onRequestClose={ () => setIsConfirmingDelete( false ) }
+				>
+					<p>
+						{ isFlag
+							? sprintf(
+									/* translators: %s: CSP directive name */
+									__(
+										'Remove %s from the policy?',
+										'jcore-turva'
+									),
+									directive
+							  )
+							: sprintf(
+									/* translators: 1: directive name, 2: number of sources */
+									_n(
+										'Remove %1$s and its %2$d source? This cannot be undone.',
+										'Remove %1$s and all %2$d of its sources? This cannot be undone.',
+										sources.length,
+										'jcore-turva'
+									),
+									directive,
+									sources.length
+							  ) }
+					</p>
+					<div className="jcore-turva__modal-actions">
+						<Button
+							variant="primary"
+							isDestructive
+							onClick={ () => {
+								setIsConfirmingDelete( false );
+								onDeleteDirective( directive );
+							} }
+						>
+							{ __( 'Remove', 'jcore-turva' ) }
+						</Button>
+						<Button
+							variant="tertiary"
+							onClick={ () => setIsConfirmingDelete( false ) }
+						>
+							{ __( 'Cancel', 'jcore-turva' ) }
+						</Button>
+					</div>
+				</Modal>
+			) }
 			<div className="jcore-turva__directive-body">
 				{ isFlag ? (
 					<ToggleControl
@@ -130,9 +256,11 @@ export default function DirectiveCard( {
 							<SourceRow
 								key={ source.id }
 								source={ source }
+								showMatchType={ showMatchType }
 								onToggle={ ( v ) =>
 									onToggleSource( source.id, v )
 								}
+								onEdit={ ( v ) => onEditSource( source.id, v ) }
 								onDelete={ () => onDeleteSource( source.id ) }
 							/>
 						) ) }
