@@ -24,7 +24,7 @@
 /node_modules/
 
 # Dependency manifests: vendor/ is installed with --no-dev before packaging.
-/composer.json
+# /composer.json
 /composer.lock
 /package.json
 /pnpm-lock.yaml

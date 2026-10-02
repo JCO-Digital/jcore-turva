@@ -321,6 +321,7 @@ final class Sources_Controller extends Controller {
 		}
 
 		$skipped = array();
+		$sources = array();
 
 		foreach ( $directives as $item ) {
 			$directive = strtolower( sanitize_text_field( $item['directive'] ) );
@@ -333,7 +334,68 @@ final class Sources_Controller extends Controller {
 				continue;
 			}
 
-			if ( 'merge' === $action ) {
+			$sources[ $directive ][] = $source;
+		}
+
+		// With multi-domain support on, regional Google variants are added at
+		// output time, so importing them all would only clutter the list.
+		$redundant = array();
+		$settings  = get_option( Database::SETTINGS_OPTION, array() );
+		if ( 'csp' === $header_type && ! empty( $settings['google_multi_domain'] ) ) {
+			foreach ( Csp::GOOGLE_EXPANDED_DIRECTIVES as $directive ) {
+				if ( empty( $sources[ $directive ] ) ) {
+					continue;
+				}
+
+				$existing = array();
+				if ( 'merge' === $action ) {
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$existing = $wpdb->get_col(
+						$wpdb->prepare(
+							'SELECT source FROM %i WHERE header_type = %s AND directive = %s AND enabled = 1',
+							$table,
+							$header_type,
+							$directive
+						)
+					);
+				}
+
+				$filtered                = Csp::filter_redundant_google_sources( $sources[ $directive ], $existing );
+				$sources[ $directive ]   = $filtered['keep'];
+				$redundant[ $directive ] = $filtered['redundant'];
+			}
+		}
+
+		foreach ( $sources as $directive => $directive_sources ) {
+			foreach ( $directive_sources as $source ) {
+				$this->import_source( $table, $header_type, $directive, $source, $action );
+			}
+		}
+
+		Csp::flush_policy_cache();
+
+		return rest_ensure_response(
+			array(
+				'success'   => true,
+				'skipped'   => array_keys( $skipped ),
+				'redundant' => array_filter( $redundant ),
+			)
+		);
+	}
+
+	/**
+	 * Inserts one imported source row, unless merging and it already exists.
+	 *
+	 * @param string $table       Sources table name.
+	 * @param string $header_type Header type.
+	 * @param string $directive   Directive name.
+	 * @param string $source      Source value.
+	 * @param string $action      'merge' or 'replace'.
+	 */
+	private function import_source( string $table, string $header_type, string $directive, string $source, string $action ): void {
+		global $wpdb;
+
+		if ( 'merge' === $action ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$exists = $wpdb->get_var(
 					$wpdb->prepare(
@@ -345,10 +407,10 @@ final class Sources_Controller extends Controller {
 					)
 				);
 
-				if ( $exists ) {
-					continue;
-				}
+			if ( $exists ) {
+				return;
 			}
+		}
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->insert(
@@ -361,16 +423,6 @@ final class Sources_Controller extends Controller {
 				),
 				array( '%s', '%s', '%s', '%d' )
 			);
-		}
-
-		Csp::flush_policy_cache();
-
-		return rest_ensure_response(
-			array(
-				'success' => true,
-				'skipped' => array_keys( $skipped ),
-			)
-		);
 	}
 
 	/**
