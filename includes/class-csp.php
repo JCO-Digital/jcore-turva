@@ -22,6 +22,12 @@ class Csp {
 	private const POLICY_CACHE_KEY = 'csp_policy';
 
 	/**
+	 * Directives whose Google sources get every regional TLD when Google
+	 * multi-domain support is on.
+	 */
+	public const GOOGLE_EXPANDED_DIRECTIVES = array( 'connect-src', 'img-src' );
+
+	/**
 	 * Directives Turva manages. Keep in sync with CSP_DIRECTIVES in
 	 * src/security/constants.js.
 	 */
@@ -108,7 +114,7 @@ class Csp {
 		}
 
 		if ( $google_multi_domain ) {
-			foreach ( array( 'connect-src', 'img-src' ) as $directive ) {
+			foreach ( self::GOOGLE_EXPANDED_DIRECTIVES as $directive ) {
 				if ( isset( $directives[ $directive ] ) ) {
 					$directives[ $directive ] = self::expand_google_domains( $directives[ $directive ] );
 				}
@@ -134,40 +140,14 @@ class Csp {
 	 * @return array Expanded list of sources.
 	 */
 	private static function expand_google_domains( array $sources ): array {
-		$suffixes = Google_Domains::SUFFIXES;
-		// Sort by length DESC to match longest first (e.g. .google.com.au vs .google.com).
-		usort(
-			$suffixes,
-			function ( $a, $b ) {
-				return strlen( $b ) <=> strlen( $a );
-			}
-		);
-
 		$expanded = array();
 		foreach ( $sources as $source ) {
-			$expanded[]     = $source;
-			$matched_suffix = null;
-			$is_dotless     = false;
+			$expanded[] = $source;
+			$match      = self::match_google_domain( $source );
 
-			foreach ( $suffixes as $suffix ) {
-				// Check if source ends with the suffix (e.g. *.google.com ends with .google.com).
-				if ( str_ends_with( $source, $suffix ) ) {
-					$matched_suffix = $suffix;
-					break;
-				}
-				// Check if source matches the domain (e.g. google.com, //google.com, https://google.com).
-				$dotless = ltrim( $suffix, '.' );
-				if ( $source === $dotless || str_ends_with( $source, '//' . $dotless ) ) {
-					$matched_suffix = $dotless;
-					$is_dotless     = true;
-					break;
-				}
-			}
-
-			if ( $matched_suffix ) {
-				$prefix = substr( $source, 0, -strlen( $matched_suffix ) );
-				foreach ( $suffixes as $s ) {
-					$new_source = $prefix . ( $is_dotless ? ltrim( $s, '.' ) : $s );
+			if ( $match ) {
+				foreach ( self::google_suffixes() as $s ) {
+					$new_source = $match['prefix'] . ( $match['dotless'] ? ltrim( $s, '.' ) : $s );
 					if ( $new_source !== $source ) {
 						$expanded[] = $new_source;
 					}
@@ -175,5 +155,120 @@ class Csp {
 			}
 		}
 		return array_unique( $expanded );
+	}
+
+	/**
+	 * Splits sources into ones to keep and ones the Google multi-domain
+	 * expansion would generate anyway. Of each regional family (e.g.
+	 * *.google.com, *.google.de, *.google.fi) only one source is kept,
+	 * preferring the .google.com one; a family already present in
+	 * $existing is dropped entirely.
+	 *
+	 * @param string[] $sources  Sources for a single directive.
+	 * @param string[] $existing Sources already stored for that directive.
+	 * @return array{keep: string[], redundant: array<string, string>} Redundant
+	 *         sources map to the source that covers them.
+	 */
+	public static function filter_redundant_google_sources( array $sources, array $existing = array() ): array {
+		$taken = array();
+		foreach ( $existing as $source ) {
+			$key = self::google_family_key( $source );
+			if ( null !== $key ) {
+				$taken[ $key ] = $source;
+			}
+		}
+
+		// The .google.com variant is the most readable representative.
+		foreach ( $sources as $source ) {
+			$match = self::match_google_domain( $source );
+			$key   = self::google_family_key( $source );
+			if ( $match && ! isset( $taken[ $key ] ) && 'google.com' === ltrim( $match['suffix'], '.' ) ) {
+				$taken[ $key ] = $source;
+			}
+		}
+
+		$keep      = array();
+		$redundant = array();
+		foreach ( $sources as $source ) {
+			$key = self::google_family_key( $source );
+			if ( null === $key ) {
+				$keep[] = $source;
+				continue;
+			}
+			if ( ! isset( $taken[ $key ] ) ) {
+				$taken[ $key ] = $source;
+			}
+			if ( $taken[ $key ] === $source ) {
+				$keep[] = $source;
+			} else {
+				$redundant[ $source ] = $taken[ $key ];
+			}
+		}
+
+		return array(
+			'keep'      => $keep,
+			'redundant' => $redundant,
+		);
+	}
+
+	/**
+	 * Identifies the regional family a Google source belongs to: sources that
+	 * differ only in their Google TLD share a key.
+	 *
+	 * @param string $source A CSP source.
+	 * @return string|null Null when the source isn't a Google domain.
+	 */
+	private static function google_family_key( string $source ): ?string {
+		$match = self::match_google_domain( $source );
+		return $match ? ( $match['dotless'] ? 'host:' : 'sub:' ) . $match['prefix'] : null;
+	}
+
+	/**
+	 * Matches a source against the Google domain list.
+	 *
+	 * @param string $source A CSP source.
+	 * @return array{prefix: string, suffix: string, dotless: bool}|null
+	 */
+	private static function match_google_domain( string $source ): ?array {
+		foreach ( self::google_suffixes() as $suffix ) {
+			// Check if source ends with the suffix (e.g. *.google.com ends with .google.com).
+			if ( str_ends_with( $source, $suffix ) ) {
+				return array(
+					'prefix'  => substr( $source, 0, -strlen( $suffix ) ),
+					'suffix'  => $suffix,
+					'dotless' => false,
+				);
+			}
+			// Check if source matches the domain (e.g. google.com, //google.com, https://google.com).
+			$dotless = ltrim( $suffix, '.' );
+			if ( $source === $dotless || str_ends_with( $source, '//' . $dotless ) ) {
+				return array(
+					'prefix'  => substr( $source, 0, -strlen( $dotless ) ),
+					'suffix'  => $dotless,
+					'dotless' => true,
+				);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Google domain suffixes, longest first so e.g. .google.com.au wins over
+	 * .google.com.
+	 *
+	 * @return string[]
+	 */
+	private static function google_suffixes(): array {
+		static $suffixes = null;
+		if ( null === $suffixes ) {
+			$suffixes = Google_Domains::SUFFIXES;
+			usort(
+				$suffixes,
+				function ( $a, $b ) {
+					return strlen( $b ) <=> strlen( $a );
+				}
+			);
+		}
+		return $suffixes;
 	}
 }

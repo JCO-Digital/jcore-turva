@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import { useState, useMemo } from '@wordpress/element';
+import { useState, useMemo, useEffect } from '@wordpress/element';
 import { Modal, Button, Notice, TextareaControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
@@ -35,6 +35,25 @@ const parseCsp = ( str ) => {
 	return result;
 };
 
+// The endpoint maps each skipped source to the one covering it; only the
+// covering ones are worth showing.
+const coveringSources = ( redundant ) => [
+	...new Set(
+		Object.entries( redundant || {} ).flatMap( ( [ directive, sources ] ) =>
+			Object.values( sources ).map(
+				( source ) => `${ directive } ${ source }`
+			)
+		)
+	),
+];
+
+const previewImport = ( directives, action ) =>
+	apiFetch( {
+		path: '/jcore-turva/v1/sources/import',
+		method: 'POST',
+		data: { header_type: 'csp', directives, action, dry_run: true },
+	} ).then( ( res ) => coveringSources( res.redundant ) );
+
 export default function ImportCspModal( { onClose, onImport } ) {
 	const [ cspString, setCspString ] = useState( '' );
 	const [ isImporting, setIsImporting ] = useState( false );
@@ -56,6 +75,41 @@ export default function ImportCspModal( { onClose, onImport } ) {
 			],
 		};
 	}, [ cspString ] );
+
+	// Asks the server which Google sources multi-domain support already
+	// covers. Replace only compares the pasted sources with each other; merge
+	// also drops ones the existing sources cover.
+	const [ redundant, setRedundant ] = useState( { replace: [], merge: [] } );
+	useEffect( () => {
+		if ( ! valid.length ) {
+			setRedundant( { replace: [], merge: [] } );
+			return;
+		}
+
+		let cancelled = false;
+		const timer = setTimeout( () => {
+			Promise.all( [
+				previewImport( valid, 'replace' ),
+				previewImport( valid, 'merge' ),
+			] )
+				.then( ( [ replace, merge ] ) => {
+					if ( ! cancelled ) {
+						setRedundant( {
+							replace,
+							merge: merge.filter(
+								( s ) => ! replace.includes( s )
+							),
+						} );
+					}
+				} )
+				.catch( () => {} );
+		}, 400 );
+
+		return () => {
+			cancelled = true;
+			clearTimeout( timer );
+		};
+	}, [ valid ] );
 
 	const handleImport = async ( action ) => {
 		setIsImporting( true );
@@ -101,6 +155,35 @@ export default function ImportCspModal( { onClose, onImport } ) {
 							'jcore-turva'
 						),
 						skipped.join( ', ' )
+					) }
+				</Notice>
+			) }
+			{ ( redundant.replace.length > 0 ||
+				redundant.merge.length > 0 ) && (
+				<Notice status="info" isDismissible={ false }>
+					{ redundant.replace.length > 0 && (
+						<p>
+							{ sprintf(
+								/* translators: %s: comma-separated list of CSP sources */
+								__(
+									'Other regional Google domains will be skipped, as Google Multi-Domain Support adds them for: %s',
+									'jcore-turva'
+								),
+								redundant.replace.join( ', ' )
+							) }
+						</p>
+					) }
+					{ redundant.merge.length > 0 && (
+						<p>
+							{ sprintf(
+								/* translators: %s: comma-separated list of CSP sources */
+								__(
+									'When merging, regional Google domains already covered by these existing sources are skipped too: %s',
+									'jcore-turva'
+								),
+								redundant.merge.join( ', ' )
+							) }
+						</p>
 					) }
 				</Notice>
 			) }
