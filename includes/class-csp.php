@@ -166,14 +166,15 @@ class Csp {
 	 *
 	 * @param string[] $sources  Sources for a single directive.
 	 * @param string[] $existing Sources already stored for that directive.
-	 * @return array{keep: string[], redundant: string[]}
+	 * @return array{keep: string[], redundant: array<string, string>} Redundant
+	 *         sources map to the source that covers them.
 	 */
 	public static function filter_redundant_google_sources( array $sources, array $existing = array() ): array {
 		$taken = array();
 		foreach ( $existing as $source ) {
 			$key = self::google_family_key( $source );
 			if ( null !== $key ) {
-				$taken[ $key ] = true;
+				$taken[ $key ] = $source;
 			}
 		}
 
@@ -200,7 +201,7 @@ class Csp {
 			if ( $taken[ $key ] === $source ) {
 				$keep[] = $source;
 			} else {
-				$redundant[] = $source;
+				$redundant[ $source ] = $taken[ $key ];
 			}
 		}
 

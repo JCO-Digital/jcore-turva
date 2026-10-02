@@ -93,6 +93,10 @@ final class Sources_Controller extends Controller {
 						'required'          => true,
 						'sanitize_callback' => 'sanitize_text_field',
 					),
+					'dry_run'     => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
 				)
 			)
 		);
@@ -301,7 +305,8 @@ final class Sources_Controller extends Controller {
 	}
 
 	/**
-	 * POST /sources/import — merges or replaces a whole policy at once.
+	 * POST /sources/import — merges or replaces a whole policy at once. With
+	 * dry_run it only reports what would be left out, for the import preview.
 	 *
 	 * @param \WP_REST_Request $request The REST request.
 	 *
@@ -313,12 +318,8 @@ final class Sources_Controller extends Controller {
 		$header_type = $request->get_param( 'header_type' );
 		$directives  = $request->get_param( 'directives' );
 		$action      = $request->get_param( 'action' );
+		$dry_run     = (bool) $request->get_param( 'dry_run' );
 		$table       = Database::table( 'sources' );
-
-		if ( 'replace' === $action ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$wpdb->delete( $table, array( 'header_type' => $header_type ), array( '%s' ) );
-		}
 
 		$skipped = array();
 		$sources = array();
@@ -366,6 +367,21 @@ final class Sources_Controller extends Controller {
 			}
 		}
 
+		$response = array(
+			'success'   => true,
+			'skipped'   => array_keys( $skipped ),
+			'redundant' => (object) array_filter( $redundant ),
+		);
+
+		if ( $dry_run ) {
+			return rest_ensure_response( $response );
+		}
+
+		if ( 'replace' === $action ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->delete( $table, array( 'header_type' => $header_type ), array( '%s' ) );
+		}
+
 		foreach ( $sources as $directive => $directive_sources ) {
 			foreach ( $directive_sources as $source ) {
 				$this->import_source( $table, $header_type, $directive, $source, $action );
@@ -374,13 +390,7 @@ final class Sources_Controller extends Controller {
 
 		Csp::flush_policy_cache();
 
-		return rest_ensure_response(
-			array(
-				'success'   => true,
-				'skipped'   => array_keys( $skipped ),
-				'redundant' => array_filter( $redundant ),
-			)
-		);
+		return rest_ensure_response( $response );
 	}
 
 	/**
