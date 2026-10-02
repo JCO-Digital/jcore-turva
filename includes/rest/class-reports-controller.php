@@ -7,6 +7,8 @@
 
 namespace Jcore\Turva\Rest;
 
+use Jcore\Turva\Csp;
+use Jcore\Turva\Csp_Matcher;
 use Jcore\Turva\Database;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,6 +28,11 @@ final class Reports_Controller extends Controller {
 	protected $rest_base = 'reports';
 
 	/**
+	 * The views a report can be in. Ignored reports never resurface.
+	 */
+	private const STATUSES = array( 'new', 'archived', 'ignored' );
+
+	/**
 	 * Registers the report routes.
 	 *
 	 * @return void
@@ -40,7 +47,7 @@ final class Reports_Controller extends Controller {
 				array(
 					'status' => array(
 						'type'    => 'string',
-						'enum'    => array( 'new', 'archived' ),
+						'enum'    => self::STATUSES,
 						'default' => 'new',
 					),
 				)
@@ -66,6 +73,12 @@ final class Reports_Controller extends Controller {
 			$this->namespace,
 			'/' . $this->rest_base . '/mark-processed',
 			$this->route( \WP_REST_Server::CREATABLE, 'mark_all_processed', $this->status_arg() )
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/process-allowed',
+			$this->route( \WP_REST_Server::CREATABLE, 'process_allowed' )
 		);
 
 		register_rest_route(
@@ -101,6 +114,18 @@ final class Reports_Controller extends Controller {
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>\d+)/unarchive',
+			$this->route( \WP_REST_Server::CREATABLE, 'unarchive_item' )
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>\d+)/ignore',
+			$this->route( \WP_REST_Server::CREATABLE, 'ignore_item' )
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>\d+)/unignore',
 			$this->route( \WP_REST_Server::CREATABLE, 'unarchive_item' )
 		);
 
@@ -200,11 +225,12 @@ final class Reports_Controller extends Controller {
 		$wpdb->update(
 			Database::table( 'reports' ),
 			array(
-				'status'    => 'archived',
-				'processed' => 1,
+				'status'        => 'archived',
+				'processed'     => 1,
+				'resurfaced_at' => null,
 			),
 			$where,
-			array( '%s', '%d' ),
+			array( '%s', '%d', '%s' ),
 			$where_format
 		);
 
@@ -231,6 +257,52 @@ final class Reports_Controller extends Controller {
 		);
 
 		return rest_ensure_response( array( 'processed' => true ) );
+	}
+
+	/**
+	 * POST /reports/process-allowed — marks the unprocessed new reports that the
+	 * current policy already allows as processed.
+	 *
+	 * Pages served from a cache or CDN keep sending the old header for a while,
+	 * so reports for freshly allowed resources keep coming in.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function process_allowed( $request ): \WP_REST_Response {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, violated_directive, blocked_uri FROM %i WHERE status = 'new' AND processed = 0",
+				Database::table( 'reports' )
+			)
+		);
+
+		$policy = Csp::get_policy();
+		$ids    = array();
+		foreach ( $rows as $row ) {
+			if ( Csp_Matcher::is_allowed( $row->violated_directive, $row->blocked_uri, $policy ) ) {
+				$ids[] = (int) $row->id;
+			}
+		}
+
+		if ( ! empty( $ids ) ) {
+			$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query(
+				$wpdb->prepare(
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $placeholders is a generated list of %d.
+					"UPDATE %i SET processed = 1 WHERE id IN ($placeholders)",
+					array_merge( array( Database::table( 'reports' ) ), $ids )
+				)
+			);
+		}
+
+		return rest_ensure_response( array( 'ids' => $ids ) );
 	}
 
 	/**
@@ -294,7 +366,30 @@ final class Reports_Controller extends Controller {
 	}
 
 	/**
-	 * POST /reports/{id}/unarchive — puts one report back in the new queue.
+	 * POST /reports/{id}/ignore — moves one report to the ignored view, where
+	 * new violations only bump its count.
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function ignore_item( $request ): \WP_REST_Response|\WP_Error {
+		$id = (int) $request->get_param( 'id' );
+
+		if ( ! $this->set_status( $id, 'ignored', 1 ) ) {
+			return new \WP_Error( 'not_found', 'Report not found.', array( 'status' => 404 ) );
+		}
+
+		return rest_ensure_response(
+			array(
+				'ignored' => true,
+				'id'      => $id,
+			)
+		);
+	}
+
+	/**
+	 * POST /reports/{id}/unarchive and /unignore — puts one report back in the new queue.
 	 *
 	 * Processed is reset too, so it surfaces as unread again.
 	 *
@@ -375,20 +470,23 @@ final class Reports_Controller extends Controller {
 		// otherwise make every violation look like a new one.
 		$blocked = explode( '?', $blocked )[0];
 
+		// Pages served from a cache can still carry an older header, so a report
+		// for something the policy allows by now needs no attention.
+		$allowed = (int) Csp_Matcher::is_allowed( $violated, $blocked );
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO %i
-					(violated_directive, blocked_uri, report_count, status, first_seen, last_seen)
-				VALUES (%s, %s, 1, 'new', NOW(), NOW())
+					(violated_directive, blocked_uri, report_count, status, processed, first_seen, last_seen)
+				VALUES (%s, %s, 1, 'new', %d, NOW(), NOW())
 				ON DUPLICATE KEY UPDATE
 					report_count = report_count + 1,
-					status       = 'new',
-					processed    = 0,
 					last_seen    = NOW()",
 				Database::table( 'reports' ),
 				$violated,
-				$blocked
+				$blocked,
+				$allowed
 			)
 		);
 
@@ -403,6 +501,28 @@ final class Reports_Controller extends Controller {
 					Database::table( 'reports' ),
 					$violated,
 					$blocked
+				)
+			);
+		}
+
+		if ( $report_id && ! $allowed ) {
+			// A violation the policy still blocks brings an archived report back
+			// to the new view, flagged as resurfaced. Ignored reports stay put.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query(
+				$wpdb->prepare(
+					"UPDATE %i SET resurfaced_at = NOW() WHERE id = %d AND status = 'archived'",
+					Database::table( 'reports' ),
+					$report_id
+				)
+			);
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query(
+				$wpdb->prepare(
+					"UPDATE %i SET status = 'new', processed = 0 WHERE id = %d AND status <> 'ignored'",
+					Database::table( 'reports' ),
+					$report_id
 				)
 			);
 		}
@@ -427,7 +547,7 @@ final class Reports_Controller extends Controller {
 	}
 
 	/**
-	 * Moves one report between the new and archived views.
+	 * Moves one report between views, clearing its resurfaced marker.
 	 *
 	 * @param int    $id        Report ID.
 	 * @param string $status    Target status.
@@ -442,11 +562,12 @@ final class Reports_Controller extends Controller {
 		$updated = $wpdb->update(
 			Database::table( 'reports' ),
 			array(
-				'status'    => $status,
-				'processed' => $processed,
+				'status'        => $status,
+				'processed'     => $processed,
+				'resurfaced_at' => null,
 			),
 			array( 'id' => $id ),
-			array( '%s', '%d' ),
+			array( '%s', '%d', '%s' ),
 			array( '%d' )
 		);
 
@@ -496,7 +617,7 @@ final class Reports_Controller extends Controller {
 			'status' => array(
 				'type'     => 'string',
 				'required' => true,
-				'enum'     => array( 'new', 'archived' ),
+				'enum'     => self::STATUSES,
 			),
 		);
 	}
@@ -523,6 +644,7 @@ final class Reports_Controller extends Controller {
 			'processed'          => (bool) (int) $row->processed,
 			'first_seen'         => $row->first_seen,
 			'last_seen'          => $row->last_seen,
+			'resurfaced_at'      => $row->resurfaced_at ?? null,
 		);
 	}
 }

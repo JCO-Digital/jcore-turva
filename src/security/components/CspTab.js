@@ -6,6 +6,35 @@ import ImportCspModal from './ImportCspModal';
 import CleanCspModal from './CleanCspModal';
 import ImportJcore2Modal from './ImportJcore2Modal';
 import { CSP_DIRECTIVES, JCORE2_DETECTED } from '../constants';
+import { sourceValueClassName } from '../utils';
+
+function SourceLegend() {
+	const items = [
+		[ 'https://cdn.example.com', __( 'whole host', 'jcore-turva' ) ],
+		[ '*.example.com', __( 'subdomains only', 'jcore-turva' ) ],
+		[
+			'https://example.com/js/',
+			__( 'directory and below', 'jcore-turva' ),
+		],
+		[
+			'https://example.com/js/app.js',
+			__( 'exact file only', 'jcore-turva' ),
+		],
+	];
+
+	return (
+		<ul className="jcore-turva__source-legend">
+			{ items.map( ( [ example, label ] ) => (
+				<li key={ example }>
+					<code className={ sourceValueClassName( example ) }>
+						{ example }
+					</code>
+					{ label }
+				</li>
+			) ) }
+		</ul>
+	);
+}
 
 export default function CspTab() {
 	const [ isImportModalOpen, setIsImportModalOpen ] = useState( false );
@@ -60,6 +89,7 @@ export default function CspTab() {
 					) }
 				</div>
 			</div>
+			<SourceLegend />
 			<DirectivesManager
 				key={ refreshTicket }
 				headerType="csp"

@@ -7,6 +7,7 @@
 
 namespace Jcore\Turva\Rest;
 
+use Jcore\Turva\Csp;
 use Jcore\Turva\Database;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -86,6 +87,7 @@ final class Settings_Controller extends Controller {
 		}
 
 		update_option( Database::SETTINGS_OPTION, $settings );
+		Csp::flush_policy_cache();
 
 		return rest_ensure_response( $settings );
 	}

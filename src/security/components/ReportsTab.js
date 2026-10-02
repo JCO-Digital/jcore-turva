@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from '@wordpress/element';
 import {
 	Button,
 	Modal,
+	Notice,
 	SelectControl,
 	Spinner,
 	TextControl,
@@ -12,7 +13,11 @@ import { __, _n, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { CSP_DIRECTIVES, PERMISSIONS_DIRECTIVES } from '../constants';
-import { normalizeBlockedUri } from '../utils';
+import {
+	describeSource,
+	normalizeBlockedUri,
+	sourceValueClassName,
+} from '../utils';
 
 const extractDirective = ( violatedDirective ) =>
 	violatedDirective?.split( ' ' )[ 0 ] ?? '';
@@ -25,6 +30,19 @@ const formatDate = ( dateString ) => {
 		dateStyle: 'medium',
 		timeStyle: 'short',
 	} ).format( new Date( dateString ) );
+};
+
+/**
+ * Marks every unprocessed new report the policy now allows as processed.
+ *
+ * @return {Promise<number[]>} IDs of the reports that were marked.
+ */
+const processAllowed = async () => {
+	const { ids } = await apiFetch( {
+		path: '/jcore-turva/v1/reports/process-allowed',
+		method: 'POST',
+	} );
+	return ids;
 };
 
 function ReviewModal( { report, onClose, onReviewed } ) {
@@ -123,13 +141,20 @@ function ReviewModal( { report, onClose, onReviewed } ) {
 					s.source === trimmedSource
 			);
 
-			if ( sourceExists ) {
+			// The reviewed report counts as handled even when the new source
+			// doesn't cover it (e.g. it went to the Permissions-Policy), then
+			// anything else the policy now allows follows.
+			const finish = async () => {
 				await apiFetch( {
 					path: `/jcore-turva/v1/reports/${ report.id }`,
 					method: 'PUT',
 					data: { processed: true },
 				} );
-				onReviewed( report.id );
+				onReviewed( report.id, await processAllowed() );
+			};
+
+			if ( sourceExists ) {
+				await finish();
 				return;
 			}
 
@@ -179,12 +204,7 @@ function ReviewModal( { report, onClose, onReviewed } ) {
 					enabled: true,
 				},
 			} );
-			await apiFetch( {
-				path: `/jcore-turva/v1/reports/${ report.id }`,
-				method: 'PUT',
-				data: { processed: true },
-			} );
-			onReviewed( report.id );
+			await finish();
 		} catch {
 			setError(
 				__( 'Failed to add source. Please try again.', 'jcore-turva' )
@@ -272,6 +292,14 @@ function ReviewModal( { report, onClose, onReviewed } ) {
 						'jcore-turva'
 					) }
 				/>
+				{ headerType === 'csp' && source.trim() && (
+					<p className="jcore-turva__source-preview">
+						<code className={ sourceValueClassName( source ) }>
+							{ source.trim() }
+						</code>{ ' ' }
+						{ describeSource( source ).description }
+					</p>
+				) }
 				{ ( () => {
 					try {
 						const originalUri = normalizeBlockedUri(
@@ -353,6 +381,7 @@ export default function ReportsTab() {
 	const [ error, setError ] = useState( null );
 	const [ reviewReport, setReviewReport ] = useState( null );
 	const [ isRefreshing, setIsRefreshing ] = useState( false );
+	const [ notice, setNotice ] = useState( null );
 
 	const reportsRef = useRef( reports );
 	useEffect( () => {
@@ -455,25 +484,13 @@ export default function ReportsTab() {
 		}
 	};
 
-	const handleArchive = async ( id ) => {
+	// Moves a report out of the current view: archive, unarchive, ignore or unignore.
+	const handleMove = async ( id, action ) => {
 		const backup = reports;
 		setReports( ( prev ) => prev.filter( ( r ) => r.id !== id ) );
 		try {
 			await apiFetch( {
-				path: `/jcore-turva/v1/reports/${ id }/archive`,
-				method: 'POST',
-			} );
-		} catch {
-			setReports( backup );
-		}
-	};
-
-	const handleUnarchive = async ( id ) => {
-		const backup = reports;
-		setReports( ( prev ) => prev.filter( ( r ) => r.id !== id ) );
-		try {
-			await apiFetch( {
-				path: `/jcore-turva/v1/reports/${ id }/unarchive`,
+				path: `/jcore-turva/v1/reports/${ id }/${ action }`,
 				method: 'POST',
 			} );
 		} catch {
@@ -494,11 +511,61 @@ export default function ReportsTab() {
 		}
 	};
 
-	const handleReviewed = ( id ) => {
+	// Flags reports as processed locally and says how many the change covered.
+	const applyProcessed = ( ids, message ) => {
+		const marked = new Set( ids );
 		setReports( ( prev ) =>
-			prev.map( ( r ) => ( r.id === id ? { ...r, processed: true } : r ) )
+			prev.map( ( r ) =>
+				marked.has( r.id ) ? { ...r, processed: true } : r
+			)
+		);
+		setNotice( message );
+	};
+
+	const handleReviewed = ( id, coveredIds ) => {
+		const others = coveredIds.filter( ( coveredId ) => coveredId !== id );
+		applyProcessed(
+			[ id, ...others ],
+			others.length > 0
+				? sprintf(
+						/* translators: %d: number of reports */
+						_n(
+							'%d other report is now allowed by the policy and was marked as processed.',
+							'%d other reports are now allowed by the policy and were marked as processed.',
+							others.length,
+							'jcore-turva'
+						),
+						others.length
+				  )
+				: null
 		);
 		setReviewReport( null );
+	};
+
+	const handleProcessAllowed = async () => {
+		try {
+			const ids = await processAllowed();
+			applyProcessed(
+				ids,
+				ids.length > 0
+					? sprintf(
+							/* translators: %d: number of reports */
+							_n(
+								'%d report is allowed by the current policy and was marked as processed.',
+								'%d reports are allowed by the current policy and were marked as processed.',
+								ids.length,
+								'jcore-turva'
+							),
+							ids.length
+					  )
+					: __(
+							'No unprocessed reports are allowed by the current policy.',
+							'jcore-turva'
+					  )
+			);
+		} catch {
+			setError( __( 'Failed to check reports.', 'jcore-turva' ) );
+		}
 	};
 
 	const handleArchiveAll = async () => {
@@ -584,10 +651,29 @@ export default function ReportsTab() {
 					>
 						{ __( 'Archived', 'jcore-turva' ) }
 					</Button>
+					<Button
+						variant={
+							statusFilter === 'ignored' ? 'primary' : 'secondary'
+						}
+						onClick={ () => setStatusFilter( 'ignored' ) }
+					>
+						{ __( 'Ignored', 'jcore-turva' ) }
+					</Button>
 				</div>
 				<div className="jcore-turva__bulk-actions">
 					{ statusFilter === 'new' && reports?.length > 0 && (
 						<>
+							{ reports.some( ( r ) => ! r.processed ) && (
+								<Button
+									variant="secondary"
+									onClick={ handleProcessAllowed }
+								>
+									{ __(
+										'Mark allowed as processed',
+										'jcore-turva'
+									) }
+								</Button>
+							) }
 							{ reports.some( ( r ) => r.processed ) && (
 								<Button
 									variant="secondary"
@@ -618,13 +704,42 @@ export default function ReportsTab() {
 
 			{ error && <p className="jcore-turva__error">{ error }</p> }
 
+			{ notice && (
+				<Notice
+					status="success"
+					className="jcore-turva__reports-notice"
+					onRemove={ () => setNotice( null ) }
+				>
+					{ notice }
+				</Notice>
+			) }
+
+			{ statusFilter === 'ignored' && (
+				<p className="description">
+					{ __(
+						'Ignored reports never come back to the new view. Repeat violations only increase their count.',
+						'jcore-turva'
+					) }
+				</p>
+			) }
+
 			{ reports === null && ! error && <Spinner /> }
 
 			{ reports !== null && reports.length === 0 && (
 				<p className="jcore-turva__empty">
-					{ statusFilter === 'new'
-						? __( 'No new violation reports.', 'jcore-turva' )
-						: __( 'No archived reports.', 'jcore-turva' ) }
+					{
+						{
+							new: __(
+								'No new violation reports.',
+								'jcore-turva'
+							),
+							archived: __(
+								'No archived reports.',
+								'jcore-turva'
+							),
+							ignored: __( 'No ignored reports.', 'jcore-turva' ),
+						}[ statusFilter ]
+					}
 				</p>
 			) }
 
@@ -703,6 +818,27 @@ export default function ReportsTab() {
 											>
 												{ report.blocked_uri }
 											</code>
+											{ report.resurfaced_at &&
+												statusFilter === 'new' && (
+													<span
+														className="jcore-turva__resurfaced"
+														title={ sprintf(
+															/* translators: %s: date and time */
+															__(
+																'This report was archived, but the violation happened again on %s.',
+																'jcore-turva'
+															),
+															formatDate(
+																report.resurfaced_at
+															)
+														) }
+													>
+														{ __(
+															'Resurfaced',
+															'jcore-turva'
+														) }
+													</span>
+												) }
 										</div>
 										<div className="jcore-turva__report-details">
 											<span>
@@ -782,11 +918,34 @@ export default function ReportsTab() {
 												size="small"
 												isDestructive
 												onClick={ () =>
-													handleArchive( report.id )
+													handleMove(
+														report.id,
+														'archive'
+													)
 												}
 											>
 												{ __(
 													'Archive',
+													'jcore-turva'
+												) }
+											</Button>
+											<Button
+												variant="tertiary"
+												size="small"
+												label={ __(
+													'Ignore: never show this report in New again',
+													'jcore-turva'
+												) }
+												showTooltip
+												onClick={ () =>
+													handleMove(
+														report.id,
+														'ignore'
+													)
+												}
+											>
+												{ __(
+													'Ignore',
 													'jcore-turva'
 												) }
 											</Button>
@@ -797,7 +956,13 @@ export default function ReportsTab() {
 												variant="secondary"
 												size="small"
 												onClick={ () =>
-													handleUnarchive( report.id )
+													handleMove(
+														report.id,
+														statusFilter ===
+															'ignored'
+															? 'unignore'
+															: 'unarchive'
+													)
 												}
 											>
 												{ __(

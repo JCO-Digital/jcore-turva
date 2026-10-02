@@ -8,6 +8,7 @@
 namespace Jcore\Turva\Rest;
 
 use Jcore\Turva\Compat;
+use Jcore\Turva\Csp;
 use Jcore\Turva\Database;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -188,6 +189,8 @@ final class Sources_Controller extends Controller {
 			return new \WP_Error( 'db_insert_failed', 'Could not read the created source.', array( 'status' => 500 ) );
 		}
 
+		Csp::flush_policy_cache();
+
 		return rest_ensure_response( $this->prepare_source( $row ) );
 	}
 
@@ -218,6 +221,7 @@ final class Sources_Controller extends Controller {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->update( Database::table( 'sources' ), $data, array( 'id' => $id ), $formats, array( '%d' ) );
+		Csp::flush_policy_cache();
 
 		$row = $this->get_source( $id );
 		if ( ! $row ) {
@@ -257,6 +261,8 @@ final class Sources_Controller extends Controller {
 			return new \WP_Error( 'db_delete_failed', 'Could not delete sources.', array( 'status' => 500 ) );
 		}
 
+		Csp::flush_policy_cache();
+
 		return rest_ensure_response(
 			array(
 				'success' => true,
@@ -283,6 +289,8 @@ final class Sources_Controller extends Controller {
 		if ( ! $deleted ) {
 			return new \WP_Error( 'not_found', 'Source not found.', array( 'status' => 404 ) );
 		}
+
+		Csp::flush_policy_cache();
 
 		return rest_ensure_response(
 			array(
@@ -312,9 +320,18 @@ final class Sources_Controller extends Controller {
 			$wpdb->delete( $table, array( 'header_type' => $header_type ), array( '%s' ) );
 		}
 
+		$skipped = array();
+
 		foreach ( $directives as $item ) {
-			$directive = sanitize_text_field( $item['directive'] );
+			$directive = strtolower( sanitize_text_field( $item['directive'] ) );
 			$source    = sanitize_text_field( $item['source'] );
+
+			// Generated policies often carry report-uri, report-to, sandbox and
+			// the like, which Turva either adds itself or doesn't manage.
+			if ( 'csp' === $header_type && ! in_array( $directive, Csp::DIRECTIVES, true ) ) {
+				$skipped[ $directive ] = true;
+				continue;
+			}
 
 			if ( 'merge' === $action ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -346,7 +363,14 @@ final class Sources_Controller extends Controller {
 			);
 		}
 
-		return rest_ensure_response( array( 'success' => true ) );
+		Csp::flush_policy_cache();
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'skipped' => array_keys( $skipped ),
+			)
+		);
 	}
 
 	/**
