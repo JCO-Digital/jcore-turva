@@ -4,7 +4,7 @@ Tags: security, csp, permissions-policy, headers, reports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.13.2
+Stable tag: 1.14.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,12 @@ Deleting the plugin drops its three tables and removes its options. Deactivating
 
 == Changelog ==
 
-= 1.13.2 (2026-09-29) =
+= 1.14.0 (2026-10-02) =
+
+* Feature: security - improve CSP rule editing and violation report triage
+* CI: github - update foonver action to v1.2.0
+
+= v1.13.2 (2026-09-29) =
 
 * Build: ci - trigger release build with new jcore-update workflow
 
