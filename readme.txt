@@ -4,7 +4,7 @@ Tags: security, csp, permissions-policy, headers, reports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.15.0
+Stable tag: 1.15.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,11 @@ Deleting the plugin drops its three tables and removes its options. Deactivating
 
 == Changelog ==
 
-= 1.15.0 (2026-10-15) =
+= 1.15.1 (2026-11-02) =
+
+* CI: release - keep publishing to the dist repo
+
+= v1.15.0 (2026-10-15) =
 
 * Feature: sources - add dry run preview for CSP import with redundant Google sources
 * Refactor: csp - filter redundant Google domain sources on import
